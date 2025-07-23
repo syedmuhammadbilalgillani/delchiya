@@ -372,11 +372,16 @@ const VacationRentalDatePicker: React.FC = () => {
                         day: "hover:bg-gray-100 rounded-md transition-colors",
                         day_selected:
                           "bg-orange-500 text-white hover:bg-orange-600",
+                        day_button:
+                          "hover:bg-gray-100 rounded-md transition-colors",
+                        nav: "flex justify-between w-full",
+                        button: "cursor-pointer",
                       }}
                     />
                   </div>
                 )}
               </div>
+              
             </div>
           </div>
         </div>
