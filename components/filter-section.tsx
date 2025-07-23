@@ -1,9 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { Select } from "./ui/select";
-import { ChevronDown } from "lucide-react";
-import { DateRange, DayPicker } from "react-day-picker";
 import axios from "axios";
+import { ChevronDown } from "lucide-react";
+import { useEffect, useState } from "react";
+import { DateRange, DayPicker } from "react-day-picker";
 
 interface Country {
   name: string;
@@ -58,14 +57,16 @@ interface AvailablePeriod {
 
 const FilterSection = () => {
   const [selectedRange, setSelectedRange] = useState<DateRange | undefined>();
-  const [availablePeriods, setAvailablePeriods] = useState<AvailablePeriod[]>([]);
+  const [availablePeriods, setAvailablePeriods] = useState<AvailablePeriod[]>(
+    []
+  );
   const [fromDates, setFromDates] = useState<Date[]>([]);
   const [toDates, setToDates] = useState<Date[]>([]);
   const [price, setPrice] = useState<Pricing | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
-  const [selectionStep, setSelectionStep] = useState<'from' | 'to'>('from'); // Track selection step
+  const [selectionStep, setSelectionStep] = useState<"from" | "to">("from"); // Track selection step
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null); // Track hovered date
 
   // Normalize date to midnight
@@ -115,12 +116,12 @@ const FilterSection = () => {
   const getRangeDays = (fromDate: Date, toDate: Date): Date[] => {
     const days: Date[] = [];
     const currentDate = new Date(fromDate);
-    
+
     while (currentDate <= toDate) {
       days.push(new Date(currentDate));
       currentDate.setDate(currentDate.getDate() + 1);
     }
-    
+
     return days;
   };
 
@@ -133,41 +134,44 @@ const FilterSection = () => {
   // Get available "to" dates for selected "from" date
   const getAvailableToDatesForFrom = (fromDate: Date): Date[] => {
     return availablePeriods
-      .filter(period => period.from.getTime() === fromDate.getTime())
-      .map(period => period.to);
+      .filter((period) => period.from.getTime() === fromDate.getTime())
+      .map((period) => period.to);
   };
 
   // Handle date selection based on current step
   const handleDateSelect = (date: Date | undefined) => {
     if (!date) return;
-    
+
     const normalizedDate = normalizeDate(date);
 
-    if (selectionStep === 'from') {
+    if (selectionStep === "from") {
       // First step: Select "from" date
-      if (!fromDates.some(fd => fd.getTime() === normalizedDate.getTime())) {
+      if (!fromDates.some((fd) => fd.getTime() === normalizedDate.getTime())) {
         return; // Invalid from date
       }
-      
+
       setSelectedRange({ from: normalizedDate, to: undefined });
       setPrice(null);
-      setSelectionStep('to'); // Move to "to" date selection
-      
-    } else if (selectionStep === 'to') {
+      setSelectionStep("to"); // Move to "to" date selection
+    } else if (selectionStep === "to") {
       // Second step: Select "to" date
       if (!selectedRange?.from) return;
-      
+
       const availableToDates = getAvailableToDatesForFrom(selectedRange.from);
-      if (!availableToDates.some(td => td.getTime() === normalizedDate.getTime())) {
+      if (
+        !availableToDates.some(
+          (td) => td.getTime() === normalizedDate.getTime()
+        )
+      ) {
         return; // Invalid to date for selected from date
       }
-      
+
       const matchingPeriod = availablePeriods.find(
-        period =>
+        (period) =>
           period.from.getTime() === selectedRange.from!.getTime() &&
           period.to.getTime() === normalizedDate.getTime()
       );
-      
+
       if (matchingPeriod) {
         setSelectedRange({ from: selectedRange.from, to: normalizedDate });
         setPrice(matchingPeriod.originalData.pricing);
@@ -180,18 +184,20 @@ const FilterSection = () => {
   const resetSelection = () => {
     setSelectedRange(undefined);
     setPrice(null);
-    setSelectionStep('from');
+    setSelectionStep("from");
     setHoveredDate(null);
   };
 
   // Handle mouse enter for hover effects
   const handleMouseEnter = (date: Date) => {
-    if (selectionStep === 'to' && selectedRange?.from) {
+    if (selectionStep === "to" && selectedRange?.from) {
       const normalizedDate = normalizeDate(date);
       const availableToDates = getAvailableToDatesForFrom(selectedRange.from);
-      
+
       // Only set hover if it's a valid to date
-      if (availableToDates.some(td => td.getTime() === normalizedDate.getTime())) {
+      if (
+        availableToDates.some((td) => td.getTime() === normalizedDate.getTime())
+      ) {
         setHoveredDate(normalizedDate);
       }
     }
@@ -204,39 +210,57 @@ const FilterSection = () => {
 
   // Get disabled dates based on current selection step
   const getDisabledDates = () => {
-    if (selectionStep === 'from') {
+    if (selectionStep === "from") {
       // In "from" step: disable all dates except valid from dates
       return (date: Date) => {
         const normalizedDate = normalizeDate(date);
         return (
           normalizedDate < normalizeDate(new Date()) || // Past dates
-          !fromDates.some(fd => fd.getTime() === normalizedDate.getTime()) // Not a valid from date
+          !fromDates.some((fd) => fd.getTime() === normalizedDate.getTime()) // Not a valid from date
         );
       };
-    } else if (selectionStep === 'to' && selectedRange?.from) {
+    } else if (selectionStep === "to" && selectedRange?.from) {
       // In "to" step: disable all dates except valid to dates for selected from date
       const availableToDates = getAvailableToDatesForFrom(selectedRange.from);
       return (date: Date) => {
         const normalizedDate = normalizeDate(date);
-        return !availableToDates.some(td => td.getTime() === normalizedDate.getTime());
+        return !availableToDates.some(
+          (td) => td.getTime() === normalizedDate.getTime()
+        );
       };
     }
-    
+
     return () => true; // Disable all if no valid state
   };
 
-  // Format date for display
+  // Format date for display with day and year
   const formatDate = (date: Date) =>
     date.toLocaleDateString("en-US", {
-      weekday: "long",
+      weekday: "short",
       year: "numeric",
-      month: "long",
+      month: "short",
       day: "numeric",
     });
 
+  // Format date range for button display
+  const formatDateRange = (fromDate: Date, toDate: Date) => {
+    const fromFormatted = fromDate.toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    });
+    const toFormatted = toDate.toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+    return `${fromFormatted} - ${toFormatted}`;
+  };
+
   // Get current selected date for display
   const getCurrentSelectedDate = () => {
-    if (selectionStep === 'from') {
+    if (selectionStep === "from") {
       return selectedRange?.from;
     } else {
       return selectedRange?.to;
@@ -245,21 +269,33 @@ const FilterSection = () => {
 
   // Get button text based on selection step
   const getButtonText = () => {
-    if (selectionStep === 'from') {
-      return selectedRange?.from ? formatDate(selectedRange.from) : "Select Check-in Date";
-    } else {
-      return selectedRange?.to ? formatDate(selectedRange.to) : "Select Check-out Date";
+    // If both dates are selected, show the range
+    if (selectedRange?.from && selectedRange?.to) {
+      return formatDateRange(selectedRange.from, selectedRange.to);
     }
+
+    // If only from date is selected (in 'to' step)
+    if (selectionStep === "to" && selectedRange?.from) {
+      return `${formatDate(selectedRange.from)} - Select Check-out`;
+    }
+
+    // If from date is selected but we're still in 'from' step
+    if (selectionStep === "from" && selectedRange?.from) {
+      return formatDate(selectedRange.from);
+    }
+
+    // Default state
+    return "Select Check-in Date";
   };
 
   return (
     <div className="bg-transparent -mt-20 px-[10%] relative z-10">
-      <div className="bg-green flex justify-start gap-5 p-5">
-        <div className="relative">
+      <div className="bg-green flex justify-between gap-5 p-5 w-full">
+        <div className="relative w-full">
           <button
             onClick={() => setDropdownOpen(!dropdownOpen)}
             disabled={isLoading}
-            className="flex p-3 items-center text-white gap-2 border border-yellow transition-colors min-w-60 max-w-fit justify-between disabled:cursor-progress"
+            className="flex p-3 items-center text-white gap-2 border border-yellow transition-colors min-w-80 max-w-full w-full justify-between disabled:cursor-progress"
           >
             <span>{getButtonText()}</span>
             <ChevronDown size={16} />
@@ -269,9 +305,11 @@ const FilterSection = () => {
             <div className="absolute mt-2 w-fit p-4 bg-gray-50 border border-gray-200 shadow-lg z-10">
               <div className="mb-3 flex justify-between items-center">
                 <span className="text-sm font-medium">
-                  {selectionStep === 'from' ? 'Select Check-in Date' : 'Select Check-out Date'}
+                  {selectionStep === "from"
+                    ? "Select Check-in Date"
+                    : "Select Check-out Date"}
                 </span>
-                {selectionStep === 'to' && (
+                {selectionStep === "to" && (
                   <button
                     onClick={resetSelection}
                     className="text-xs text-blue-600 hover:text-blue-800 underline"
@@ -280,7 +318,7 @@ const FilterSection = () => {
                   </button>
                 )}
               </div>
-              
+
               <DayPicker
                 mode="single"
                 selected={getCurrentSelectedDate()}
@@ -291,48 +329,56 @@ const FilterSection = () => {
                 onDayMouseLeave={handleMouseLeave}
                 modifiers={{
                   // Selected range (final selection)
-                  selected_range: selectedRange?.from && selectedRange?.to 
-                    ? getRangeDays(selectedRange.from, selectedRange.to)
-                    : [],
-                  
+                  selected_range:
+                    selectedRange?.from && selectedRange?.to
+                      ? getRangeDays(selectedRange.from, selectedRange.to)
+                      : [],
+
                   // Hover preview range (when hovering over to dates)
-                  hover_range: selectionStep === 'to' && selectedRange?.from && hoveredDate
-                    ? getHoverRangeDays(selectedRange.from, hoveredDate)
-                    : [],
-                  
+                  hover_range:
+                    selectionStep === "to" && selectedRange?.from && hoveredDate
+                      ? getHoverRangeDays(selectedRange.from, hoveredDate)
+                      : [],
+
                   // Individual date modifiers
                   range_start: selectedRange?.from ? [selectedRange.from] : [],
                   range_end: selectedRange?.to ? [selectedRange.to] : [],
-                  hover_end: selectionStep === 'to' && hoveredDate ? [hoveredDate] : [],
+                  hover_end:
+                    selectionStep === "to" && hoveredDate ? [hoveredDate] : [],
                 }}
                 modifiersClassNames={{
-                  selected: "bg-yellow text-white rounded-md cursor-pointer",
-                  selected_range: "bg-green-400 text-white",
-                  hover_range: "bg-green-200 text-gray-800",
-                  range_start: "bg-green-500 text-white font-semibold",
-                  range_end: "bg-green-500 text-white font-semibold", 
-                  hover_end: "bg-green-300 text-white font-semibold",
+                  selected: "bg-green text-white  cursor-pointer",
+                  selected_range:
+                    "bg-green/80 border-2 border-white text-white ",
+                  hover_range: "bg-green text-white border-2 border-white ",
+                  range_start: "bg-green text-white   font-semibold",
+                  range_end: "bg-green text-white  font-semibold",
+                  hover_end: "bg-green text-white  font-semibold",
                 }}
                 classNames={{
                   disabled: "line-through text-gray-400 cursor-not-allowed",
                   table: "w-full text-center",
-                  day: "text-center",
+                  day: "text-center border-2 border-gray-300",
                   day_selected: "bg-yellow text-white hover:bg-teal-700",
-                  day_button: "cursor-pointer p-2.5 rounded-md hover:bg-gray-100 transition-colors",
+                  day_button: "cursor-pointer p-2     transition-colors",
                   nav: "absolute top-0 flex justify-between w-full",
                   month_caption: "mb-2 text-center",
                   button_next: "cursor-pointer",
                   button_previous: "cursor-pointer",
-                  months: "flex gap-6 relative",
+                  months: "flex  gap-6 relative",
+                  //   week:""
                 }}
               />
             </div>
           )}
         </div>
 
-        <div className="flex p-3 items-center text-white gap-2 border border-yellow transition-colors min-w-56 max-w-56 justify-between">
+        <div className="flex p-3 items-center text-white gap-2 border border-yellow transition-colors min-w-56  w-full justify-between">
           <label>Price</label>
-          <div>{price?.rent || '-'}</div>
+          <div>{price?.rent || "-"}</div>
+        </div>
+        <div className="text-center p-3  text-white gap-2  bg-yellow border-yellow transition-colors min-w-56  w-full ">
+          Check Availibilty
         </div>
       </div>
     </div>
