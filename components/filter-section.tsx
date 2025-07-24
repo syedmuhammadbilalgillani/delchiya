@@ -1,7 +1,7 @@
 "use client";
 import axios from "axios";
 import { ChevronDown } from "lucide-react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DateRange, DayPicker } from "react-day-picker";
 
 interface Country {
@@ -175,7 +175,7 @@ const FilterSection = () => {
       if (matchingPeriod) {
         setSelectedRange({ from: selectedRange.from, to: normalizedDate });
         setPrice(matchingPeriod.originalData.pricing);
-        setDropdownOpen(false); // Close dropdown after selection
+        // setDropdownOpen(false); // Close dropdown after selection
       }
     }
   };
@@ -287,23 +287,36 @@ const FilterSection = () => {
     // Default state
     return "Select Check-in Date";
   };
+  // Close mobile menu when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest(".mobile-menu-container")) {
+        setDropdownOpen(false);
+      }
+    };
 
+    if (dropdownOpen) {
+      document.addEventListener("click", handleClickOutside);
+      return () => document.removeEventListener("click", handleClickOutside);
+    }
+  }, [dropdownOpen]);
   return (
-    <div className="bg-transparent -mt-20 px-[10%] relative z-10">
-      <div className="bg-green flex justify-between gap-5 p-5 w-full">
-        <div className="relative w-full">
+    <div className="bg-transparent -mt-20 px-[10%] relative z-10 ">
+      <div className="bg-green grid grid-cols-1 md:grid-cols-3 gap-5 p-5 w-full">
+        <div className="relative w-full col-span-1 mobile-menu-container">
           <button
             onClick={() => setDropdownOpen(!dropdownOpen)}
             disabled={isLoading}
-            className="flex p-3 items-center text-white gap-2 border border-yellow transition-colors min-w-80 max-w-full w-full justify-between disabled:cursor-progress"
+            className="flex p-3 truncate items-center text-white gap-1 border border-yellow transition-colors  max-w-full w-full justify-between disabled:cursor-progress"
           >
             <span>{getButtonText()}</span>
             <ChevronDown size={16} />
           </button>
 
           {dropdownOpen && (
-            <div className="absolute mt-2 w-fit p-4 bg-gray-50 border border-gray-200 shadow-lg z-10">
-              <div className="mb-3 flex justify-between items-center">
+            <div className="absolute mt-2 w-full sm:w-fit p-6 sm:p-4 bg-gray-50 border border-gray-200 shadow-lg z-10 left-0 sm:left-auto">
+              <div className="mb-3 flex justify-between gap-2 items-center max-sm:flex-wrap">
                 <span className="text-sm font-medium">
                   {selectionStep === "from"
                     ? "Select Check-in Date"
@@ -319,67 +332,71 @@ const FilterSection = () => {
                 )}
               </div>
 
-              <DayPicker
-                mode="single"
-                selected={getCurrentSelectedDate()}
-                onSelect={handleDateSelect}
-                numberOfMonths={2}
-                disabled={getDisabledDates()}
-                onDayMouseEnter={handleMouseEnter}
-                onDayMouseLeave={handleMouseLeave}
-                modifiers={{
-                  // Selected range (final selection)
-                  selected_range:
-                    selectedRange?.from && selectedRange?.to
-                      ? getRangeDays(selectedRange.from, selectedRange.to)
+              <div className="overflow-x-auto">
+                <DayPicker
+                  mode="single"
+                  selected={getCurrentSelectedDate()}
+                  onSelect={handleDateSelect}
+                  numberOfMonths={window.innerWidth < 640 ? 1 : 2}
+                  disabled={getDisabledDates()}
+                  onDayMouseEnter={handleMouseEnter}
+                  onDayMouseLeave={handleMouseLeave}
+                  modifiers={{
+                    selected_range:
+                      selectedRange?.from && selectedRange?.to
+                        ? getRangeDays(selectedRange.from, selectedRange.to)
+                        : [],
+                    hover_range:
+                      selectionStep === "to" &&
+                      selectedRange?.from &&
+                      hoveredDate
+                        ? getHoverRangeDays(selectedRange.from, hoveredDate)
+                        : [],
+                    range_start: selectedRange?.from
+                      ? [selectedRange.from]
                       : [],
-
-                  // Hover preview range (when hovering over to dates)
-                  hover_range:
-                    selectionStep === "to" && selectedRange?.from && hoveredDate
-                      ? getHoverRangeDays(selectedRange.from, hoveredDate)
-                      : [],
-
-                  // Individual date modifiers
-                  range_start: selectedRange?.from ? [selectedRange.from] : [],
-                  range_end: selectedRange?.to ? [selectedRange.to] : [],
-                  hover_end:
-                    selectionStep === "to" && hoveredDate ? [hoveredDate] : [],
-                }}
-                modifiersClassNames={{
-                  selected: "bg-green text-white  cursor-pointer",
-                  selected_range:
-                    "bg-green/80 border-2 border-white text-white ",
-                  hover_range: "bg-green text-white border-2 border-white ",
-                  range_start: "bg-green text-white   font-semibold",
-                  range_end: "bg-green text-white  font-semibold",
-                  hover_end: "bg-green text-white  font-semibold",
-                }}
-                classNames={{
-                  disabled: "line-through text-gray-400 cursor-not-allowed",
-                  table: "w-full text-center",
-                  day: "text-center border-2 border-gray-300",
-                  day_selected: "bg-yellow text-white hover:bg-teal-700",
-                  day_button: "cursor-pointer p-2     transition-colors",
-                  nav: "absolute top-0 flex justify-between w-full",
-                  month_caption: "mb-2 text-center",
-                  button_next: "cursor-pointer",
-                  button_previous: "cursor-pointer",
-                  months: "flex  gap-6 relative",
-                  //   week:""
-                }}
-              />
+                    range_end: selectedRange?.to ? [selectedRange.to] : [],
+                    hover_end:
+                      selectionStep === "to" && hoveredDate
+                        ? [hoveredDate]
+                        : [],
+                  }}
+                  modifiersClassNames={{
+                    selected: "bg-green text-white cursor-pointer",
+                    selected_range:
+                      "bg-green/80 border-2 border-white text-white",
+                    hover_range: "bg-green text-white border-2 border-white",
+                    range_start: "bg-green text-white font-semibold",
+                    range_end: "bg-green text-white font-semibold",
+                    hover_end: "bg-green text-white font-semibold",
+                  }}
+                  classNames={{
+                    disabled: "line-through text-gray-400 cursor-not-allowed",
+                    table: "w-full text-center",
+                    day: "text-center border-2 border-gray-300 w-8 h-8 sm:w-10 sm:h-10 text-sm sm:text-base",
+                    day_selected: "bg-yellow text-white hover:bg-teal-700",
+                    day_button: "cursor-pointer p-1 sm:p-2 transition-colors",
+                    nav: "absolute top-0 flex justify-between w-full",
+                    month_caption: "mb-2 text-center",
+                    button_next: "cursor-pointer",
+                    button_previous: "cursor-pointer",
+                    months: "flex gap-2 sm:gap-6 relative",
+                    caption: "text-sm sm:text-base",
+                    caption_label: "text-sm sm:text-base",
+                  }}
+                />
+              </div>
             </div>
           )}
         </div>
 
-        <div className="flex p-3 items-center text-white gap-2 border border-yellow transition-colors min-w-56  w-full justify-between">
+        <div className="flex p-3   col-span-1 items-center text-white gap-2 border border-yellow transition-colors min-w-56  w-full justify-between">
           <label>Price</label>
           <div>{price?.rent || "-"}</div>
         </div>
-        <div className="text-center p-3  text-white gap-2  bg-yellow border-yellow transition-colors min-w-56  w-full ">
+        <button className="text-center col-span-1  py-3  text-white gap-2  bg-yellow border-yellow hover:bg-yellow/80 transition-colors cursor-pointer w-full ">
           Check Availibilty
-        </div>
+        </button>
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Menu, ChevronDown } from "lucide-react"; // ChevronDown arrow for dropdown
 import Image from "next/image";
-import { Sheet, SheetContent } from "./ui/sheet"; // Assuming you've imported the Sheet component from ShadCN
+import { Sheet, SheetContent, SheetTitle } from "./ui/sheet"; // Assuming you've imported the Sheet component from ShadCN
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -29,42 +29,48 @@ const navLinks = [
 ];
 
 const Navbar = () => {
-  const [activeDropdown, setActiveDropdown] = useState<number | null>(null); // Track which dropdown is open
+  const [activeDropdown, setActiveDropdown] = useState<number | null>(null); // Track which dropdown is open on desktop
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [activeMobileDropdown, setActiveMobileDropdown] = useState<number | null>(null); // Track active dropdown in mobile view
   const timeoutRef = useRef<NodeJS.Timeout | null>(null); // Ref to store timeout ID for mouse leave
 
-  // Handle mouse enter for dropdown
+  // Handle mouse enter for dropdown (desktop)
   const handleMouseEnter = (index: number) => {
-    setActiveDropdown(index); // Set active dropdown index on hover
+    setActiveDropdown(index);
     if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current); // Clear any existing timeout when re-entering
+      clearTimeout(timeoutRef.current);
     }
   };
 
-  // Handle mouse leave with timeout
+  // Handle mouse leave with timeout (desktop)
   const handleMouseLeave = () => {
     timeoutRef.current = setTimeout(() => {
-      setActiveDropdown(null); // Close the dropdown after delay
-    }, 200); // Delay time in ms
+      setActiveDropdown(null);
+    }, 200);
   };
 
   // Toggle mobile menu
   const handleMobileClick = () => {
-    setIsMobileOpen((prev) => !prev); // Toggle mobile dropdown
+    setIsMobileOpen((prev) => !prev);
+  };
+
+  // Toggle mobile dropdown
+  const handleMobileDropdownToggle = (event: React.MouseEvent, index: number) => {
+    event.preventDefault(); // Prevent navigation on click to toggle dropdown
+    setActiveMobileDropdown(prev => (prev === index ? null : index)); // Close if it's already open, open it if not
   };
 
   return (
     <header className="fixed top-0 w-full z-50 border-b border-white px-[5%] transition-all">
       {/* Desktop Navbar */}
       <nav className="hidden md:flex items-center justify-between px-4 py-2">
-        {/* Left Nav Links */}
         <div className="flex space-x-6">
           {navLinks.map((link, index) => (
             <div
               key={link.href}
               className="relative"
-              onMouseEnter={() => link.dropdownLinks && handleMouseEnter(index)} // Open dropdown on hover
-              onMouseLeave={handleMouseLeave} // Close dropdown after timeout on mouse leave
+              onMouseEnter={() => link.dropdownLinks && handleMouseEnter(index)}
+              onMouseLeave={handleMouseLeave}
             >
               <Link
                 href={link.href}
@@ -74,7 +80,7 @@ const Navbar = () => {
                 {link.dropdownLinks && (
                   <motion.div
                     initial={{ rotate: 0 }}
-                    animate={{ rotate: activeDropdown === index ? 180 : 0 }} // Rotate arrow based on active dropdown
+                    animate={{ rotate: activeDropdown === index ? 180 : 0 }}
                     transition={{ duration: 0.3, ease: "easeInOut" }}
                   >
                     <ChevronDown size={16} />
@@ -89,11 +95,7 @@ const Navbar = () => {
                     opacity: activeDropdown === index ? 1 : 0,
                     y: activeDropdown === index ? 0 : -10,
                   }}
-                  transition={{
-                    duration: 0.3,
-                    ease: "easeInOut",
-                    delay: activeDropdown === index ? 0 : 0.2,
-                  }}
+                  transition={{ duration: 0.3, ease: "easeInOut", delay: activeDropdown === index ? 0 : 0.2 }}
                 >
                   {link.dropdownLinks.map((dropdownLink) => (
                     <Link
@@ -110,7 +112,6 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Logo in the center */}
         <Link href="/" className="w-full">
           <div className="relative min-h-10">
             <Image
@@ -122,7 +123,6 @@ const Navbar = () => {
           </div>
         </Link>
 
-        {/* Right side with contact and book now */}
         <div className="flex items-center space-x-6 text-nowrap">
           <p className="text-white">Tel: +45 31216149</p>
           <Link href="/book-now">
@@ -135,12 +135,10 @@ const Navbar = () => {
 
       {/* Mobile Navbar */}
       <nav className="md:hidden flex items-center justify-between p-4">
-        {/* Toggle Button */}
         <button onClick={handleMobileClick} className="text-white">
           <Menu size={24} />
         </button>
 
-        {/* Logo in the center */}
         <Link href="/" className="w-full">
           <div className="relative min-h-7">
             <Image
@@ -155,38 +153,36 @@ const Navbar = () => {
 
       {/* Mobile Sheet (ShadCN) */}
       <Sheet open={isMobileOpen} onOpenChange={setIsMobileOpen}>
-        <SheetContent side="right">
-          <div className="flex flex-col items-center space-y-4 py-4">
+        <SheetTitle />
+        <SheetContent side="right" className="bg-green h-full  border-green">
+          <div className="flex flex-col items-start justify-center my-auto space-y-4 p-10 ">
             {navLinks.map((link, index) => (
               <div key={link.href} className="relative">
                 <Link
                   href={link.href}
-                  className="text-black text-xl flex items-center space-x-2"
+                  className="text-white text-2xl flex items-center space-x-2"
+                  onClick={(event) => link.dropdownLinks && handleMobileDropdownToggle(event, index)} // Prevent navigation for dropdown toggle
                 >
                   <span>{link.label}</span>
                   {link.dropdownLinks && (
                     <motion.div
                       initial={{ rotate: 0 }}
-                      animate={{ rotate: isMobileOpen ? 180 : 0 }}
+                      animate={{ rotate: activeMobileDropdown === index ? 180 : 0 }}
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                     >
                       <ChevronDown size={16} />
                     </motion.div>
                   )}
                 </Link>
-                {link.dropdownLinks && isMobileOpen && (
+                {link.dropdownLinks && activeMobileDropdown === index && (
                   <motion.div
-                    className="flex flex-col bg-gray-100 p-2 rounded shadow-lg mt-2"
+                    className="flex flex-col bg-green/80 text-white p-2 rounded shadow-lg mt-2"
                     initial={{ opacity: 0 }}
                     animate={{
-                      opacity: isMobileOpen ? 1 : 0,
-                      y: isMobileOpen ? 0 : -10,
+                      opacity: activeMobileDropdown === index ? 1 : 0,
+                      y: activeMobileDropdown === index ? 0 : -10,
                     }}
-                    transition={{
-                      duration: 0.3,
-                      ease: "easeInOut",
-                      delay: isMobileOpen ? 0 : 0.2,
-                    }}
+                    transition={{ duration: 0.3, ease: "easeInOut", delay: 0 }}
                   >
                     {link.dropdownLinks.map((dropdownLink) => (
                       <Link

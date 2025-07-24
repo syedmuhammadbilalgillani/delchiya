@@ -6,7 +6,7 @@ const page = () => {
     <>
       <HeroSection />;
       <FilterSection />
-      <div className="h-dvh"></div>
+      {/* <div className="h-dvh"></div> */}
 
     </>
   );
