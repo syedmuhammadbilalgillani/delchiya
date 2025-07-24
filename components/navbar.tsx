@@ -197,11 +197,11 @@ const Navbar = () => {
                 )}
               </div>
             ))}
-            <Link href="/book-now">
+            {/* <Link href="/book-now">
               <button className="border border-black text-black px-4 py-2 bg-transparent mt-4">
                 Book Now
               </button>
-            </Link>
+            </Link> */}
           </div>
         </SheetContent>
       </Sheet>
