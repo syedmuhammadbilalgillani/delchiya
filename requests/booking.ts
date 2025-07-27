@@ -1,4 +1,5 @@
 import { PrismaClient } from "@/app/generated/prisma";
+export const runtime = 'nodejs';
 
 const prisma = new PrismaClient();
 
