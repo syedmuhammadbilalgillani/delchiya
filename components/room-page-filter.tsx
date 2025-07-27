@@ -63,12 +63,14 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
   useEffect(() => {
     if (!storeCheckin && checkin) setCheckin(checkin);
     if (!storeCheckout && checkout) setCheckout(checkout);
+    if (!basePrice && price) setBasePrice(price?.rent);
   }, [checkin, checkout, setCheckin, setCheckout]);
 
   const calculateTotalPrice = () => {
     const basePrice = price?.rent ?? 0;
     const rengoring = rengoringFees ? 1800 : 0;
     const linned = linnedChecked ? linnedCount * 135 : 0;
+    setBasePrice(basePrice);
     return basePrice + rengoring + linned;
   };
 
