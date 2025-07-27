@@ -1,6 +1,7 @@
 export const runtime = "nodejs";
 
 import { PrismaClient } from "@/app/generated/prisma";
+import { sendEmail } from "@/lib/sendEmail";
 import { NextRequest } from "next/server";
 import Stripe from "stripe";
 
@@ -46,26 +47,45 @@ export async function POST(req: NextRequest) {
     const bookingData = meta?.booking_id;
 
     if (bookingData) {
-      await prisma.booking.update({
+      const booking = await prisma.booking.update({
         where: { id: parseInt(bookingData) },
         data: { active_status: true },
       });
-      console.log(`[Webhook] Booking ${bookingData} marked as active`);
 
-      // const bookingRes = await fetch("https://api.villavilla.com/partner-api/v1/booking", {
-      //   method: "POST",
-      //   headers: {
-      //     "Accept": "application/json",
-      //     "Content-Type": "application/json",
-      //     // Replace process.env.VILLAVILLA_API_TOKEN with your actual token or env variable
-      //     "Authorization": "Bearer 24|1SGF1LA1L2AGYjUWTOgR0a81i8pyitEnPIERDuEHf2ed5901",
-      //   },
-      //   body: JSON.stringify(bookingData),
-      // });
-    } else {
-      console.warn(
-        "[Stripe Webhook] No valid bookingData found in session metadata"
-      );
+      // Prepare email HTML (simple version, customize as needed)
+      const userHtml = `
+        <h2>Booking Confirmed</h2>
+        <p>Hi ${booking.first_name},</p>
+        <p>Your booking (ID: ${booking.id}) has been confirmed.</p>
+        <p>Arrival: ${booking.arrival.toDateString()}<br/>
+           Departure: ${booking.departure.toDateString()}</p>
+        <p>Thank you for choosing us!</p>
+      `;
+
+      const adminHtml = `
+        <h2>New Booking Confirmed</h2>
+        <p>Booking ID: ${booking.id}</p>
+        <p>Name: ${booking.first_name} ${booking.last_name}</p>
+        <p>Email: ${booking.email}</p>
+        <p>Arrival: ${booking.arrival.toDateString()}<br/>
+           Departure: ${booking.departure.toDateString()}</p>
+      `;
+
+      // Send to user
+      await sendEmail({
+        to: booking.email,
+        subject: "Your Booking is Confirmed",
+        html: userHtml,
+      });
+
+      // Send to admin
+      await sendEmail({
+        to: process.env.ADMIN_EMAIL!,
+        subject: "New Booking Received",
+        html: adminHtml,
+      });
+
+      console.log(`[Webhook] Emails sent to ${booking.email} and admin`);
     }
   } else {
     // Log ignored event types
@@ -74,3 +94,14 @@ export async function POST(req: NextRequest) {
 
   return new Response("Webhook received", { status: 200 });
 }
+
+// const bookingRes = await fetch("https://api.villavilla.com/partner-api/v1/booking", {
+//   method: "POST",
+//   headers: {
+//     "Accept": "application/json",
+//     "Content-Type": "application/json",
+//     // Replace process.env.VILLAVILLA_API_TOKEN with your actual token or env variable
+//     "Authorization": "Bearer 24|1SGF1LA1L2AGYjUWTOgR0a81i8pyitEnPIERDuEHf2ed5901",
+//   },
+//   body: JSON.stringify(bookingData),
+// });
