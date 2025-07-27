@@ -1,3 +1,4 @@
+import { createBooking } from "@/requests/booking";
 import { NextRequest } from "next/server";
 import Stripe from "stripe";
 
@@ -23,7 +24,10 @@ export async function POST(req: NextRequest) {
     event = stripe.webhooks.constructEvent(buf, sig, webhookSecret);
     console.log("[Stripe Webhook] Stripe event constructed:", event.type);
   } catch (err: any) {
-    console.error("[Stripe Webhook] Signature verification failed:", err.message);
+    console.error(
+      "[Stripe Webhook] Signature verification failed:",
+      err.message
+    );
     return new Response(`Webhook Error: ${err.message}`, { status: 400 });
   }
 
@@ -48,6 +52,11 @@ export async function POST(req: NextRequest) {
 
     if (bookingData) {
       console.log("[Stripe Webhook] bookingData extracted:", bookingData);
+      const insertBooking = await createBooking(bookingData);
+      console.log(
+        "[Stripe Webhook] Booking API response status:",
+        insertBooking
+      );
 
       // const bookingRes = await fetch("https://api.villavilla.com/partner-api/v1/booking", {
       //   method: "POST",
@@ -59,9 +68,10 @@ export async function POST(req: NextRequest) {
       //   },
       //   body: JSON.stringify(bookingData),
       // });
-      // console.log("[Stripe Webhook] Booking API response status:", bookingRes.status);
     } else {
-      console.warn("[Stripe Webhook] No valid bookingData found in session metadata");
+      console.warn(
+        "[Stripe Webhook] No valid bookingData found in session metadata"
+      );
     }
   } else {
     // Log ignored event types

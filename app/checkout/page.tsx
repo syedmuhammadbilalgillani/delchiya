@@ -77,7 +77,6 @@ const stripePromise = loadStripe(
 );
 
 const CheckoutForm = () => {
-
   const {
     adults,
     children,
@@ -98,13 +97,12 @@ const CheckoutForm = () => {
     setCheckout,
   } = useRoomStore();
 
-
   const [formData, setFormData] = useState({
     house_id: 122,
     language: 5,
     type: "private",
     arrival: storeCheckin,
-    departure:storeCheckout,
+    departure: storeCheckout,
     company_name: "",
     vat_identification_number: "",
     first_name: "",
@@ -120,6 +118,7 @@ const CheckoutForm = () => {
     bedlinen_amount: 0,
     cleaning_included: true,
     comment: "",
+    active_status: false,
   });
 
   const handleChange = (e: any) => {
@@ -147,7 +146,7 @@ const CheckoutForm = () => {
 
   //   if (error) console.error(error);
   // };
-  const handleSubmit = async (e:any) => {
+  const handleSubmit = async (e: any) => {
     // setLoading(true);
     e.preventDefault();
     const res = await fetch("/api/checkout_sessions", {
@@ -167,7 +166,10 @@ const CheckoutForm = () => {
   return (
     <div>
       <h1 className="text-xl font-semibold mb-4">Booking Checkout</h1>
-      <form onSubmit={handleSubmit} className="space-y-4 grid grid-cols-2 p-10 gap-5">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4 grid grid-cols-2 p-10 gap-5"
+      >
         {/* <Input
           name="house_id"
           value={formData.house_id}
