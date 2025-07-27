@@ -58,22 +58,20 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
     setRengoring,
     setCheckin,
     setCheckout,
-    setTotalPrice
+    setTotalPrice,
   } = useRoomStore();
   const totalOccupants = adults + children;
   // Set checkin and checkout from query params if not already set
   useEffect(() => {
     if (!storeCheckin && checkin) setCheckin(checkin);
     if (!storeCheckout && checkout) setCheckout(checkout);
-    if (!basePrice && price) setBasePrice(price?.rent);
   }, [checkin, checkout, setCheckin, setCheckout]);
 
   const calculateTotalPrice = () => {
     const basePrice = price?.rent ?? 0;
     const rengoring = rengoringFees ? 1800 : 0;
     const linned = linnedChecked ? linnedCount * 135 : 0;
-    setBasePrice(basePrice);
-  setTotalPrice(basePrice + rengoring + linned);
+
     return basePrice + rengoring + linned;
   };
 
@@ -195,6 +193,10 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
         <Button
           variant={"default"}
           className="rounded w-full py-6 my-5 text-lg font-marcellus"
+          onClick={() => {
+            setBasePrice(basePrice);
+            setTotalPrice(basePrice + rengoring + linnedCount);
+          }}
         >
           Book Your Stay Now
         </Button>
