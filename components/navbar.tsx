@@ -8,22 +8,51 @@ import { Sheet, SheetContent, SheetTitle } from "./ui/sheet"; // Assuming you've
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
+  // { href: "/about", label: "About" },
   {
     href: "/services",
-    label: "Services",
+    label: "Ophold",
     dropdownLinks: [
-      { href: "/services/web", label: "Web Design" },
-      { href: "/services/mobile", label: "Mobile App" },
-      { href: "/services/seo", label: "SEO" },
+      { href: "/services/web", label: "Om Sommerhuset" },
+      { href: "/services/mobile", label: "Billeder" },
     ],
   },
   {
-    href: "/products",
-    label: "Products",
+    href: "https://www.delchiya.de/about-the-hotel/",
+    label: "Aktiviteter",
     dropdownLinks: [
-      { href: "/products/electronics", label: "Electronics" },
-      { href: "/products/clothing", label: "Clothing" },
+      {
+        href: "https://www.delchiya.de/pool/",
+        label: "Pool & Spa",
+      },
+      {
+        href: "https://www.delchiya.de/xbox-ultimate/",
+        label: "Xbox Ultimate",
+      },
+      {
+        href: "https://www.delchiya.de/tv-film/",
+        label: "XL TV & Film",
+      },
+      {
+        href: "https://www.delchiya.de/billiard-airhockey/",
+        label: "Billiard & Bordtennis",
+      },
+      {
+        href: "https://www.delchiya.de/bordfodbold/",
+        label: "BordFodbold & Airhockey",
+      },
+      {
+        href: "https://www.delchiya.de/poker-blackjack/",
+        label: "Poker & Blackjack",
+      },
+      {
+        href: "https://www.delchiya.de/activity-detail-2/",
+        label: "Lejeplads",
+      },
+      {
+        href: "https://www.delchiya.de/local-activities/",
+        label: "Lokale Aktiviteter",
+      },
     ],
   },
 ];
@@ -31,7 +60,9 @@ const navLinks = [
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null); // Track which dropdown is open on desktop
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [activeMobileDropdown, setActiveMobileDropdown] = useState<number | null>(null); // Track active dropdown in mobile view
+  const [activeMobileDropdown, setActiveMobileDropdown] = useState<
+    number | null
+  >(null); // Track active dropdown in mobile view
   const timeoutRef = useRef<NodeJS.Timeout | null>(null); // Ref to store timeout ID for mouse leave
 
   // Handle mouse enter for dropdown (desktop)
@@ -55,13 +86,16 @@ const Navbar = () => {
   };
 
   // Toggle mobile dropdown
-  const handleMobileDropdownToggle = (event: React.MouseEvent, index: number) => {
+  const handleMobileDropdownToggle = (
+    event: React.MouseEvent,
+    index: number
+  ) => {
     event.preventDefault(); // Prevent navigation on click to toggle dropdown
-    setActiveMobileDropdown(prev => (prev === index ? null : index)); // Close if it's already open, open it if not
+    setActiveMobileDropdown((prev) => (prev === index ? null : index)); // Close if it's already open, open it if not
   };
 
   return (
-    <header className="fixed top-0 w-full z-50 border-b border-white px-[5%] transition-all">
+    <header className="absolute top-0 w-full z-40 border-b border-white px-[5%] transition-all">
       {/* Desktop Navbar */}
       <nav className="hidden md:flex items-center justify-between px-4 py-2">
         <div className="flex space-x-6">
@@ -89,13 +123,17 @@ const Navbar = () => {
               </Link>
               {link.dropdownLinks && activeDropdown === index && (
                 <motion.div
-                  className="absolute top-10 left-0 bg-black text-white p-2 rounded shadow-lg"
+                  className="absolute top-10 left-0 bg-black text-white p-2 rounded shadow-lg text-nowrap"
                   initial={{ opacity: 0 }}
                   animate={{
                     opacity: activeDropdown === index ? 1 : 0,
                     y: activeDropdown === index ? 0 : -10,
                   }}
-                  transition={{ duration: 0.3, ease: "easeInOut", delay: activeDropdown === index ? 0 : 0.2 }}
+                  transition={{
+                    duration: 0.3,
+                    ease: "easeInOut",
+                    delay: activeDropdown === index ? 0 : 0.2,
+                  }}
                 >
                   {link.dropdownLinks.map((dropdownLink) => (
                     <Link
@@ -118,7 +156,7 @@ const Navbar = () => {
               src={`/logo.svg`}
               alt="navbar logo"
               fill
-              className="h-full w-full"
+              className="h-full w-full z-40"
             />
           </div>
         </Link>
@@ -161,13 +199,18 @@ const Navbar = () => {
                 <Link
                   href={link.href}
                   className="text-white text-2xl flex items-center space-x-2"
-                  onClick={(event) => link.dropdownLinks && handleMobileDropdownToggle(event, index)} // Prevent navigation for dropdown toggle
+                  onClick={(event) =>
+                    link.dropdownLinks &&
+                    handleMobileDropdownToggle(event, index)
+                  } // Prevent navigation for dropdown toggle
                 >
                   <span>{link.label}</span>
                   {link.dropdownLinks && (
                     <motion.div
                       initial={{ rotate: 0 }}
-                      animate={{ rotate: activeMobileDropdown === index ? 180 : 0 }}
+                      animate={{
+                        rotate: activeMobileDropdown === index ? 180 : 0,
+                      }}
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                     >
                       <ChevronDown size={16} />

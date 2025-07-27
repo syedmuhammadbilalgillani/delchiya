@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import { ChevronDown } from "lucide-react";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { DateRange, DayPicker } from "react-day-picker";
 
@@ -285,7 +286,7 @@ const FilterSection = () => {
     }
 
     // Default state
-    return "Select Check-in Date";
+    return `${isLoading ? "Please wait..." : "Select Check-in Date"}`;
   };
   // Close mobile menu when clicking outside
   React.useEffect(() => {
@@ -301,6 +302,17 @@ const FilterSection = () => {
       return () => document.removeEventListener("click", handleClickOutside);
     }
   }, [dropdownOpen]);
+  const formatDateT = (date: Date | undefined) => {
+    if (!date) return "";
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+    const year = d.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
+  const checkin = formatDateT(selectedRange?.from);
+  const checkout = formatDateT(selectedRange?.to);
   return (
     <div className="bg-transparent -mt-20 px-[10%] relative z-10 ">
       <div className="bg-green grid grid-cols-1 md:grid-cols-3 gap-5 p-5 w-full">
@@ -373,7 +385,7 @@ const FilterSection = () => {
                   classNames={{
                     disabled: "line-through text-gray-400 cursor-not-allowed",
                     table: "w-full text-center",
-                    day: "text-center border-2 border-gray-300 w-8 h-8 sm:w-10 sm:h-10 text-sm sm:text-base",
+                    day: "text-center  border-2 border-gray-300 w-8 h-8 sm:w-10 sm:h-10 text-sm sm:text-base",
                     day_selected: "bg-yellow text-white hover:bg-teal-700",
                     day_button: "cursor-pointer p-1 sm:p-2 transition-colors",
                     nav: "absolute top-0 flex justify-between w-full",
@@ -394,9 +406,11 @@ const FilterSection = () => {
           <label>Price</label>
           <div>{price?.rent || "-"}</div>
         </div>
-        <button className="text-center col-span-1  py-3  text-white gap-2  bg-yellow border-yellow hover:bg-yellow/80 transition-colors cursor-pointer w-full ">
-          Check Availibilty
-        </button>
+        <Link href={`/room?checkin=${checkin}&checkout=${checkout}`}>
+          <div className="text-center col-span-1   py-3  text-white gap-2  bg-yellow border-yellow hover:bg-yellow/80 transition-colors cursor-pointer w-full ">
+            Check Availibilty
+          </div>
+        </Link>
       </div>
     </div>
   );

@@ -25,7 +25,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={` ${jost.variable} ${marcellus.variable} antialiased`}>
+      <body
+        className={` ${jost.variable} ${marcellus.variable} antialiased`}
+        suppressHydrationWarning
+      >
         <Navbar />
         {children}
       </body>

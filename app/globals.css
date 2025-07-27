@@ -90,7 +90,7 @@ body {
   }
 
   p {
-    @apply font-jost;
+    @apply font-jost text-gray-500;
   }
 
   ul {
@@ -197,4 +197,44 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.custom-checkbox-wrapper {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  min-width: 24px;
+  max-width: 24px;
+  width: 100%;
+  height: 24px;
+}
+
+.custom-checkbox-wrapper input[type="checkbox"] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border: 2px solid #c7b299;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkmark::after {
+  content: "";
+  width: 50%;
+  height: 50%;
+  background-color: #b9996a; /* Your fill color */
+  display: none;
+}
+
+.custom-checkbox-wrapper input:checked ~ .checkmark::after {
+  display: block;
 }
