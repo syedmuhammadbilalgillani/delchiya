@@ -47,6 +47,7 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
     linnedChecked,
     basePrice,
     rengoring,
+    totalPrice,
     checkin: storeCheckin,
     checkout: storeCheckout,
     setAdults,
@@ -57,6 +58,7 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
     setRengoring,
     setCheckin,
     setCheckout,
+    setTotalPrice
   } = useRoomStore();
   const totalOccupants = adults + children;
   // Set checkin and checkout from query params if not already set
@@ -71,6 +73,7 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
     const rengoring = rengoringFees ? 1800 : 0;
     const linned = linnedChecked ? linnedCount * 135 : 0;
     setBasePrice(basePrice);
+  setTotalPrice(basePrice + rengoring + linned);
     return basePrice + rengoring + linned;
   };
 

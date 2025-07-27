@@ -10,6 +10,7 @@ interface RoomStore {
   rengoring: number;
   checkin: string | null;
   checkout: string | null;
+  totalPrice: number;
 
   setAdults: (adults: number) => void;
   setChildren: (children: number) => void;
@@ -19,6 +20,7 @@ interface RoomStore {
   setRengoring: (rengoring: number) => void;
   setCheckin: (checkin: string | null) => void;
   setCheckout: (checkout: string | null) => void;
+  setTotalPrice: (totalPrice: number) => void;
 }
 
 export const useRoomStore = create<RoomStore>((set) => ({
@@ -30,6 +32,7 @@ export const useRoomStore = create<RoomStore>((set) => ({
   rengoring: 1800,
   checkin: null,
   checkout: null,
+  totalPrice: 0,
 
   setAdults: (adults) => set({ adults }),
   setChildren: (children) => set({ children }),
@@ -39,4 +42,5 @@ export const useRoomStore = create<RoomStore>((set) => ({
   setRengoring: (rengoring) => set({ rengoring }),
   setCheckin: (checkin) => set({ checkin }),
   setCheckout: (checkout) => set({ checkout }),
+  setTotalPrice: (totalPrice) => set({ totalPrice }),
 }));

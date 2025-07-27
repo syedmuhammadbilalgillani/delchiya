@@ -93,6 +93,7 @@ const CheckoutForm = () => {
     setLinnedChecked,
     setBasePrice,
     setRengoring,
+    totalPrice,
     setCheckin,
     setCheckout,
   } = useRoomStore();
@@ -150,7 +151,7 @@ const CheckoutForm = () => {
     const res = await fetch("/api/checkout_sessions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: 2000, bookingData: formData }), // $20.00
+      body: JSON.stringify({ amount: totalPrice, bookingData: formData }), // $20.00
     });
 
     const { id } = await res.json();
