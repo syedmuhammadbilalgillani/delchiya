@@ -14,14 +14,7 @@ export async function POST(req: NextRequest) {
     const { amount, bookingData } = await req.json();
     console.log("[Stripe Checkout] Request body:", { amount, bookingData });
     // 1. Create booking in DB with active_status = false
-    const booking = await prisma.booking.create({
-      data: {
-        ...bookingData,
-        arrival: new Date(bookingData.arrival),
-        departure: new Date(bookingData.departure),
-        active_status: false,
-      },
-    });
+    const booking = await prisma.booking.create(bookingData);
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
