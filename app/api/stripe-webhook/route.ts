@@ -49,17 +49,17 @@ export async function POST(req: NextRequest) {
     if (bookingData) {
       console.log("[Stripe Webhook] bookingData extracted:", bookingData);
 
-      const bookingRes = await fetch("https://api.villavilla.com/partner-api/v1/booking", {
-        method: "POST",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-          // Replace process.env.VILLAVILLA_API_TOKEN with your actual token or env variable
-          "Authorization": "Bearer 24|1SGF1LA1L2AGYjUWTOgR0a81i8pyitEnPIERDuEHf2ed5901",
-        },
-        body: JSON.stringify(bookingData),
-      });
-      console.log("[Stripe Webhook] Booking API response status:", bookingRes.status);
+      // const bookingRes = await fetch("https://api.villavilla.com/partner-api/v1/booking", {
+      //   method: "POST",
+      //   headers: {
+      //     "Accept": "application/json",
+      //     "Content-Type": "application/json",
+      //     // Replace process.env.VILLAVILLA_API_TOKEN with your actual token or env variable
+      //     "Authorization": "Bearer 24|1SGF1LA1L2AGYjUWTOgR0a81i8pyitEnPIERDuEHf2ed5901",
+      //   },
+      //   body: JSON.stringify(bookingData),
+      // });
+      // console.log("[Stripe Webhook] Booking API response status:", bookingRes.status);
     } else {
       console.warn("[Stripe Webhook] No valid bookingData found in session metadata");
     }

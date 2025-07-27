@@ -74,6 +74,7 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
 
     return basePrice + rengoring + linned;
   };
+  
 
   return (
     <div className="shadow-[0px_0px_4px_1px_rgba(0,_0,_0,_0.1)] p-5 rounded-lg sticky top-10">
