@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
       line_items: [
         {
           price_data: {
-            currency: "kr", // Make sure this matches your Stripe currency support
+            currency: "DKK", // Make sure this matches your Stripe currency support
             product_data: { name: "Villa Booking" },
             unit_amount: amount,
           },
