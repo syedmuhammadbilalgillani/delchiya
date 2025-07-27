@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
       line_items: [
         {
           price_data: {
-            currency: "usd",
+            currency: "kr",
             product_data: { name: "Villa Booking" },
             unit_amount: amount, // in cents
           },
