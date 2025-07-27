@@ -97,9 +97,11 @@ const CheckoutForm = () => {
     setCheckin,
     setCheckout,
   } = useRoomStore();
+
+
   const [formData, setFormData] = useState({
-    house_id: "122",
-    language: "5",
+    house_id: 122,
+    language: 5,
     type: "private",
     arrival: storeCheckin,
     departure:storeCheckout,
