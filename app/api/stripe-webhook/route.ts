@@ -1,7 +1,10 @@
-import { createBooking } from "@/requests/booking";
+export const runtime = 'nodejs';
+
+
 import { NextRequest } from "next/server";
 import Stripe from "stripe";
-export const runtime = 'nodejs';
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
   apiVersion: "2025-06-30.basil",
@@ -53,7 +56,7 @@ export async function POST(req: NextRequest) {
 
     if (bookingData) {
       console.log("[Stripe Webhook] bookingData extracted:", bookingData);
-      const insertBooking = await createBooking(bookingData);
+      const insertBooking =  await prisma.booking.create(bookingData)
       console.log(
         "[Stripe Webhook] Booking API response status:",
         insertBooking
