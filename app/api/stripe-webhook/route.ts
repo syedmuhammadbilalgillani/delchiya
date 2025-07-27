@@ -4,6 +4,7 @@ export const runtime = 'nodejs';
 import { PrismaClient } from "@/app/generated/prisma";
 import { NextRequest } from "next/server";
 import Stripe from "stripe";
+
 const prisma = new PrismaClient();
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
