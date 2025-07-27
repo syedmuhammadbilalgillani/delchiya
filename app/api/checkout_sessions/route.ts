@@ -1,15 +1,27 @@
+export const runtime = "nodejs"; // REQUIRED for Prisma to work
+
+import { PrismaClient } from "@/app/generated/prisma";
 import { NextRequest } from "next/server";
 import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
   apiVersion: "2025-06-30.basil",
 });
+const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
   try {
     const { amount, bookingData } = await req.json();
     console.log("[Stripe Checkout] Request body:", { amount, bookingData });
-
+    // 1. Create booking in DB with active_status = false
+    const booking = await prisma.booking.create({
+      data: {
+        ...bookingData,
+        arrival: new Date(bookingData.arrival),
+        departure: new Date(bookingData.departure),
+        active_status: false,
+      },
+    });
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
@@ -26,14 +38,20 @@ export async function POST(req: NextRequest) {
       success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/cancel`,
       metadata: {
-        bookingData: JSON.stringify(bookingData),
+        booking_id: booking.id.toString(), // Include booking ID here
       },
     });
 
     console.log("[Stripe Checkout] Checkout session created:", session.id);
     return new Response(JSON.stringify({ id: session.id }), { status: 200 });
   } catch (error: any) {
-    console.error("[Stripe Checkout] Error creating session:", error.message, error);
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+    console.error(
+      "[Stripe Checkout] Error creating session:",
+      error.message,
+      error
+    );
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+    });
   }
 }

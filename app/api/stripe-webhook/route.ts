@@ -1,5 +1,4 @@
-export const runtime = 'nodejs';
-
+export const runtime = "nodejs";
 
 import { PrismaClient } from "@/app/generated/prisma";
 import { NextRequest } from "next/server";
@@ -44,24 +43,14 @@ export async function POST(req: NextRequest) {
     const meta = session.metadata;
     console.log("[Stripe Webhook] Session metadata:", meta);
 
-    const bookingData = meta?.bookingData
-      ? (() => {
-          try {
-            return JSON.parse(meta.bookingData);
-          } catch (e) {
-            console.error("[Stripe Webhook] Error parsing bookingData:", e);
-            return null;
-          }
-        })()
-      : null;
+    const bookingData = meta?.booking_id;
 
     if (bookingData) {
-      console.log("[Stripe Webhook] bookingData extracted:", bookingData);
-      const insertBooking =  await prisma.booking.create(bookingData)
-      console.log(
-        "[Stripe Webhook] Booking API response status:",
-        insertBooking
-      );
+      await prisma.booking.update({
+        where: { id: parseInt(bookingData) },
+        data: { active_status: true },
+      });
+      console.log(`[Webhook] Booking ${bookingData} marked as active`);
 
       // const bookingRes = await fetch("https://api.villavilla.com/partner-api/v1/booking", {
       //   method: "POST",
