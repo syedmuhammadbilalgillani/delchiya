@@ -95,7 +95,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="absolute top-0 w-full z-40 border-b border-white px-[5%] transition-all">
+    <header className="absolute top-0 w-full z-40 border-b border-b-white  px-[5%] transition-all">
       {/* Desktop Navbar */}
       <nav className="hidden md:flex items-center justify-between px-4 py-2">
         <div className="flex space-x-6">

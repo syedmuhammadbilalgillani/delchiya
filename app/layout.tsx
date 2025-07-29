@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { Jost, Marcellus } from "next/font/google";
+import { Jost, Marcellus, La_Belle_Aurore } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 
@@ -9,6 +9,11 @@ const jost = Jost({
 });
 const marcellus = Marcellus({
   variable: "--font-marcellus",
+  subsets: ["latin"],
+  weight: ["400"],
+});
+const la_belle_aurore = La_Belle_Aurore({
+  variable: "--font-la_belle_aurore",
   subsets: ["latin"],
   weight: ["400"],
 });
@@ -26,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={` ${jost.variable} ${marcellus.variable} antialiased`}
+        className={` ${jost.variable} ${marcellus.variable} ${la_belle_aurore.variable} antialiased`}
         suppressHydrationWarning
       >
         <Navbar />
