@@ -18,7 +18,8 @@ const page = () => {
 
   return (
     <>
-      <HeroSection />;{/* <FilterSection /> */}
+      <HeroSection />
+      <FilterSection />
       <div className="flex flex-col justify-center items-center main max-w-3xl text-center gap-6">
         <Image
           src={"/stay-house.svg"}

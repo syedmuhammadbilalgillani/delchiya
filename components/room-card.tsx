@@ -4,14 +4,14 @@ import React from "react";
 
 const RoomCard = () => {
   return (
-    <div className="max-w-[404px] mx-auto space-y-3">
+    <div className="max-w-[404px] mx-auto space-y-3 px-5">
       <div className="uppercase text-sm font-medium  text-center text-green">
         Sommerhuset Hvor Luksus forenes med naturen
       </div>
       <h2 className="text-5xl  text-center">Blommehuset</h2>
 
       {/* Set a fixed aspect ratio container */}
-      <div className="relative w-[404px] h-[404px] mx-auto">
+      <div className="relative md:w-[404px] md:h-[404px] w-[303px] h-[303px] mx-auto">
         <Image
           src="/room.jpg"
           alt="Plantegning"

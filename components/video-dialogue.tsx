@@ -19,7 +19,7 @@ const VideoDialog = () => {
           onClick={() => setopen(true)}
           className="bg-transparent hover:bg-transparent text-white border rounded-full size-36"
         >
-          <Play size={50} />
+          <Play className="size-10" fill="white" />
         </Button>
       </div>
       <Dialog onOpenChange={setopen} open={open}>
