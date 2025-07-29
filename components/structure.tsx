@@ -10,7 +10,7 @@ const Structure = () => {
       <h2 className="md:text-5xl text-4xl">Plantegning</h2>
       
       {/* Set a fixed aspect ratio container */}
-      <div className="relative w-full aspect-[16/9] max-w-5xl mx-auto">
+      <div className="relative w-full aspect-[13/9] max-w-5xl mx-auto">
         <Image
           src="/structure.jpg"
           alt="Plantegning"
