@@ -1,7 +1,16 @@
 "use client";
-
 import { notFound, useSearchParams } from "next/navigation";
-import React from "react";
+import React, { Suspense } from "react";
+
+const page = () => {
+  return (
+    <Suspense>
+      <SuccessPage />
+    </Suspense>
+  );
+};
+
+export default page;
 
 const SuccessPage = () => {
   const searchParams = useSearchParams();
@@ -20,10 +29,7 @@ const SuccessPage = () => {
         <p className="text-gray-700 mt-4">
           Your payment was successful and your booking is confirmed.
         </p>
-       
       </div>
     </div>
   );
 };
-
-export default SuccessPage;
