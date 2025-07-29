@@ -28,7 +28,7 @@ const page = () => {
           width={60}
         />
         <p>Welkommen til blommehuset</p>
-        <h2 className="text-5xl text-green">
+        <h2 className="md:text-5xl text-4xl text-green">
           Beliggende i hjertet af det smukkeste Marielyst
         </h2>
         <p>
