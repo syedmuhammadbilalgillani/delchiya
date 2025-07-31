@@ -12,6 +12,7 @@ import {
 import { ChevronDown } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useRoomStore } from "@/store/useRoom";
+import CalenderDialog from "./calender-dialog";
 interface Pricing {
   rent: number;
   cleaning: number;
@@ -74,11 +75,13 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
 
     return basePrice + rengoring + linned;
   };
-  
 
   return (
     <div className="shadow-[0px_0px_4px_1px_rgba(0,_0,_0,_0.1)] p-5 rounded-lg sticky top-10">
       <h2>Reserve:</h2>
+      <div className=" mt-5">
+        <CalenderDialog />
+      </div>
       <div className="flex gap-2 w-full my-5">
         <CounterSelect
           label="Adults"
@@ -172,16 +175,15 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
           <CollapsibleContent>
             <div className="flex justify-between border-t border-dashed py-3 mt-3">
               <label>Total Base Price</label>
-              <div>{price?.rent} kr.</div>
+              <div>{price?.rent ?? 0} kr.</div>
             </div>
             <div className="flex justify-between border-t border-dashed py-3">
               <label>Extra Services Price</label>
-              <div>
-                {rengoringFees ? "1800 kr." : "0"}{" "}
-                {`${linnedChecked ? "+ " : ""}${
-                  linnedChecked ? linnedCount * 135 : ""
-                } ${linnedChecked ? "kr. " : ""}`}
-              </div>
+              <div>{`${linnedChecked ? linnedCount * 135 : "0"} kr.`}</div>
+            </div>
+            <div className="flex justify-between border-t border-dashed py-3">
+              <label>Rengøring</label>
+              <div>{rengoringFees ? "1800 kr." : "0"}</div>
             </div>
             <div className="flex justify-between border-y border-dashed py-3">
               <label>Total Price</label>
@@ -194,6 +196,7 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
         <Button
           variant={"default"}
           className="rounded w-full py-6 my-5 text-lg font-marcellus"
+          disabled={!price?.rent}
           onClick={() => {
             setBasePrice(basePrice);
             setTotalPrice(basePrice + rengoring + linnedCount);

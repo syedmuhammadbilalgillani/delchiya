@@ -30,8 +30,6 @@ const RoomPage = () => {
   }, []);
 
   useEffect(() => {
-    if (!arrival || !departure) return;
-
     axios
       .get("https://api.villavilla.com/partner-api/v1/houses/?house_id=122", {
         headers: {
@@ -46,6 +44,10 @@ const RoomPage = () => {
         setError("Failed to fetch house data");
         console.error(err);
       });
+  }, []);
+
+  useEffect(() => {
+    if (!arrival || !departure) return;
 
     axios
       .get(
@@ -218,7 +220,9 @@ const RoomPage = () => {
                   width={30}
                   className="text-yellow-400 fill-current"
                 />
-                <h3 className="text-base font-normal  font-marcellus">{item?.label}</h3>
+                <h3 className="text-base font-normal  font-marcellus">
+                  {item?.label}
+                </h3>
               </div>
             ))}
           </div>
@@ -248,7 +252,9 @@ const RoomPage = () => {
                   width={30}
                   className="text-yellow-400 fill-current"
                 />
-                <h3 className="text-base font-normal font-marcellus">{item?.label}</h3>
+                <h3 className="text-base font-normal font-marcellus">
+                  {item?.label}
+                </h3>
               </div>
             ))}
           </div>

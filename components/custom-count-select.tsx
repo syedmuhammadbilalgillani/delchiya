@@ -81,6 +81,7 @@ const CounterSelect: React.FC<CounterSelectProps> = ({
     <div className={cn("relative", className)} ref={dropdownRef}>
       <div
         onClick={toggleDropdown}
+        
         className="flex justify-between items-center border border-[#c7b299] px-2 py-2 cursor-pointer select-none"
       >
         <span>{label}</span>

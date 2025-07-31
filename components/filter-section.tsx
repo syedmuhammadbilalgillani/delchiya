@@ -406,7 +406,7 @@ const FilterSection = () => {
           <label>Price</label>
           <div>{price?.rent || "-"}</div>
         </div>
-        <Link href={`/room?checkin=${checkin}&checkout=${checkout}`}>
+        <Link href={`/room/blommehuset?checkin=${checkin}&checkout=${checkout}`}>
           <div className="text-center col-span-1   py-3  text-white gap-2  bg-yellow border-yellow hover:bg-yellow/80 transition-colors cursor-pointer w-full ">
             Check Availibilty
           </div>
