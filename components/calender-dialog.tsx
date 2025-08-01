@@ -324,7 +324,9 @@ const CalenderDialog = () => {
   return (
     <Dialog open={IsOpen} onOpenChange={setIsOpen}>
       <DialogTrigger className="flex p-2   items-center text-green gap-2 border border-yellow transition-colors min-w-  w-full">
-        {price?.rent ? price.rent : "Check Ind - Check ud"}
+        {selectedRange?.to && selectedRange.from
+          ? `${(selectedRange.from, ` - `, selectedRange.to)}`
+          : "Check Ind - Check ud"}
       </DialogTrigger>
       <DialogContent className="min-w-fit">
         <DialogHeader>
