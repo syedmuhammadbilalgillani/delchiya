@@ -156,6 +156,7 @@ const Navbar = () => {
               src={`/logo.svg`}
               alt="navbar logo"
               fill
+              priority
               className="h-full w-full z-40"
             />
           </div>
@@ -183,6 +184,7 @@ const Navbar = () => {
               src={`/logo.svg`}
               alt="navbar logo"
               fill
+              priority
               className="h-full w-full"
             />
           </div>

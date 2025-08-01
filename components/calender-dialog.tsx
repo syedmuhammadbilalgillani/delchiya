@@ -1,6 +1,6 @@
 "use client";
 import axios from "axios";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Loader, Loader2 } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { DateRange, DayPicker } from "react-day-picker";
@@ -11,6 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
+import { useSearchParams } from "next/navigation";
 
 interface Country {
   name: string;
@@ -64,7 +65,30 @@ interface AvailablePeriod {
 }
 
 const CalenderDialog = () => {
-  const [selectedRange, setSelectedRange] = useState<DateRange | undefined>();
+  const searchParams = useSearchParams();
+
+
+  const [selectedRange, setSelectedRange] = useState<DateRange | undefined>(undefined);
+  function parseDDMMYYYY(dateStr: string | null): Date | undefined {
+    if (!dateStr) return undefined;
+    const [day, month, year] = dateStr.split("-").map(Number);
+    if (!day || !month || !year) return undefined;
+    // Month in JS Date is 0-based
+    return new Date(year, month - 1, day);
+  }
+  useEffect(() => {
+    const checkin = searchParams.get("checkin");
+    const checkout = searchParams.get("checkout");
+    console.log("Search params - checkin:", checkin, "checkout:", checkout);
+    if (checkin || checkout) {
+      const newRange = {
+        from: parseDDMMYYYY(checkin),
+        to: parseDDMMYYYY(checkout),
+      };
+      console.log("Setting selectedRange to:", newRange);
+      setSelectedRange(newRange);
+    }
+  }, [searchParams]);
   const [availablePeriods, setAvailablePeriods] = useState<AvailablePeriod[]>(
     []
   );
@@ -324,88 +348,95 @@ const CalenderDialog = () => {
   return (
     <Dialog open={IsOpen} onOpenChange={setIsOpen}>
       <DialogTrigger className="flex p-2   items-center text-green gap-2 border border-yellow transition-colors min-w-  w-full">
-        {selectedRange?.to && selectedRange.from
-          ? `${(selectedRange.from, ` - `, selectedRange.to)}`
+        {checkin && checkout
+          ? `${checkin} - ${checkout}`
           : "Check Ind - Check ud"}
       </DialogTrigger>
-      <DialogContent className="min-w-fit">
+      <DialogContent className="min-w-fit ">
         <DialogHeader>
           <DialogTitle />
         </DialogHeader>
-        <div className="overflow-x-auto max-w-full mx-auto  p-5">
-          <div className="mb-3 flex justify-between gap-2 items-center max-sm:flex-wrap">
-            <span className="text-sm font-medium">
-              {selectionStep === "from"
-                ? "Select Check-in Date"
-                : "Select Check-out Date"}
-            </span>
-            {selectionStep === "to" && (
-              <button
-                onClick={resetSelection}
-                className="text-xs text-blue-600 hover:text-blue-800 underline"
-              >
-                Change Check-in
-              </button>
-            )}
+        <div className="relative">
+          {isLoading && (
+            <div className="absolute flex justify-center items-center w-full h-full z-10 ">
+              <Loader2 className={isLoading ? "animate-spin" : ""} />
+            </div>
+          )}
+          <div className="overflow-x-auto max-w-full mx-auto  p-5 relative">
+            <div className="mb-3 flex justify-between gap-2 items-center max-sm:flex-wrap">
+              <span className="text-sm font-medium">
+                {selectionStep === "from"
+                  ? "Select Check-in Date"
+                  : "Select Check-out Date"}
+              </span>
+              {selectionStep === "to" && (
+                <button
+                  onClick={resetSelection}
+                  className="text-xs text-blue-600 hover:text-blue-800 underline"
+                >
+                  Change Check-in
+                </button>
+              )}
+            </div>
+            <DayPicker
+              mode="single"
+              selected={getCurrentSelectedDate()}
+              onSelect={handleDateSelect}
+              numberOfMonths={window.innerWidth < 640 ? 1 : 2}
+              disabled={getDisabledDates()}
+              onDayMouseEnter={handleMouseEnter}
+              onDayMouseLeave={handleMouseLeave}
+              modifiers={{
+                selected_range:
+                  selectedRange?.from && selectedRange?.to
+                    ? getRangeDays(selectedRange.from, selectedRange.to)
+                    : [],
+                hover_range:
+                  selectionStep === "to" && selectedRange?.from && hoveredDate
+                    ? getHoverRangeDays(selectedRange.from, hoveredDate)
+                    : [],
+                range_start: selectedRange?.from ? [selectedRange.from] : [],
+                range_end: selectedRange?.to ? [selectedRange.to] : [],
+                hover_end:
+                  selectionStep === "to" && hoveredDate ? [hoveredDate] : [],
+              }}
+              modifiersClassNames={{
+                selected: "bg-green text-white cursor-pointer",
+                selected_range: "bg-green/80 border-2 border-white text-white",
+                hover_range: "bg-green text-white border-2 border-white",
+                range_start: "bg-green text-white font-semibold",
+                range_end: "bg-green text-white font-semibold",
+                hover_end: "bg-green text-white font-semibold",
+              }}
+              classNames={{
+                disabled: "line-through text-gray-400 cursor-not-allowed",
+                table: "w-full text-center",
+                day: "text-center  border-2 border-gray-300 w-8 h-8 sm:w-10 sm:h-10 text-sm sm:text-base",
+                day_selected: "bg-yellow text-white hover:bg-teal-700",
+                day_button: "cursor-pointer p-1 sm:p-2 transition-colors",
+                nav: "absolute top-0 flex justify-between w-full",
+                month_caption: "mb-2 text-center",
+                button_next: "cursor-pointer",
+                button_previous: "cursor-pointer",
+                months: "flex gap-2 sm:gap-6 relative",
+                caption: "text-sm sm:text-base",
+                caption_label: "text-sm sm:text-base",
+              }}
+            />
           </div>
-          <DayPicker
-            mode="single"
-            selected={getCurrentSelectedDate()}
-            onSelect={handleDateSelect}
-            numberOfMonths={window.innerWidth < 640 ? 1 : 2}
-            disabled={getDisabledDates()}
-            onDayMouseEnter={handleMouseEnter}
-            onDayMouseLeave={handleMouseLeave}
-            modifiers={{
-              selected_range:
-                selectedRange?.from && selectedRange?.to
-                  ? getRangeDays(selectedRange.from, selectedRange.to)
-                  : [],
-              hover_range:
-                selectionStep === "to" && selectedRange?.from && hoveredDate
-                  ? getHoverRangeDays(selectedRange.from, hoveredDate)
-                  : [],
-              range_start: selectedRange?.from ? [selectedRange.from] : [],
-              range_end: selectedRange?.to ? [selectedRange.to] : [],
-              hover_end:
-                selectionStep === "to" && hoveredDate ? [hoveredDate] : [],
-            }}
-            modifiersClassNames={{
-              selected: "bg-green text-white cursor-pointer",
-              selected_range: "bg-green/80 border-2 border-white text-white",
-              hover_range: "bg-green text-white border-2 border-white",
-              range_start: "bg-green text-white font-semibold",
-              range_end: "bg-green text-white font-semibold",
-              hover_end: "bg-green text-white font-semibold",
-            }}
-            classNames={{
-              disabled: "line-through text-gray-400 cursor-not-allowed",
-              table: "w-full text-center",
-              day: "text-center  border-2 border-gray-300 w-8 h-8 sm:w-10 sm:h-10 text-sm sm:text-base",
-              day_selected: "bg-yellow text-white hover:bg-teal-700",
-              day_button: "cursor-pointer p-1 sm:p-2 transition-colors",
-              nav: "absolute top-0 flex justify-between w-full",
-              month_caption: "mb-2 text-center",
-              button_next: "cursor-pointer",
-              button_previous: "cursor-pointer",
-              months: "flex gap-2 sm:gap-6 relative",
-              caption: "text-sm sm:text-base",
-              caption_label: "text-sm sm:text-base",
-            }}
-          />
-        </div>
-        <div className="flex p-3   col-span-1 items-center text-green gap-2 border border-yellow transition-colors min-w-56  w-full justify-between">
-          <label>Price</label>
-          <div>{price?.rent || "-"}</div>
-        </div>
-        <Link
-          href={`/room/blommehuset?checkin=${checkin}&checkout=${checkout}`}
-          onClick={() => setIsOpen(false)}
-        >
-          <div className="text-center col-span-1   py-3  text-white gap-2  bg-yellow border-yellow hover:bg-yellow/80 transition-colors cursor-pointer w-full ">
-            Check Availibilty
+          <div className="flex p-3   col-span-1 items-center text-green gap-2 border border-yellow transition-colors min-w-56  w-full justify-between">
+            <label>Price</label>
+            <div>{price?.rent || "-"}</div>
           </div>
-        </Link>
+          <Link
+            href={`/room/blommehuset?checkin=${checkin}&checkout=${checkout}`}
+            onClick={() => setIsOpen(false)}
+          >
+            <div className="text-center col-span-1   py-3  text-white gap-2  bg-yellow border-yellow hover:bg-yellow/80 transition-colors cursor-pointer w-full ">
+              Check Availibilty
+            </div>
+          </Link>
+        </div>
       </DialogContent>
     </Dialog>
   );
