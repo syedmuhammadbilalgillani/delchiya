@@ -1,15 +1,16 @@
-import { Maximize2, PawPrint, Users } from "lucide-react";
+import { ChevronRight, Maximize2, PawPrint, Users } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const RoomCard = () => {
   return (
-    <div className=" md:max-w-[404px]  mx-auto space-y-3 px-5">
+    <div className=" md:max-w-[404px]  mx-auto space-y-3 px-5 h-full">
       <div className="uppercase text-sm font-medium  text-center text-green">
         Sommerhuset Hvor Luksus forenes med naturen
       </div>
       <h2 className="md:text-5xl text-4xl  text-center">Blommehuset</h2>
-      <div className=" md:w-[404px] md:h-[404px] max-w-[303px] mx-auto">
+      <div className="mx-auto">
         {/* Set a fixed aspect ratio container */}
         <div className="relative md:w-[404px] md:h-[404px] w-[303px] h-[303px] mx-auto">
           <Image
@@ -41,6 +42,15 @@ const RoomCard = () => {
           ferieoplevelse, hvor faciliteterne og beliggenheden kombineres til at
           skabe den perfekte ramme. Placeret i det …
         </p>
+        <Link className="group " href={"/room/blommehuset"}>
+          <div className="flex items-center">
+            Dicover More
+            <span className="group-hover:pl-2  mt-0.5 transition-all">
+              <ChevronRight size={17} />
+            </span>
+          </div>
+          <div className="h-0.5 bg-yellow w-28 group-hover:w-0 transition-all"></div>
+        </Link>
       </div>
     </div>
   );

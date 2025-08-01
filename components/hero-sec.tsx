@@ -3,7 +3,7 @@
 const HeroSection = () => {
   return (
     <div
-      className="relative  h-[80dvh] max-sm:h-[50dvh] w-full bg-cover bg-center"
+      className="relative  h-[80dvh] max-sm:h-[60dvh] w-full bg-cover bg-center"
       style={{ backgroundImage: "url('/hero.jpg')" }}
     >
       {/* Overlay */}

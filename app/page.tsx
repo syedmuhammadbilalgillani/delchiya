@@ -1,6 +1,10 @@
+"use client"
 import EmblaCarousel from "@/components/embela-slider/embela-slider";
 import FilterSection from "@/components/filter-section";
 import HeroSection from "@/components/hero-sec";
+import dynamic from "next/dynamic";
+
+const LocationCard = dynamic(() => import("@/components/map-sec"), { ssr: false });
 import RoomCard from "@/components/room-card";
 import Structure from "@/components/structure";
 import VideoDialog from "@/components/video-dialogue";
@@ -51,6 +55,7 @@ const page = () => {
       <VideoDialog />
       <Structure />
       <RoomCard />
+      <LocationCard />
     </>
   );
 };

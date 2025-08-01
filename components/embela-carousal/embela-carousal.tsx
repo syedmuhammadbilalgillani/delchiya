@@ -99,11 +99,11 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
           </div>
         </div>
         <div className="absolute top-1/2 flex justify-between w-full px-10">
-          <button className="h-16  w-16 rounded-full bg-white cursor-pointer flex justify-center items-center" onClick={scrollPrev}>
-            <ArrowLeft />
+          <button className="h-16  w-16 rounded-full md:bg-white cursor-pointer flex justify-center items-center" onClick={scrollPrev}>
+            <ArrowLeft className="md:text-black text-white" />
           </button>
-          <button className="h-16  w-16 rounded-full bg-white cursor-pointer flex justify-center items-center" onClick={scrollNext}>
-            <ArrowRight />
+          <button className="h-16  w-16 rounded-full md:bg-white cursor-pointer flex justify-center items-center" onClick={scrollNext}>
+            <ArrowRight className="md:text-black text-white" />
           </button>
         </div>
         {/* <div className="embla__controls absolute bottom-10 md:left-10 right-10 ">
