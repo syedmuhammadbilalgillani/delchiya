@@ -168,7 +168,7 @@ const LocationCard = () => {
             aktiviteter
           </p>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 main z-30 relative">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 main z-30 relative">
           <div>
             <div className="relative w-full group">
               <div className="h-[80vh] w-full overflow-hidden">

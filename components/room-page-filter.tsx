@@ -31,15 +31,12 @@ interface RoomPageFilterProps {
 const MAX_OCCUPANTS = 18;
 
 const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
-  // const [adults, setAdults] = useState(0);
-  // const [children, setChildren] = useState(0);
-  // const [linnedCount, setLinnedCount] = useState(0);
-  // const [linnedChecked, setLinnedChecked] = useState(false);
   const rengoringFees = true;
   const searchParams = useSearchParams();
   const checkin = searchParams.get("checkin");
   const checkout = searchParams.get("checkout");
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
   // Get values from Zustand store
   const {
     adults,
@@ -61,19 +58,42 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
     setCheckout,
     setTotalPrice,
   } = useRoomStore();
+
   const totalOccupants = adults + children;
+
   // Set checkin and checkout from query params if not already set
   useEffect(() => {
     if (!storeCheckin && checkin) setCheckin(checkin);
     if (!storeCheckout && checkout) setCheckout(checkout);
-  }, [checkin, checkout, setCheckin, setCheckout]);
+  }, [checkin, checkout, setCheckin, setCheckout, storeCheckin, storeCheckout]);
 
+  // Calculate total price whenever relevant state changes
+  useEffect(() => {
+    const base = price?.rent ?? 0;
+    const rengoringVal = rengoringFees ? 1800 : 0;
+    const linnedVal = linnedChecked ? linnedCount * 135 : 0;
+    // setLinnedCount(linnedVal)
+    setBasePrice(base);
+    setRengoring(rengoringVal);
+    setTotalPrice(base + rengoringVal + linnedVal);
+    console.log("Total Price Updated:", base + rengoringVal + linnedVal);
+    console.log("Total Price :", totalPrice);
+  }, [
+    price?.rent,
+    rengoringFees,
+    linnedChecked,
+    linnedCount,
+    setBasePrice,
+    setRengoring,
+    setTotalPrice,
+  ]);
+
+  // Pure function for displaying the total price
   const calculateTotalPrice = () => {
-    const basePrice = price?.rent ?? 0;
-    const rengoring = rengoringFees ? 1800 : 0;
-    const linned = linnedChecked ? linnedCount * 135 : 0;
-
-    return basePrice + rengoring + linned;
+    const base = price?.rent ?? 0;
+    const rengoringVal = rengoringFees ? 1800 : 0;
+    const linnedVal = linnedChecked ? linnedCount * 135 : 0;
+    return base + rengoringVal + linnedVal;
   };
 
   return (
@@ -198,8 +218,8 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
           className="rounded w-full py-6 my-5 text-lg font-marcellus"
           disabled={!price?.rent}
           onClick={() => {
-            setBasePrice(basePrice);
-            setTotalPrice(basePrice + rengoring + linnedCount);
+            setBasePrice(price?.rent ?? 0);
+            setTotalPrice(calculateTotalPrice());
           }}
         >
           Book Your Stay Now
