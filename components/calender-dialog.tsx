@@ -358,7 +358,7 @@ const CalenderDialog = () => {
         </DialogHeader>
         <div className="relative">
           {isLoading && (
-            <div className="absolute flex justify-center items-center w-full h-full z-10 ">
+            <div className="absolute bg-white/40 flex justify-center items-center w-full h-full z-10 ">
               <Loader2 className={isLoading ? "animate-spin" : ""} />
             </div>
           )}
@@ -424,7 +424,7 @@ const CalenderDialog = () => {
               }}
             />
           </div>
-          <div className="flex p-3   col-span-1 items-center text-green gap-2 border border-yellow transition-colors min-w-56  w-full justify-between">
+          <div className="flex p-3 mb-2   col-span-1 items-center text-green gap-2 border border-yellow transition-colors min-w-56  w-full justify-between">
             <label>Price</label>
             <div>{price?.rent || "-"}</div>
           </div>

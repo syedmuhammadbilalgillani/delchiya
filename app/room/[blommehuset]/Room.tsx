@@ -104,7 +104,7 @@ const RoomPage = () => {
   }
   if (!houseData || !Array.isArray(houseData) || houseData.length === 0) {
     return (
-      <div className="text-gray-500 flex justify-center items-center min-h-dvh relative z-50">
+      <div className="text-gray-500  flex justify-center items-center min-h-dvh relative z-50">
         <Loader2 className="animate-spin" />
       </div>
     );

@@ -1,7 +1,8 @@
-import { Metadata } from "next";
-import { Jost, Marcellus, La_Belle_Aurore } from "next/font/google";
-import "./globals.css";
+import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
+import { Metadata } from "next";
+import { Jost, La_Belle_Aurore, Marcellus } from "next/font/google";
+import "./globals.css";
 
 const jost = Jost({
   variable: "--font-jost",
@@ -36,6 +37,7 @@ export default function RootLayout({
       >
         <Navbar />
         {children}
+        <Footer/>
       </body>
     </html>
   );

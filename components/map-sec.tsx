@@ -4,6 +4,7 @@ import { Car, ShoppingCart, Sun, MapPin, LandPlot } from "lucide-react";
 import "leaflet/dist/leaflet.css";
 import type { LatLngExpression } from "leaflet";
 import Image from "next/image";
+import Link from "next/link";
 const LocationCard = () => {
   const center: LatLngExpression = [55.5, 12.0];
 
@@ -167,8 +168,96 @@ const LocationCard = () => {
             aktiviteter
           </p>
         </div>
-        <div className="relative z-30">
-          <div></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 main z-30 relative">
+          <div>
+            <div className="relative w-full group">
+              <div className="h-[80vh] w-full overflow-hidden">
+                <img
+                  src="/card1.jpg"
+                  className="group-hover:scale-125 transition-all duration-400 w-full h-full object-cover"
+                  alt="Image"
+                />
+              </div>
+              <div className="border-2 border-yellow h-[80vh] group-hover:h-[77vh] absolute group-hover:w-[calc(100%-5%)] w-full -top-3 -left-3 group-hover:top-2 group-hover:left-2 transition-all duration-400"></div>
+            </div>
+            <div className="text-center flex flex-col items-center gap-2 my-2">
+              <h3 className="font-medium">Surfcenter Falster </h3>
+              <p>
+                Surfcenter Falster tilbyder en bred vifte af aktiviteter,
+                herunder windsurfing, kitesurfing, SUP (stand-up paddle), og
+                kajakroning. Uanset om du er nybegynder eller erfaren, har vi
+                udstyr og undervisning tilpasset dit niveau.
+              </p>
+              <Link className="group " href={"/room/blommehuset"}>
+                <div className="flex items-center">
+                  Dicover More
+                  {/* <span className="group-hover:pl-2  mt-0.5 transition-all">
+                    <ChevronRight size={17} />
+                  </span> */}
+                </div>
+                <div className="h-0.5 bg-yellow w-24 group-hover:w-0 transition-all"></div>
+              </Link>
+            </div>
+          </div>
+          <div>
+            <div className="relative w-full group md:mt-13">
+              <div className="h-[80vh] w-full overflow-hidden">
+                <img
+                  src="/card2.webp"
+                  className="group-hover:scale-125 transition-all duration-400 w-full h-full object-cover"
+                  alt="Image"
+                />
+              </div>
+              <div className="border-2 border-yellow h-[80vh] group-hover:h-[77vh] absolute group-hover:w-[calc(100%-5%)] w-full -top-3 -left-3 group-hover:top-2 group-hover:left-2 transition-all duration-400"></div>
+            </div>
+            <div className="text-center flex flex-col items-center gap-2 my-2">
+              <h3 className="font-medium">Marielyst - Den gamle badeby</h3>
+              <p>
+                Marielyst – Den gamle badeby er en charmerende destination med
+                mere end 100 års historie. Beliggende på Falster, byder byen på
+                en vidunderlig sandstrand, hyggelige caféer, og spændende
+                aktiviteter for hele familien. Perfekt til en afslappende ferie
+                ved havet!
+              </p>
+              <Link className="group " href={"/room/blommehuset"}>
+                <div className="flex items-center">
+                  Dicover More
+                  {/* <span className="group-hover:pl-2  mt-0.5 transition-all">
+                    <ChevronRight size={17} />
+                  </span> */}
+                </div>
+                <div className="h-0.5 bg-yellow w-24 group-hover:w-0 transition-all"></div>
+              </Link>
+            </div>
+          </div>
+          <div>
+            <div className="relative w-full group md:mt-8">
+              <div className="h-[80vh] w-full overflow-hidden">
+                <img
+                  src="/card3.jpg"
+                  className="group-hover:scale-125 transition-all duration-400 w-full h-full object-cover"
+                  alt="Image"
+                />
+              </div>
+              <div className="border-2 border-yellow h-[80vh] group-hover:h-[77vh] absolute group-hover:w-[calc(100%-5%)] w-full -top-3 -left-3 group-hover:top-2 group-hover:left-2 transition-all duration-400"></div>
+            </div>
+            <div className="text-center flex flex-col items-center gap-2 my-2">
+              <h3 className="font-medium">Cykel- og Vandreture</h3>
+              <p>
+                Udforsk den smukke natur omkring Marielyst med velanlagte cykel-
+                og vandreruter gennem skov, marker og langs kysten.
+              </p>
+              <Link className="group " href={"/room/blommehuset"}>
+                <div className="flex items-center">
+                  Dicover More
+                  {/* <span className="group-hover:pl-2  mt-0.5 transition-all">
+                    <ChevronRight size={17} />
+                  </span> */}
+                </div>
+                <div className="h-0.5 bg-yellow w-24 group-hover:w-0 transition-all"></div>
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </>

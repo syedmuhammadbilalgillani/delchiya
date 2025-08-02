@@ -95,9 +95,9 @@ const Navbar = () => {
   };
 
   return (
-    <header className="absolute top-0 w-full z-40 border-b border-b-white  px-[5%] transition-all">
+    <header className="absolute top-0 w-full z-40 border-b border-b-white/40 bg-gradient-to-b from-black/40 to-transparent  px-[5%] transition-all">
       {/* Desktop Navbar */}
-      <nav className="hidden md:flex items-center justify-between px-4 py-2">
+      <nav className="hidden md:flex items-center justify-between px-4 py-7">
         <div className="flex space-x-6">
           {navLinks.map((link, index) => (
             <div
@@ -108,7 +108,7 @@ const Navbar = () => {
             >
               <Link
                 href={link.href}
-                className="text-white flex items-center space-x-1"
+                className="text-white flex items-center space-x-1 uppercase font-medium text-sm"
               >
                 <span>{link.label}</span>
                 {link.dropdownLinks && (
@@ -139,7 +139,7 @@ const Navbar = () => {
                     <Link
                       key={dropdownLink.href}
                       href={dropdownLink.href}
-                      className="block py-2 px-4 hover:text-gray-200"
+                      className="block py-2 px-4 hover:text-gray-200  text-sm"
                     >
                       {dropdownLink.label}
                     </Link>
