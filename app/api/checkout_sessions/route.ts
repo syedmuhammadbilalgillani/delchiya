@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
         {
           price_data: {
             currency: "dkk",
-            product_data: { name: "Villa Booking" },
+            product_data: { name: "Blommehuset booking" },
             unit_amount: amount,
           },
           quantity: 1,

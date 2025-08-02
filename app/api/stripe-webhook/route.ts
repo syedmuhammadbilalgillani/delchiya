@@ -54,12 +54,14 @@ export async function POST(req: NextRequest) {
 
       // Prepare email HTML (simple version, customize as needed)
       const userHtml = `
-        <h2>Booking Confirmed</h2>
+        <h2>Thank you for your order</h2>
         <p>Hi ${booking.first_name},</p>
-        <p>Your booking (ID: ${booking.id}) has been confirmed.</p>
+        <p>Your booking has been confirmed.</p>
         <p>Arrival: ${booking.arrival.toDateString()}<br/>
            Departure: ${booking.departure.toDateString()}</p>
         <p>Thank you for choosing us!</p>
+
+        
       `;
 
       const adminHtml = `
