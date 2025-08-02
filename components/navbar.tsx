@@ -13,7 +13,7 @@ const navLinks = [
     href: "/services",
     label: "Ophold",
     dropdownLinks: [
-      { href: "/services/web", label: "Om Sommerhuset" },
+      { href: "/about-the-hotel", label: "Om Sommerhuset" },
       { href: "/services/mobile", label: "Billeder" },
     ],
   },

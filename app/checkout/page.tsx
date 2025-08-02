@@ -173,45 +173,45 @@ const CheckoutForm = () => {
 
   return (
     <div className="mt-24 main">
+      <div className="col-span-4 md:hidden block  px-5 py-3">
+        <div className="border border-gray-300 rounded  px-5 py-3">
+          <div>Order summary</div>
+          <div className="flex justify-start items-center mt-2">
+            <div className="flex items-center space-x-2">
+              <img
+                src="/placeholder.png"
+                className="size-12 border rounded-full"
+                alt=""
+              />
+              <div>
+                <h3>Blommehuset</h3>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-between border-t border-dashed py-3 mt-3">
+            <label>Total Base Price</label>
+            <div>{basePrice ?? 0} kr.</div>
+          </div>
+          <div className="flex justify-between border-t border-dashed py-3">
+            <label>Extra Services Price</label>
+            <div>{`${linnedChecked ? linnedCount * 135 : "0"} kr.`}</div>
+          </div>
+          <div className="flex justify-between border-t border-dashed py-3">
+            <label>Rengøring</label>
+            <div>{rengoring ? "1800 kr." : "0"}</div>
+          </div>
+          <div className="flex justify-between border-y border-dashed py-3">
+            <label>Total Price</label>
+            <div>{totalPrice} kr.</div>
+          </div>
+        </div>
+      </div>
       <h1 className="text-xl font-semibold mb-4">Contact information</h1>
       <p>
         We'll use this email to send you details and updates about your order.
       </p>
       <div className="grid md:grid-cols-12 grid-cols-1">
-        <div className="col-span-4 md:hidden block  px-5 py-3">
-          <div className="border border-gray-300 rounded  px-5 py-3">
-            <div>Order summary</div>
-            <div className="flex justify-start items-center mt-2">
-              <div className="flex items-center space-x-2">
-                <img
-                  src="/placeholder.png"
-                  className="size-12 border rounded-full"
-                  alt=""
-                />
-                <div>
-                  <h3>Blommehuset</h3>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex justify-between border-t border-dashed py-3 mt-3">
-              <label>Total Base Price</label>
-              <div>{basePrice ?? 0} kr.</div>
-            </div>
-            <div className="flex justify-between border-t border-dashed py-3">
-              <label>Extra Services Price</label>
-              <div>{`${linnedChecked ? linnedCount * 135 : "0"} kr.`}</div>
-            </div>
-            <div className="flex justify-between border-t border-dashed py-3">
-              <label>Rengøring</label>
-              <div>{rengoring ? "1800 kr." : "0"}</div>
-            </div>
-            <div className="flex justify-between border-y border-dashed py-3">
-              <label>Total Price</label>
-              <div>{totalPrice} kr.</div>
-            </div>
-          </div>
-        </div>
         <form
           onSubmit={handleSubmit}
           className="space-y-4 col-span-8 grid grid-cols-2 pt-3 gap-5"
