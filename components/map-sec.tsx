@@ -92,7 +92,7 @@ const LocationCard = () => {
             </div>
 
             {/* Location details */}
-            <div className="mt-8 grid grid-cols-2 text-sm">
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 text-sm">
               <div className="flex items-center gap-4">
                 <Image
                   src={"/car.png"}
