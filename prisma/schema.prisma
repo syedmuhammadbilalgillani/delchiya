@@ -38,6 +38,9 @@ model Booking {
   city                     String
   address                  String
   postal_code              String
+  adult                    String
+  children                 String
+  lindCount                String
   country                  String
   currency_code            Int
   bedlinen_amount          Int

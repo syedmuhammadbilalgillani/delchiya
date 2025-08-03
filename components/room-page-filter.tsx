@@ -73,7 +73,6 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
     console.log("Prices:", price);
     const rengoringVal = rengoringFees ? price?.cleaning : 0;
     const linnedVal = linnedChecked ? linnedCount * 135 : 0;
-    // setLinnedCount(linnedVal)
     setBasePrice(base);
     setRengoring(rengoringVal);
     setTotalPrice(base + rengoringVal + linnedVal);
@@ -96,8 +95,7 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
     const linnedVal = linnedChecked ? linnedCount * 135 : 0;
     const total = base + rengoringVal + linnedVal;
     const safeTotal = isNaN(total) ? 0 : total;
-    console.log("Linned Value:", linnedVal);
-    console.log("Total Price:", safeTotal);
+
     return safeTotal;
   };
 

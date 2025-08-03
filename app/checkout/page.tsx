@@ -47,6 +47,9 @@ const CheckoutForm = () => {
     cleaning_included: true,
     comment: "",
     active_status: false,
+    adult: adults,
+    children: children,
+    lindCount: 135 * linnedCount,
   });
 
   const handleChange = (e: any) => {
@@ -88,20 +91,25 @@ const CheckoutForm = () => {
   };
 
   const handleSubmit = async (e: any) => {
+    debugger;
     e.preventDefault();
     if (!validateForm()) return;
-
-    const res = await fetch("/api/checkout_sessions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: totalPrice, bookingData: formData }),
+    console.log("CheckoutForm - Room Store Values:", {
+      adults,
+      children,
+      linnedCount,
     });
+    // const res = await fetch("/api/checkout_sessions", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({ amount: totalPrice, bookingData: formData }),
+    // });
 
-    const { id } = await res.json();
-    const stripe = await stripePromise;
-    if (stripe && id) {
-      await stripe.redirectToCheckout({ sessionId: id });
-    }
+    // const { id } = await res.json();
+    // const stripe = await stripePromise;
+    // if (stripe && id) {
+    //   await stripe.redirectToCheckout({ sessionId: id });
+    // }
   };
 
   if (!totalPrice) return notFound();
@@ -113,8 +121,14 @@ const CheckoutForm = () => {
           <div>Order summary</div>
           <div className="flex justify-start items-center mt-2">
             <div className="flex items-center space-x-2">
-              <img src="/placeholder.png" className="size-12 border rounded-full" alt="" />
-              <div><h3>Blommehuset</h3></div>
+              <img
+                src="/placeholder.png"
+                className="size-12 border rounded-full"
+                alt=""
+              />
+              <div>
+                <h3>Blommehuset</h3>
+              </div>
             </div>
           </div>
           <div className="flex justify-between border-t border-dashed py-3 mt-3">
@@ -137,7 +151,9 @@ const CheckoutForm = () => {
       </div>
 
       <h1 className="text-xl font-semibold mb-4">Contact information</h1>
-      <p>We'll use this email to send you details and updates about your order.</p>
+      <p>
+        We'll use this email to send you details and updates about your order.
+      </p>
 
       <div className="grid md:grid-cols-12 grid-cols-1">
         <form
@@ -155,12 +171,22 @@ const CheckoutForm = () => {
             { label: "Postal Code", name: "postal_code" },
             { label: "Country", name: "country" },
             { label: "Company Name (optional)", name: "company_name" },
-            { label: "VAT Number (optional)", name: "vat_identification_number" },
+            {
+              label: "VAT Number (optional)",
+              name: "vat_identification_number",
+            },
             { label: "Currency Code", name: "currency_code", type: "number" },
-            { label: "Bed Linen Amount", name: "bedlinen_amount", type: "number" },
+            {
+              label: "Bed Linen Amount",
+              name: "bedlinen_amount",
+              type: "number",
+            },
           ].map(({ label, name, type }) => (
             <div key={name}>
-              <label className="text-sm font-medium text-gray-700" htmlFor={name}>
+              <label
+                className="text-sm font-medium text-gray-700"
+                htmlFor={name}
+              >
                 {label}
               </label>
               <Input
@@ -176,7 +202,10 @@ const CheckoutForm = () => {
           ))}
 
           <div className="col-span-2">
-            <label className="text-sm font-medium text-gray-700" htmlFor="comment">
+            <label
+              className="text-sm font-medium text-gray-700"
+              htmlFor="comment"
+            >
               Comment (optional)
             </label>
             <Textarea
@@ -196,8 +225,14 @@ const CheckoutForm = () => {
             <div>Order summary</div>
             <div className="flex justify-start items-center mt-2">
               <div className="flex items-center space-x-2">
-                <img src="/placeholder.png" className="size-12 border rounded-full" alt="" />
-                <div><h3>Blommehuset</h3></div>
+                <img
+                  src="/placeholder.png"
+                  className="size-12 border rounded-full"
+                  alt=""
+                />
+                <div>
+                  <h3>Blommehuset</h3>
+                </div>
               </div>
             </div>
 

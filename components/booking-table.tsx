@@ -23,6 +23,9 @@ interface Booking {
   address: string;
   postal_code: string;
   country: string;
+  children: string;
+  adult: string;
+  lindCount: string;
   currency_code: number;
   bedlinen_amount: number;
   cleaning_included: boolean;
@@ -96,6 +99,18 @@ const BookingModal = ({
             <DetailItem
               label="Bedlinen Amount"
               value={booking.bedlinen_amount}
+            />
+            <DetailItem
+              label="Adult"
+              value={booking.adult}
+            />
+            <DetailItem
+              label="Children"
+              value={booking.children}
+            />
+            <DetailItem
+              label="Lined Count"
+              value={booking.lindCount}
             />
             <DetailItem
               label="Cleaning Included"
