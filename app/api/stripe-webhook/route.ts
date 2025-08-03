@@ -53,303 +53,201 @@ export async function POST(req: NextRequest) {
       });
 
       // Prepare email HTML (simple version, customize as needed)
-      const userHtml = `
-       <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      const userHtml = `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Booking Confirmation</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #f5f5f5;
-        }
-        .td {
-            padding: 8px;
-            vertical-align: top;
-        }
-        h1, h2 {
-            color: #444;
-        }
-        #header_wrapper {
-            background-color: #f8f8f8;
-            padding: 20px;
-            text-align: center;
-        }
-        #body_content {
-            padding: 20px;
-            background-color: #fff;
-        }
-        #addresses td {
-            padding: 15px;
-            background-color: #f9f9f9;
-        }
-        .wc-item-meta, .cs-room-order-wrapper {
-            margin: 10px 0;
-            padding-left: 0;
-            list-style: none;
-        }
-        .wc-item-meta li {
-            margin-bottom: 5px;
-        }
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+      }
+      .container {
+        max-width: 600px;
+        margin: 30px auto;
+        background: #fff;
+        /* padding: 30px; */
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+      .header {
+        text-align: center;
+        padding: 20px 0;
+        border-bottom: 1px solid #ddd;
+        color: #fff;
+        background-color: #53624e;
+      }
+      .header h1 {
+        margin: 0;
+      }
+      .section {
+        margin: 30px 0;
+        padding: 0 20px;
+      }
+      .section h2 {
+        font-size: 18px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 8px;
+        margin-bottom: 16px;
+      }
+      .info-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .info-table td {
+        padding: 8px 0;
+      }
+      .info-table td:first-child {
+        font-weight: bold;
+        width: 40%;
+        vertical-align: top;
+      }
+      .footer {
+        margin-top: 40px;
+        font-size: 14px;
+        text-align: center;
+        padding: 8px 0;
+
+        color: #888;
+      }
     </style>
-</head>
-<body>
-    <table id="template_container">
-        <tbody>
-            <tr>
-                <td>
-                    <table id="template_header">
-                        <tbody>
-                            <tr>
-                                <td id="header_wrapper">
-                                    <h1>Thank you for your booking</h1>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <table id="template_body">
-                        <tbody>
-                            <tr>
-                                <td id="body_content">
-                                    <table>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div id="body_content_inner">
-                                                        <p>Hi ${
-                                                          booking.first_name
-                                                        } ${
-        booking.last_name
-      },</p>
-                                                        <p>Your booking has been confirmed. Here are the details:</p>
-                                                        <h2>[Booking #${
-                                                          booking.id
-                                                        }] (${new Date(
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Thank you for your booking</h1>
+        <p>
+          Booking #${booking.id} — ${new Date(
         booking.created_at
-      ).toLocaleDateString()})</h2>
-                                                        <div>
-                                                            <table class="td">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th class="td">Booking Details</th>
-                                                                        <th class="td">Information</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr class="order_item">
-                                                                        <td class="td">
-                                                                            <ul class="wc-item-meta">
-                                                                                <li>
-                                                                                    <strong class="wc-item-meta-label">Arrival Date:</strong>
-                                                                                    <p>${new Date(
-                                                                                      booking.arrival
-                                                                                    ).toDateString()}</p>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <strong class="wc-item-meta-label">Departure Date:</strong>
-                                                                                    <p>${new Date(
-                                                                                      booking.departure
-                                                                                    ).toDateString()}</p>
-                                                                                </li>
-                                                                                ${
-                                                                                  booking.company_name
-                                                                                    ? `
-                                                                                <li>
-                                                                                    <strong class="wc-item-meta-label">Company Name:</strong>
-                                                                                    <p>${booking.company_name}</p>
-                                                                                </li>
-                                                                                `
-                                                                                    : ""
-                                                                                }
-                                                                                ${
-                                                                                  booking.vat_identification_number
-                                                                                    ? `
-                                                                                <li>
-                                                                                    <strong class="wc-item-meta-label">VAT Identification Number:</strong>
-                                                                                    <p>${booking.vat_identification_number}</p>
-                                                                                </li>
-                                                                                `
-                                                                                    : ""
-                                                                                }
-                                                                            </ul>
-                                                                            <div class="cs-room-order-wrapper">
-                                                                                <div class="cs-room-order-details">
-                                                                                    <strong>Guest Details:</strong>
-                                                                                    ${
-                                                                                      booking.first_name
-                                                                                    } ${
-        booking.last_name
-      }<br>
-                                                                                    Email: ${
-                                                                                      booking.email
-                                                                                    }<br>
-                                                                                    ${
-                                                                                      booking.phone
-                                                                                        ? `Phone: ${booking.phone}<br>`
-                                                                                        : ""
-                                                                                    }
-                                                                                    ${
-                                                                                      booking.mobile
-                                                                                        ? `Mobile: ${booking.mobile}<br>`
-                                                                                        : ""
-                                                                                    }
-                                                                                </div>
-                                                                                <div class="cs-room-order-address">
-                                                                                    <strong>Address:</strong>
-                                                                                    ${
-                                                                                      booking.address
-                                                                                    }<br>
-                                                                                    ${
-                                                                                      booking.postal_code
-                                                                                    } ${
-        booking.city
-      }<br>
-                                                                                    ${
-                                                                                      booking.country
-                                                                                    }
-                                                                                </div>
-                                                                                ${
-                                                                                  booking.cleaning_included
-                                                                                    ? `
-                                                                                <div class="cs-room-order-extra">
-                                                                                    <strong>Cleaning Service:</strong>
-                                                                                    Included
-                                                                                </div>
-                                                                                `
-                                                                                    : ""
-                                                                                }
-                                                                                ${
-                                                                                  booking.bedlinen_amount >
-                                                                                  0
-                                                                                    ? `
-                                                                                <div class="cs-room-order-extra">
-                                                                                    <strong>Bedlinen:</strong>
-                                                                                    ${booking.bedlinen_amount} set(s)
-                                                                                </div>
-                                                                                `
-                                                                                    : ""
-                                                                                }
-                                                                                ${
-                                                                                  booking.comment
-                                                                                    ? `
-                                                                                <div class="cs-room-order-extra">
-                                                                                    <strong>Special Requests:</strong>
-                                                                                    ${booking.comment}
-                                                                                </div>
-                                                                                `
-                                                                                    : ""
-                                                                                }
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                                <tfoot>
-                                                                    <tr>
-                                                                        <th class="td">Booking Type:</th>
-                                                                        <td class="td">${
-                                                                          booking.type
-                                                                        }</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th class="td">Currency:</th>
-                                                                        <td class="td">${
-                                                                          booking.currency_code
-                                                                        }</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th class="td">Status:</th>
-                                                                        <td class="td">${
-                                                                          booking.active_status
-                                                                            ? "Confirmed"
-                                                                            : "Pending"
-                                                                        }</td>
-                                                                    </tr>
-                                                                </tfoot>
-                                                            </table>
-                                                        </div>
-                                                        <table id="addresses">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>
-                                                                        <h2>Billing address</h2>
-                                                                        ${
-                                                                          booking.first_name
-                                                                        } ${
-        booking.last_name
-      }<br>
-                                                                        ${
-                                                                          booking.company_name
-                                                                            ? `${booking.company_name}<br>`
-                                                                            : ""
-                                                                        }
-                                                                        ${
-                                                                          booking.address
-                                                                        }<br>
-                                                                        ${
-                                                                          booking.postal_code
-                                                                        } ${
-        booking.city
-      }<br>
-                                                                        ${
-                                                                          booking.country
-                                                                        }<br>
-                                                                        Email: ${
-                                                                          booking.email
-                                                                        }<br>
-                                                                        ${
-                                                                          booking.phone
-                                                                            ? `Phone: ${booking.phone}<br>`
-                                                                            : ""
-                                                                        }
-                                                                        ${
-                                                                          booking.mobile
-                                                                            ? `Mobile: ${booking.mobile}`
-                                                                            : ""
-                                                                        }
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                        <p>Thank you for choosing us! If you have any questions, please don't hesitate to contact us.</p>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</body>
+      ).toLocaleDateString()}
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>Guest Information</h2>
+        <table class="info-table">
+          <tr>
+            <td>Name</td>
+            <td>${booking.first_name} ${booking.last_name}</td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td>${booking.email}</td>
+          </tr>
+          ${
+            booking.phone
+              ? `
+          <tr>
+            <td>Phone</td>
+            <td>${booking.phone}</td>
+          </tr>
+          `
+              : ""
+          } ${
+        booking.mobile
+          ? `
+          <tr>
+            <td>Mobile</td>
+            <td>${booking.mobile}</td>
+          </tr>
+          `
+          : ""
+      }
+          <tr>
+            <td>Address</td>
+            <td>
+              ${booking.address}, ${booking.postal_code} ${booking.city},
+              ${booking.country}
+            </td>
+          </tr>
+          ${
+            booking.company_name
+              ? `
+          <tr>
+            <td>Company</td>
+            <td>${booking.company_name}</td>
+          </tr>
+          `
+              : ""
+          } ${
+        booking.vat_identification_number
+          ? `
+          <tr>
+            <td>VAT ID</td>
+            <td>${booking.vat_identification_number}</td>
+          </tr>
+          `
+          : ""
+      }
+        </table>
+      </div>
+
+      <div class="section">
+        <h2>Booking Details</h2>
+        <table class="info-table">
+          <tr>
+            <td>Arrival</td>
+            <td>${new Date(booking.arrival).toDateString()}</td>
+          </tr>
+          <tr>
+            <td>Departure</td>
+            <td>${new Date(booking.departure).toDateString()}</td>
+          </tr>
+          <tr>
+            <td>Booking Type</td>
+            <td>${booking.type}</td>
+          </tr>
+          <tr>
+            <td>Currency</td>
+            <td>${booking.currency_code}</td>
+          </tr>
+          <tr>
+            <td>Status</td>
+            <td>${booking.active_status ? "Confirmed" : "Pending"}</td>
+          </tr>
+          ${
+            booking.cleaning_included
+              ? `
+          <tr>
+            <td>Cleaning Service</td>
+            <td>Included</td>
+          </tr>
+          `
+              : ""
+          } ${
+        booking.bedlinen_amount > 0
+          ? `
+          <tr>
+            <td>Bedlinen</td>
+            <td>${booking.bedlinen_amount} set(s)</td>
+          </tr>
+          `
+          : ""
+      } ${
+        booking.comment
+          ? `
+          <tr>
+            <td>Special Requests</td>
+            <td>${booking.comment}</td>
+          </tr>
+          `
+          : ""
+      }
+        </table>
+      </div>
+
+      <div class="footer">
+        <p>Have questions? Reach out anytime.</p>
+      </div>
+    </div>
+  </body>
 </html>
-      `;
+`;
 
       const adminHtml = `
         <h2>New Booking Confirmed</h2>
