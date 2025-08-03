@@ -211,18 +211,32 @@ const AboutTheHotel = () => {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            { img: "/about/c1.jpg", label: "Label", des: "des" },
-            { img: "/about/c2.jpg", label: "Label", des: "des" },
-            { img: "/about/c3.jpg", label: "Label", des: "des" },
-            { img: "/about/c4.jpg", label: "Label", des: "des" },
+            {
+              img: "/about/c1.jpg",
+              label: "Tekniker",
+              des: "Vicevært & Pool Mand",
+            },
+            { img: "/about/c2.jpg", label: "Pool", des: "Spa og Pool" },
+            { img: "/about/c3.jpg", label: "XL Skærm", des: "Spil og TV" },
+            {
+              img: "/about/c4.jpg",
+              label: "Legeplads",
+              des: "Have og Ude redskaber",
+            },
           ].map((item, index) => (
-            <div key={index} className="relative min-h-[50dvh]">
+            <div key={index} className="relative group h-[50dvh] overflow-hidden w-full">
               <Image
                 src={item?.img}
                 alt={item.label}
                 fill
-                className="h-full w-full object-cover object-center"
+                className="h- z-[1] group-hover:scale-110 duration-300 transition-all w-full object-cover object-center"
               />
+              <div className="z-[2] bg-gradient-to-t to-transparent from-black/45 group-hover:from-black/30 transition-colors group-hover:to-transparent h-full w-full absolute">
+                <div className="border flex flex-col justify-end pb-10 border-yellow m-2 h-[calc(100%-5%)] z-[3] space-y-3">
+                  <h3 className="text-white text-3xl">{item.label}</h3>
+                  <p className="text-white font-medium text-xs uppercase">{item.des}</p>
+                </div>
+              </div>
             </div>
           ))}
         </div>
