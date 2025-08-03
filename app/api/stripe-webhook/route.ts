@@ -84,6 +84,7 @@ export async function POST(req: NextRequest) {
       }
       .header h1 {
         margin: 0;
+        color: #fff;
       }
       .section {
         margin: 30px 0;

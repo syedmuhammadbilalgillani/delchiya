@@ -10,7 +10,7 @@ const navLinks = [
   { href: "/", label: "Home" },
   // { href: "/about", label: "About" },
   {
-    href: "/",
+    href: "#",
     label: "Ophold",
     dropdownLinks: [
       { href: "/about-the-hotel", label: "Om Sommerhuset" },

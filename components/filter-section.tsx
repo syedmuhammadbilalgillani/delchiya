@@ -58,7 +58,6 @@ interface AvailablePeriod {
 }
 
 const FilterSection = () => {
-
   const [selectedRange, setSelectedRange] = useState<DateRange | undefined>();
   const [availablePeriods, setAvailablePeriods] = useState<AvailablePeriod[]>(
     []
@@ -89,8 +88,7 @@ const FilterSection = () => {
           "https://api.villavilla.com/partner-api/v1/houses/122/availability?currency_code=208",
           {
             headers: {
-              Authorization:
-                token,
+              Authorization: token,
             },
           }
         );
@@ -316,7 +314,7 @@ const FilterSection = () => {
   const checkin = formatDateT(selectedRange?.from);
   const checkout = formatDateT(selectedRange?.to);
   return (
-    <div className="bg-transparent -mt-20 px-[10%] relative z-10 ">
+    <div className="bg-transparent -mt-12 px-[10%] relative z-10 ">
       <div className="bg-green grid grid-cols-1 md:grid-cols-3 gap-5 p-5 w-full">
         <div className="relative w-full col-span-1 mobile-menu-container">
           <button
@@ -408,7 +406,13 @@ const FilterSection = () => {
           <label>Price</label>
           <div>{price?.rent || "-"}</div>
         </div>
-        <Link href={`/room/blommehuset?checkin=${checkin}&checkout=${checkout}`}>
+        <Link
+          href={
+            !checkin && !checkout
+              ? `/room/blommehuset`
+              : `/room/blommehuset?checkin=${checkin}&checkout=${checkout}`
+          }
+        >
           <div className="text-center col-span-1   py-3  text-white gap-2  bg-yellow border-yellow hover:bg-yellow/80 transition-colors cursor-pointer w-full ">
             Check Availibilty
           </div>
