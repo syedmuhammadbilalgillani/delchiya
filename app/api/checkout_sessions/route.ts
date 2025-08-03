@@ -42,6 +42,9 @@ export async function POST(req: NextRequest) {
         bedlinen_amount: parseInt(bookingData.bedlinen_amount),
         cleaning_included: bookingData.cleaning_included,
         comment: bookingData.comment,
+        adult: bookingData.adult,
+        children: bookingData.children,
+        lindCount: bookingData.lindCount,
         active_status: false,
       },
     });
@@ -70,6 +73,8 @@ export async function POST(req: NextRequest) {
     return new Response(JSON.stringify({ id: session.id }), { status: 200 });
   } catch (error: any) {
     console.error("[Stripe Checkout] Error creating session:", error.message);
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+    });
   }
 }
