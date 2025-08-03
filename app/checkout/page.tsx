@@ -75,7 +75,7 @@ const CheckoutForm = () => {
     ];
 
     for (let field of requiredFields) {
-      if (!formData[field]) {
+      if (!(formData as any)[field]) {
         alert(`Please fill in the ${field.replace("_", " ")} field.`);
         return false;
       }
