@@ -193,8 +193,9 @@ const CheckoutForm = () => {
                 id={name}
                 name={name}
                 type={type || "text"}
-                value={formData[name as keyof typeof formData]}
+                value={formData[name as keyof typeof formData] ?? ""}
                 readOnly={name === "currency_code"}
+                disabled={name === "currency_code"}
                 onChange={handleChange}
                 required={!label.toLowerCase().includes("optional")}
               />
