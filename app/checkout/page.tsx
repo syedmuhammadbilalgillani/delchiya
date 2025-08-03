@@ -47,9 +47,9 @@ const CheckoutForm = () => {
     cleaning_included: true,
     comment: "",
     active_status: false,
-    adult: adults,
-    children: children,
-    lindCount: 135 * linnedCount,
+    adult: String(adults),
+    children: String(children),
+    lindCount: String(135 * linnedCount),
   });
 
   const handleChange = (e: any) => {
@@ -99,17 +99,17 @@ const CheckoutForm = () => {
       children,
       linnedCount,
     });
-    // const res = await fetch("/api/checkout_sessions", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({ amount: totalPrice, bookingData: formData }),
-    // });
+    const res = await fetch("/api/checkout_sessions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount: totalPrice * 100, bookingData: formData }),
+    });
 
-    // const { id } = await res.json();
-    // const stripe = await stripePromise;
-    // if (stripe && id) {
-    //   await stripe.redirectToCheckout({ sessionId: id });
-    // }
+    const { id } = await res.json();
+    const stripe = await stripePromise;
+    if (stripe && id) {
+      await stripe.redirectToCheckout({ sessionId: id });
+    }
   };
 
   if (!totalPrice) return notFound();
