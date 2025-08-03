@@ -193,7 +193,14 @@ const CheckoutForm = () => {
                 id={name}
                 name={name}
                 type={type || "text"}
-                value={formData[name as keyof typeof formData] ?? ""}
+                value={
+                  typeof formData[name as keyof typeof formData] === "boolean"
+                    ? ""
+                    : (formData[name as keyof typeof formData] as
+                        | string
+                        | number
+                        | undefined) ?? ""
+                }
                 readOnly={name === "currency_code"}
                 disabled={name === "currency_code"}
                 onChange={handleChange}
