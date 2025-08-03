@@ -1,3 +1,4 @@
+import HotelDyamic from "@/components/hotel-dynamic";
 import Image from "next/image";
 import React from "react";
 
@@ -66,7 +67,7 @@ const AboutTheHotel = () => {
         </div>
         <div className="flex flex-col justify-center items-start gap-4">
           <p className="uppercase font-medium text-xs">Lidt om Sommerhuset</p>
-          <h2 className="text-5xl">Sammenhold og hygge</h2>
+          <h2 className="md:text-5xl text-4xl">Sammenhold og hygge</h2>
           <p className="text-lg">
             Indendørs finder i ligeledes gode rammer for en dejlig ferie. Huset
             byder på både komfort og hygge med rummeligt køkken-alrum, helt egen
@@ -87,7 +88,7 @@ const AboutTheHotel = () => {
       <div className="main grid grid-cols-1 md:grid-cols-2 gap-10">
         <div className="flex flex-col justify-center items-start gap-4">
           <p className="uppercase font-medium text-xs">Og lidt mere...</p>
-          <h2 className="text-5xl">Køkken, have og gode nætter</h2>
+          <h2 className="md:text-5xl text-4xl">Køkken, have og gode nætter</h2>
           <p className="text-lg">
             Køkkenet er åbent og velindrettet, så der uden problemer kan være
             mange kokke og køkkenskrivere om den fælles madlavning.
@@ -106,10 +107,10 @@ const AboutTheHotel = () => {
             af sommerhusets 2 hemse.
           </p>
         </div>
-        <div className="relative flex min-h-[70dvh] max-h-[80dvh] ">
+        <div className="relative flex md:min-h-[80dvh] md:max-h-[80dvh] h-[50dvh] ">
           <img
             src={"/about/4.jpg"}
-            className="w-1/2 h-[70%] z-[2] my-auto md:right-24 right-0 absolute object-cover "
+            className="md:w-1/2 w-[70%] h-[70%] z-[2] my-auto md:right-24 right-0 absolute object-cover "
             alt=""
           />
           <img
@@ -117,6 +118,113 @@ const AboutTheHotel = () => {
             alt=""
             className="md:w-[60%] w-[70%] z-[1]  absolute h-[70%] left-0  bottom-0 object-cover"
           />
+        </div>
+      </div>
+      <div className="main grid md:grid-cols-6 sm:grid-cols-3 grid-cols-2 gap-8">
+        {[
+          {
+            src: "/swimming-pool-2.svg",
+            alt: "Swimming Pool",
+            label: "Swimming Pool",
+          },
+          {
+            src: "/about/laundry-service.png",
+            alt: "Vaskemaskine og Tørretromler Pool",
+            label: "Vaskemaskine og Tørretromler",
+          },
+          {
+            src: "/customer-service.png",
+            alt: "Customer Service",
+            label: "Dedikeret Vicevært",
+          },
+          {
+            src: "/coffee-machine.svg",
+            alt: "Coffee Machine",
+            label: "Kaffe Maskine",
+          },
+          {
+            src: "/wi-fi-icon.svg",
+            alt: "Wi-Fi Icon",
+            label: "Wifi & Internet",
+          },
+          {
+            src: "/parking.png",
+            alt: "Parking",
+            label: "Stor parkerings plads",
+          },
+          { src: "/about/bbq.png", alt: "BBQ", label: "Udendørs Gril" },
+          { src: "/stove.svg", alt: "Stove", label: "Brændeovn" },
+          {
+            src: "/washing-machine.svg",
+            alt: "Washing Machine",
+            label: "Opvaskemaskine",
+          },
+          { src: "/smart-tv.svg", alt: "Smart TV", label: "Streaming TV" },
+          { src: "/hair-drayer.svg", alt: "Hair Dryer", label: "Hair Dryer" },
+          {
+            src: "/air-conditioner.svg",
+            alt: "Air Conditioner",
+            label: "Gulv Varme",
+          },
+        ].map((item, index) => (
+          <div
+            key={index}
+            className="flex flex-col items-center justify-center text-center gap-3"
+          >
+            <Image src={item.src} alt={item.alt} width={50} height={50} />
+            <div>{item.label}</div>
+          </div>
+        ))}
+      </div>
+
+      <div
+        className="min-h-[80dvh] relative flex flex-col justify-center items-center bg-cover bg-center"
+        style={{ backgroundImage: "url('/about/6.jpg')" }}
+      >
+        <div className="absolute z-[1] top-0 left-0 w-full h-full bg-black/50" />
+        <div className="relative z-[2] text-center space-y-6 p-6">
+          <p className="text-white uppercase text-sm font-medium">Indretning</p>
+          <h2 className="font-marcellus md:text-5xl text-4xl text-white">
+            Faciliteter indendørs
+          </h2>
+          <HotelDyamic />
+        </div>
+      </div>
+      <div className="main text-center space-y-6 ">
+        <p className="text-sm uppercase font-medium">
+          Faciliteter og services​
+        </p>
+        <h2 className="md:text-5xl text-4xl">Faciliteter og services​</h2>
+        <p>
+          Sommerhuset tilbyder en bred vifte af faciliteter for både børn,
+          voksne og ældre. Uanset om du ønsker at slappe af eller være aktiv, er
+          der noget for alle. Indendørs finder du en pool, billardbord,
+          airhockey, børnebillard, bordfodbold samt professionelle poker- og
+          blackjack-spil. Der er også en stor XL-tv-skærm med Xbox
+          Ultimate-pakken og 4 controllere, så hele familien kan spille sammen.
+          Udendørs kan du nyde den enorme have, der rummer Blommehusets største
+          legeplads – perfekt til sjov og leg. Der er også masser af muligheder
+          for haveaktiviteter, herunder vandkamp og meget mere. Huset er også
+          tilknyttet en vicevært som vil være til rådighed på næsten alle timer
+          af døgnet, samt en pool mand som tjekker poolen 2 gange om ugen. for
+          at sikre sig en god og sikker oplevelse for gæsterne.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            { img: "/about/c1.jpg", label: "Label", des: "des" },
+            { img: "/about/c2.jpg", label: "Label", des: "des" },
+            { img: "/about/c3.jpg", label: "Label", des: "des" },
+            { img: "/about/c4.jpg", label: "Label", des: "des" },
+          ].map((item, index) => (
+            <div key={index} className="relative min-h-[50dvh]">
+              <Image
+                src={item?.img}
+                alt={item.label}
+                fill
+                className="h-full w-full object-cover object-center"
+              />
+            </div>
+          ))}
         </div>
       </div>
     </>

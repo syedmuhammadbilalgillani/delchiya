@@ -199,7 +199,7 @@ const CheckoutForm = () => {
           </div>
           <div className="flex justify-between border-t border-dashed py-3">
             <label>Rengøring</label>
-            <div>{rengoring ? "1800 kr." : "0"}</div>
+            <div>{rengoring || "0"}</div>
           </div>
           <div className="flex justify-between border-y border-dashed py-3">
             <label>Total Price</label>
@@ -376,7 +376,7 @@ const CheckoutForm = () => {
             </div>
             <div className="flex justify-between border-t border-dashed py-3">
               <label>Rengøring</label>
-              <div>{rengoring ? "1800 kr." : "0"}</div>
+              <div>{rengoring || "0"}</div>
             </div>
             <div className="flex justify-between border-y border-dashed py-3">
               <label>Total Price</label>

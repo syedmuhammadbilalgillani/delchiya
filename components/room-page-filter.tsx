@@ -70,7 +70,8 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
   // Calculate total price whenever relevant state changes
   useEffect(() => {
     const base = price?.rent ?? 0;
-    const rengoringVal = rengoringFees ? 1800 : 0;
+    console.log("Prices:", price);
+    const rengoringVal = rengoringFees ? price?.cleaning : 0;
     const linnedVal = linnedChecked ? linnedCount * 135 : 0;
     // setLinnedCount(linnedVal)
     setBasePrice(base);
@@ -91,7 +92,10 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
   // Pure function for displaying the total price
   const calculateTotalPrice = () => {
     const base = price?.rent ?? 0;
-    const rengoringVal = rengoringFees ? 1800 : 0;
+    const rengoringVal = rengoringFees ? price?.cleaning : 0;
+    console.log("Prices:", price);
+    console.log("Rengøring Fees:", rengoringVal);
+    console.log("Linned Count:", linnedCount);
     const linnedVal = linnedChecked ? linnedCount * 135 : 0;
     return base + rengoringVal + linnedVal;
   };
@@ -150,7 +154,7 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
             <label>Rengøring fees</label>
           </div>
 
-          <span>{rengoringFees ? "1800" : "0"} kr.</span>
+          <span>{rengoringFees ? price?.cleaning : "0"} kr.</span>
         </div>
         <div className="flex flex-wrap justify-between gap-5 items-center">
           <div className="flex gap-2">
@@ -203,7 +207,7 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
             </div>
             <div className="flex justify-between border-t border-dashed py-3">
               <label>Rengøring</label>
-              <div>{rengoringFees ? "1800 kr." : "0"}</div>
+              <div>{rengoringFees ? price?.cleaning : "0"}</div>
             </div>
             <div className="flex justify-between border-y border-dashed py-3">
               <label>Total Price</label>
@@ -219,6 +223,7 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
           disabled={!price?.rent}
           onClick={() => {
             setBasePrice(price?.rent ?? 0);
+            setRengoring(price?.cleaning ?? 0);
             setTotalPrice(calculateTotalPrice());
           }}
         >
