@@ -93,11 +93,12 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
   const calculateTotalPrice = () => {
     const base = price?.rent ?? 0;
     const rengoringVal = rengoringFees ? price?.cleaning : 0;
-    console.log("Prices:", price);
-    console.log("Rengøring Fees:", rengoringVal);
-    console.log("Linned Count:", linnedCount);
     const linnedVal = linnedChecked ? linnedCount * 135 : 0;
-    return base + rengoringVal + linnedVal;
+    const total = base + rengoringVal + linnedVal;
+    const safeTotal = isNaN(total) ? 0 : total;
+    console.log("Linned Value:", linnedVal);
+    console.log("Total Price:", safeTotal);
+    return safeTotal;
   };
 
   return (
