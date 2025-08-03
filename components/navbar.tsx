@@ -195,18 +195,21 @@ const Navbar = () => {
       <Sheet open={isMobileOpen} onOpenChange={setIsMobileOpen}>
         <SheetTitle />
         <SheetContent side="right" className="bg-green h-full  border-green">
-          <div className="flex flex-col items-start justify-center my-auto space-y-4 p-10 ">
+          <div className="flex flex-col items-start justify-start pt-[30%] space-y-4 p-10 ">
             {navLinks.map((link, index) => (
-              <div key={link.href} className="relative">
-                <Link
-                  href={link.href}
-                  className="text-white text-2xl flex items-center space-x-2"
-                  onClick={(event) =>
-                    link.dropdownLinks &&
-                    handleMobileDropdownToggle(event, index)
-                  } // Prevent navigation for dropdown toggle
-                >
-                  <span>{link.label}</span>
+              <div key={link.href} className="relative w-full">
+                <div className="flex items-center justify-between min-w-full gap-6">
+                  <Link
+                    href={link.href}
+                    className="text-white text-2xl flex items-center space-x-2"
+                    onClick={(event) =>
+                      link.dropdownLinks
+                        ? handleMobileDropdownToggle(event, index)
+                        : setIsMobileOpen(false)
+                    } // Prevent navigation for dropdown toggle
+                  >
+                    <span>{link.label}</span>
+                  </Link>
                   {link.dropdownLinks && (
                     <motion.div
                       initial={{ rotate: 0 }}
@@ -215,13 +218,13 @@ const Navbar = () => {
                       }}
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                     >
-                      <ChevronDown size={16} />
+                      <ChevronDown size={16} className="text-white" />
                     </motion.div>
                   )}
-                </Link>
+                </div>
                 {link.dropdownLinks && activeMobileDropdown === index && (
                   <motion.div
-                    className="flex flex-col bg-green/80 text-white p-2 rounded shadow-lg mt-2"
+                    className="flex flex-col bg-black text-white p-2 rounded shadow-lg mt-2"
                     initial={{ opacity: 0 }}
                     animate={{
                       opacity: activeMobileDropdown === index ? 1 : 0,
@@ -234,6 +237,7 @@ const Navbar = () => {
                         key={dropdownLink.href}
                         href={dropdownLink.href}
                         className="block py-2 px-4 hover:bg-gray-200"
+                        onClick={() => setIsMobileOpen(false)} // Close mobile menu on link click
                       >
                         {dropdownLink.label}
                       </Link>
