@@ -85,7 +85,10 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
         <div className=" overflow-hidden md:h-[90dvh] h-[40dvh]" ref={emblaRef}>
           <div className="content-container">
             {slides?.map((slide) => (
-              <div className="slide relative md:h-[90dvh] h-[40dvh] w-full " key={slide.id}>
+              <div
+                className="slide relative md:h-[90dvh] h-[40dvh] w-full "
+                key={slide.id}
+              >
                 <Image
                   src={slide.backgroundImage}
                   className="h-full w-full object-cover object-center"
@@ -99,10 +102,16 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
           </div>
         </div>
         <div className="absolute top-1/2 flex justify-between w-full px-10">
-          <button className="h-16  w-16 rounded-full md:bg-white cursor-pointer flex justify-center items-center" onClick={scrollPrev}>
+          <button
+            className="h-16  w-16 rounded-full md:bg-white cursor-pointer flex justify-center items-center"
+            onClick={scrollPrev}
+          >
             <ArrowLeft className="md:text-black text-white" />
           </button>
-          <button className="h-16  w-16 rounded-full md:bg-white cursor-pointer flex justify-center items-center" onClick={scrollNext}>
+          <button
+            className="h-16  w-16 rounded-full md:bg-white cursor-pointer flex justify-center items-center"
+            onClick={scrollNext}
+          >
             <ArrowRight className="md:text-black text-white" />
           </button>
         </div>

@@ -1,12 +1,21 @@
 "use client";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
 import { Car, ShoppingCart, Sun, MapPin, LandPlot } from "lucide-react";
 import "leaflet/dist/leaflet.css";
 import type { LatLngExpression } from "leaflet";
 import Image from "next/image";
 import Link from "next/link";
+
+const customIcon = L.icon({
+  iconUrl: "/map-pin.png", // Place your custom marker image in public/map-pin.png
+  iconSize: [38, 38], // Adjust size as needed
+  iconAnchor: [19, 38], // Point of the icon which will correspond to marker's location
+  popupAnchor: [0, -38], // Point from which the popup should open relative to the iconAnchor
+});
+
 const LocationCard = () => {
-  const center: LatLngExpression = [55.5, 12.0];
+  const center: LatLngExpression = [54.7055817, -42.8593153];
 
   return (
     <>
@@ -24,10 +33,8 @@ const LocationCard = () => {
               style={{ height: "400px", width: "100%" }}
             >
               <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-              <Marker position={[55.5, 12.0]}>
-                <Popup>
-                  Blommehuset, Blommestien 3, 4872 Idestrup, Denmark
-                </Popup>
+              <Marker position={[54.7055817, -42.8593153]} icon={customIcon}>
+                <Popup>Blommestien 3, 4872 Idestrup, Denmark </Popup>
               </Marker>
             </MapContainer>
           </div>

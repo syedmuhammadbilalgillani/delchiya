@@ -14,7 +14,7 @@ const navLinks = [
     label: "Ophold",
     dropdownLinks: [
       { href: "/about-the-hotel", label: "Om Sommerhuset" },
-      { href: "/services/mobile", label: "Billeder" },
+      { href: "/gallery-page", label: "Billeder" },
     ],
   },
   {

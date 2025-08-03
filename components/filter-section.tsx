@@ -1,4 +1,5 @@
 "use client";
+import { token } from "@/constants/urls";
 import axios from "axios";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
@@ -57,6 +58,7 @@ interface AvailablePeriod {
 }
 
 const FilterSection = () => {
+
   const [selectedRange, setSelectedRange] = useState<DateRange | undefined>();
   const [availablePeriods, setAvailablePeriods] = useState<AvailablePeriod[]>(
     []
@@ -88,7 +90,7 @@ const FilterSection = () => {
           {
             headers: {
               Authorization:
-                "Bearer 24|1SGF1LA1L2AGYjUWTOgR0a81i8pyitEnPIERDuEHf2ed5901",
+                token,
             },
           }
         );

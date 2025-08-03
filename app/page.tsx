@@ -1,4 +1,5 @@
 "use client";
+
 import EmblaCarousel from "@/components/embela-slider/embela-slider";
 import FilterSection from "@/components/filter-section";
 import HeroSection from "@/components/hero-sec";
