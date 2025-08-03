@@ -4,7 +4,7 @@ import React from "react";
 const Footer = () => {
   return (
     <div className="bg-black">
-      <div className="main  flex justify-between items-center">
+      <div className="main  flex justify-between max-sm:flex-wrap gap-10 items-center">
         <p className=" text-white">
           © Copyright CozyStay WordPress Theme for Hotel Booking.
         </p>

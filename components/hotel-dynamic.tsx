@@ -38,7 +38,7 @@ export default function HotelDyamic() {
   }, []);
   return (
     <div>
-      <div className="flex justify-center items-center md:gap-20  gap-10 text-white">
+      <div className="flex justify-center max-sm:flex-wrap items-center md:gap-20  gap-10 text-white">
         <div>
           <h3 className="text-7xl"> {values.hems}</h3>
           <div>Hems</div>

@@ -231,7 +231,7 @@ const AboutTheHotel = () => {
                 fill
                 className="h- z-[1] group-hover:scale-110 duration-300 transition-all w-full object-cover object-center"
               />
-              <div className="z-[2] bg-gradient-to-t to-transparent from-black/45 group-hover:from-black/30 transition-colors group-hover:to-transparent h-full w-full absolute">
+              <div className="z-[2] bg-gradient-to-t to-transparent from-black/45 group-hover:from-black/10 transition-colors group-hover:to-transparent h-full w-full absolute">
                 <div className="border flex flex-col justify-end pb-10 border-yellow m-2 h-[calc(100%-5%)] z-[3] space-y-3">
                   <h3 className="text-white text-3xl">{item.label}</h3>
                   <p className="text-white font-medium text-xs uppercase">{item.des}</p>
