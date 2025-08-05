@@ -100,12 +100,12 @@ const FAQ = () => {
         <p>Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 my-20">
           {[{ image: "/faq1.jpg" }, { image: "/faq2.jpg" }].map(
-            (image: string, index: number) => (
+            (imageObj, index) => (
               <div className="relative min-h-dvh w-full" key={index}>
                 <Image
-                  src={image?.image}
+                  src={imageObj.image}
                   fill
-                  alt={index}
+                  alt={`image-${index}`}
                   className="h-full w-full object-cover"
                 />
               </div>
