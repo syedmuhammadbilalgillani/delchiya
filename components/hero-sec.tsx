@@ -10,25 +10,36 @@ const HeroSection = () => {
     >
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/50" />
-      <div className="z-20 absolute flex  gap-2  md:top-[20%] top-[18%] right-10">
-        <a href="https://villavilla.dk/sommerhusudlejning/lolland-falster-moen/marielyst/222/" target="_blank">
-          <Image
-            src={"/villavilla-logo.png"}
-            alt=""
-            className="bg-white p-3"
-            height={100}
-            width={100}
-          />
-        </a>
-        <a href="https://www.dancenter.com/denmark/rental/falster/marielyst/30772/?persons=15" target="_blank">
-          <Image
-            src={"/dancenter.png"}
-            alt=""
-            className="bg-white p-3"
-            height={100}
-            width={100}
-          />
-        </a>
+      <div className="z-20 absolute  md:top-[20%] bg-black/70 top-[18%] right-10   p-2 ">
+        <p className="text-white uppercase text-center text-sm mb-3 ">
+          OGSÅ TILGÆNGELIG VIA:
+        </p>
+        <div className="flex  gap-2 ">
+          <a
+            href="https://villavilla.dk/sommerhusudlejning/lolland-falster-moen/marielyst/222/"
+            target="_blank"
+          >
+            <Image
+              src={"/villavilla-logo.png"}
+              alt="villavilla"
+              className=" p-3"
+              height={100}
+              width={100}
+            />
+          </a>
+          <a
+            href="https://www.dancenter.com/denmark/rental/falster/marielyst/30772/?persons=15"
+            target="_blank"
+          >
+            <Image
+              src={"/dancenter.png"}
+              alt="dancenter"
+              className=""
+              height={120}
+              width={120}
+            />
+          </a>
+        </div>
       </div>
       {/* Content */}
       <div className="relative z-10 flex flex-col gap-6 items-center justify-center text-center h-full px-5">
