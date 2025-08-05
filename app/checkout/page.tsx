@@ -43,7 +43,7 @@ const CheckoutForm = () => {
     postal_code: "",
     country: "DKK",
     currency_code: 208,
-    bedlinen_amount: 0,
+    bedlinen_amount: linnedCount,
     cleaning_included: true,
     comment: "",
     active_status: false,
@@ -176,11 +176,11 @@ const CheckoutForm = () => {
               name: "vat_identification_number",
             },
             { label: "Currency Code", name: "currency_code", type: "number" },
-            {
-              label: "Bed Linen Amount",
-              name: "bedlinen_amount",
-              type: "number",
-            },
+            // {
+            //   label: "Bed Linen Amount",
+            //   name: "bedlinen_amount",
+            //   type: "number",
+            // },
           ].map(({ label, name, type }) => (
             <div key={name}>
               <label
