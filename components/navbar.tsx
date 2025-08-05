@@ -55,6 +55,7 @@ const navLinks = [
       },
     ],
   },
+  { href: "/faq", label: "FAQ" },
 ];
 
 const Navbar = () => {
