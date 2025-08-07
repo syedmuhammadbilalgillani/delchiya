@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Text from "./Language/TranslatedText";
 
 const HeroSection = () => {
   return (
@@ -11,9 +12,12 @@ const HeroSection = () => {
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/50" />
       <div className="z-20 absolute  md:top-[20%] bg-black/70 top-[18%] right-10   p-2 ">
-        <p className="text-white uppercase text-center text-sm mb-3 ">
-          OGSÅ TILGÆNGELIG VIA:
-        </p>
+        <Text
+          as="p"
+          textKey="availableVia"
+          className="text-white uppercase text-center text-sm mb-3 "
+        />
+
         <div className="flex  gap-2 ">
           <a
             href="https://villavilla.dk/sommerhusudlejning/lolland-falster-moen/marielyst/222/"
@@ -43,12 +47,13 @@ const HeroSection = () => {
       </div>
       {/* Content */}
       <div className="relative z-10 flex flex-col gap-6 items-center justify-center text-center h-full px-5">
-        <h1 className="text-white text-5xl md:text-8xl max-w-[10ch] font-marcellus font-normal">
-          Sommerhus ved Marielyst
-        </h1>
-        <p className="text-xl text-white">
-          Et skridt væk fra hverdagens stress, et skridt ind i sommerhusidyllen
-        </p>
+        <Text
+          as="h1"
+          className="text-white text-5xl md:text-8xl max-w-[10ch] font-marcellus font-normal"
+          textKey="headline"
+        />
+
+        <Text as="p" className="text-xl text-white" textKey="subheadline" />
       </div>
     </div>
   );

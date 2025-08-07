@@ -1,0 +1,45 @@
+{
+  "add": "Agregar",
+  "back": "Atrás",
+  "remove": "Eliminar",
+  "key": "Clave",
+  "value": "Valor",
+  "action": "Acción",
+  "email": "Correo electrónico",
+  "password": "Contraseña",
+  "submit": "Enviar",
+  "next": "Siguiente",
+  "previous": "Anterior",
+  "nav": {
+    "dashboard": "Panel",
+    "user": "Usuario",
+    "users": "Usuarios",
+    "create": "Crear"
+  },
+  "dashboard": {
+    "title": "Panel"
+  },
+  "user": {
+    "form": {
+      "addSetting": "Agregar configuración",
+      "firstName": "Nombre completo",
+      "lastName": "Nombre completo",
+      "email": "Correo electrónico",
+      "phone": "Número de teléfono",
+      "role": "Rol",
+      "password": "Contraseña",
+      "isActive": "Estado activo",
+      "lastLogin": "Último acceso",
+      "permissions": "Permisos"
+    },
+    "table": {
+      "fullName": "Nombre completo",
+      "email": "Correo electrónico",
+      "phone": "Número de teléfono",
+      "role": "Rol",
+      "isActive": "Estado activo",
+      "lastLogin": "Último acceso",
+      "permissions": "Permisos"
+    }
+  }
+}

@@ -3,6 +3,7 @@ import Navbar from "@/components/navbar";
 import { Metadata } from "next";
 import { Jost, La_Belle_Aurore, Marcellus } from "next/font/google";
 import "./globals.css";
+import I18nClientProvider from "@/components/Language/I18nClientProvider";
 
 const jost = Jost({
   variable: "--font-jost",
@@ -35,9 +36,11 @@ export default function RootLayout({
         className={` ${jost.variable} ${marcellus.variable} ${la_belle_aurore.variable} antialiased`}
         suppressHydrationWarning
       >
-        <Navbar />
-        {children}
-        <Footer />
+        <I18nClientProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </I18nClientProvider>
       </body>
     </html>
   );

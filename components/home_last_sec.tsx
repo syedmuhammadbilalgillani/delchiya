@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import Text from "./Language/TranslatedText";
 
 const HomeLastSection = () => {
   return (
@@ -13,16 +14,25 @@ const HomeLastSection = () => {
             className="h-full w-full"
           />
         </div>
-        <p className="text-end font-la_belle_aurore text-2xl my-2">
-          Inspireret af dansk sommer, omgivet af naturen, der vægger minder
-          mange år frem.
-        </p>
+        <Text
+          as="p"
+          className="text-end font-la_belle_aurore text-2xl my-2"
+          textKey="summerHouseInspiration"
+        />
       </div>
       <div className="space-y-10">
-        <p className="uppercase text-xs font-medium">Sommerhuset Tilbyder</p>
-        <h2 className="text-3xl md:text-5xl mt-2 mb-4 leading-14">
-          All de nødvendige faciliteter til et hyggeligt og behageligt ophold
-        </h2>
+        <Text
+          as="p"
+          className="uppercase text-xs font-medium"
+          textKey="summerHouseOffers"
+        />
+
+        <Text
+          as="h2"
+          className="text-3xl md:text-5xl mt-2 mb-4 leading-14"
+          textKey="facilitiesTitle"
+        />
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-10">
           <div className="flex gap-5 items-start">
             <Image
@@ -31,13 +41,13 @@ const HomeLastSection = () => {
               width={50}
               height={50}
             />
-
             <div className="space-y-1">
-              <p className="text-black font-marcellus ">Pool</p>
-              <p>
-                18m2 stor pool med rutchebane for de små og en 6 personer
-                indendørs spa
-              </p>
+              <Text
+                as="p"
+                className="text-black font-marcellus"
+                textKey="pool"
+              />
+              <Text textKey="poolDescription" />
             </div>
           </div>
           <div className="flex gap-5 items-start">
@@ -47,13 +57,13 @@ const HomeLastSection = () => {
               width={50}
               height={50}
             />
-
             <div className="space-y-1">
-              <p className="text-black font-marcellus ">Vicevært</p>
-              <p>
-                En vicevært er tilknyttet sommerhuset og vil være behjælpelig
-                med eventuelle problemer, der måtte opstå.
-              </p>
+              <Text
+                as="p"
+                className="text-black font-marcellus"
+                textKey="caretaker"
+              />
+              <Text textKey="caretakerDescription" />
             </div>
           </div>
           <div className="flex gap-5 items-start">
@@ -63,10 +73,13 @@ const HomeLastSection = () => {
               width={50}
               height={50}
             />
-
             <div className="space-y-1">
-              <p className="text-black font-marcellus ">Wifi & Internet</p>
-              <p>Lynhurtig 100 / 100 Forbindelse til den store familie</p>
+              <Text
+                as="p"
+                className="text-black font-marcellus"
+                textKey="wifi"
+              />
+              <Text textKey="wifiDescription" />
             </div>
           </div>
 
@@ -77,15 +90,13 @@ const HomeLastSection = () => {
               width={50}
               height={50}
             />
-
             <div className="space-y-1">
-              <p className="text-black font-marcellus ">
-                Alle Fornødne Hvidevare
-              </p>
-              <p>
-                Opvaskemaskine, vaskemaskine, tørretumbler, køleskab og fryser
-                er tilgængelige i sommerhuset.
-              </p>
+              <Text
+                as="p"
+                className="text-black font-marcellus"
+                textKey="appliances"
+              />
+              <Text textKey="appliancesDescription" />
             </div>
           </div>
           <div className="flex gap-5 items-start">
@@ -95,14 +106,13 @@ const HomeLastSection = () => {
               width={50}
               height={50}
             />
-
             <div className="space-y-1">
-              <p className="text-black font-marcellus ">TV Pakke</p>
-              <p>
-                Tilbyder et bredt udvalg af populære kanaler, herunder
-                underholdning, sport, nyheder og børneprogrammer, noget for hele
-                familien.
-              </p>
+              <Text
+                as="p"
+                className="text-black font-marcellus"
+                textKey="tvPackage"
+              />
+              <Text textKey="tvPackageDescription" />
             </div>
           </div>
           <div className="flex gap-5 items-start">
@@ -112,16 +122,13 @@ const HomeLastSection = () => {
               width={50}
               height={50}
             />
-
             <div className="space-y-1">
-              <p className="text-black font-marcellus ">
-                Billiard / Bordtennis mm.
-              </p>
-              <p>
-                Glæd dig til en bred vifte af sjove og spændende aktiviteter,
-                der er skræddersyet til at underholde hele familien og sikre, at
-                I får en uforglemmelig tid sammen.
-              </p>
+              <Text
+                as="p"
+                className="text-black font-marcellus"
+                textKey="activities"
+              />
+              <Text textKey="activitiesDescription" />
             </div>
           </div>
         </div>

@@ -15,6 +15,7 @@ const LocationCard = dynamic(() => import("@/components/map-sec"), {
 import GUEST_EXPERIENCES from "@/components/guest-experience";
 import Image from "next/image";
 import HomeLastSection from "@/components/home_last_sec";
+import Text from "@/components/Language/TranslatedText";
 
 const page = () => {
   const productSlides = [
@@ -36,26 +37,23 @@ const page = () => {
           height={60}
           width={60}
         />
-        <p>Welkommen til blommehuset</p>
-        <h2 className="md:text-5xl text-4xl text-green">
-          Beliggende i hjertet af det smukkeste Marielyst
-        </h2>
-        <p>
-          En afslappende og mindeværdige ophold for familier, venner og alle,
-          der søger en pause fra hverdagens travlhed. Blommehuset er det ideelle
-          tilflugtssted, hvor moderne komfort møder naturskønne omgivelser. Med
-          sin charmerende atmosfære og bekvemmelige faciliteter giver det dig
-          mulighed for at nyde alt, hvad Marielyst har at byde på.
-        </p>
+        <Text as="p" textKey="welcomeMessage" />
+
+        <Text
+          textKey="locationHeader"
+          className="md:text-5xl text-4xl text-green"
+          as="h2"
+        />
+
+        <Text as="p" textKey="descriptionText" />
       </div>
       <EmblaCarousel slides={productSlides} />
       <div className="main">
-        <div className="font-la_belle_aurore! text-2xl">
-          Inspireret af dansk luksus og omgivet af naturskønne omgivelser, er
-          vores sommerhus designet til at tilbyde en uforglemmelig oplevelse.
-          Fra afslappende stunder i naturen til spændende aktiviteter, er vores
-          mål at holde dig underholdt og forkælet under hele dit ophold.
-        </div>
+        <Text
+          as="div"
+          className="font-la_belle_aurore! text-2xl"
+          textKey="luxuryExperience"
+        />
       </div>
       <VideoDialog />
       <Structure />

@@ -2,14 +2,71 @@ import { ChevronRight, Maximize2, PawPrint, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import Text from "./Language/TranslatedText";
 
 const RoomCard = () => {
   return (
-    <div className=" md:max-w-[404px]  mx-auto space-y-3 px-5 h-full">
-      <div className="uppercase text-sm font-medium  text-center text-green">
-        Sommerhuset Hvor Luksus forenes med naturen
-      </div>
-      <h2 className="md:text-5xl text-4xl  text-center">Blommehuset</h2>
+    // <div className=" md:max-w-[404px]  mx-auto space-y-3 px-5 h-full">
+    //   <div className="uppercase text-sm font-medium  text-center text-green">
+    //     Sommerhuset Hvor Luksus forenes med naturen
+    //   </div>
+    //   <h2 className="md:text-5xl text-4xl  text-center">Blommehuset</h2>
+    //   <div className="mx-auto">
+    //     {/* Set a fixed aspect ratio container */}
+    //     <div className="relative md:w-[404px] md:h-[404px] w-[303px] h-[303px] mx-auto">
+    //       <Image
+    //         src="/room.jpg"
+    //         alt="Plantegning"
+    //         fill
+    //         className="object-cover object-center"
+    //       />
+    //       <div className="inset-0 top-3 left-3 bg-white text-black z-10 absolute w-fit h-fit px-3 py-2 text-sm">
+    //         FRA 5,000KR
+    //       </div>
+    //     </div>
+    //     <h3 className="text-start mt-3 ">Blommehuset</h3>
+    //     <div className="flex gap-x-10 gap-y-2 flex-wrap my-3 ">
+    //       <div className="flex items-center gap-1">
+    //         <Maximize2 />
+    //         210 m2
+    //       </div>
+    //       <div className="flex items-center gap-1">
+    //         <Users />
+    //         18 Gæster
+    //       </div>
+    //       <div className="flex items-center gap-1">
+    //         <PawPrint /> Husdyr tilladt
+    //       </div>
+    //     </div>
+    //     <p>
+    //       Blommehuset i Marielyst er et ideelt sted for en fantastisk
+    //       ferieoplevelse, hvor faciliteterne og beliggenheden kombineres til at
+    //       skabe den perfekte ramme. Placeret i det …
+    //     </p>
+    //     <Link className="group " href={"/room/blommehuset"}>
+    //       <div className="flex items-center">
+    //         Dicover More
+    //         <span className="group-hover:pl-2  mt-0.5 transition-all">
+    //           <ChevronRight size={17} />
+    //         </span>
+    //       </div>
+    //       <div className="h-0.5 bg-yellow w-28 group-hover:w-0 transition-all"></div>
+    //     </Link>
+    //   </div>
+    // </div>
+    <div className="md:max-w-[404px] mx-auto space-y-3 px-5 h-full">
+      <Text
+        as="div"
+        className="uppercase text-sm font-medium text-center text-green"
+        textKey="luxuryNatureTitle"
+      />
+
+      <Text
+        as="h2"
+        textKey="blommehuset"
+        className="md:text-5xl text-4xl text-center"
+      />
+
       <div className="mx-auto">
         {/* Set a fixed aspect ratio container */}
         <div className="relative md:w-[404px] md:h-[404px] w-[303px] h-[303px] mx-auto">
@@ -23,8 +80,12 @@ const RoomCard = () => {
             FRA 5,000KR
           </div>
         </div>
-        <h3 className="text-start mt-3 ">Blommehuset</h3>
-        <div className="flex gap-x-10 gap-y-2 flex-wrap my-3 ">
+
+        <h3 className="text-start mt-3 ">
+          <Text textKey="blommehuset" />
+        </h3>
+
+        <div className="flex gap-x-10 gap-y-2 flex-wrap my-3">
           <div className="flex items-center gap-1">
             <Maximize2 />
             210 m2
@@ -37,15 +98,13 @@ const RoomCard = () => {
             <PawPrint /> Husdyr tilladt
           </div>
         </div>
-        <p>
-          Blommehuset i Marielyst er et ideelt sted for en fantastisk
-          ferieoplevelse, hvor faciliteterne og beliggenheden kombineres til at
-          skabe den perfekte ramme. Placeret i det …
-        </p>
-        <Link className="group " href={"/room/blommehuset"}>
+
+        <Text as="p" textKey="blommehusetDescription" />
+
+        <Link className="group" href={"/room/blommehuset"}>
           <div className="flex items-center">
-            Dicover More
-            <span className="group-hover:pl-2  mt-0.5 transition-all">
+            <Text textKey="discoverMore" />
+            <span className="group-hover:pl-2 mt-0.5 transition-all">
               <ChevronRight size={17} />
             </span>
           </div>

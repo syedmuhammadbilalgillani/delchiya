@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Menu, ChevronDown } from "lucide-react"; // ChevronDown arrow for dropdown
 import Image from "next/image";
 import { Sheet, SheetContent, SheetTitle } from "./ui/sheet"; // Assuming you've imported the Sheet component from ShadCN
+import LanguageSwitcher from "./Language/LanguageSwitcher";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -165,11 +166,12 @@ const Navbar = () => {
 
         <div className="flex items-center space-x-6 text-nowrap">
           <p className="text-white">Tel: +45 31216149</p>
-          <Link href="/book-now">
+          <LanguageSwitcher />
+          {/* <Link href="/book-now">
             <button className="border border-white text-white px-4 py-2 bg-transparent">
               Book Now
             </button>
-          </Link>
+          </Link> */}
         </div>
       </nav>
 

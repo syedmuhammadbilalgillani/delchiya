@@ -1,0 +1,45 @@
+{
+  "add": "追加",
+  "back": "戻る",
+  "remove": "削除",
+  "key": "キー",
+  "value": "値",
+  "action": "操作",
+  "email": "メールアドレス",
+  "password": "パスワード",
+  "submit": "送信",
+  "next": "次へ",
+  "previous": "前へ",
+  "nav": {
+    "dashboard": "ダッシュボード",
+    "user": "ユーザー",
+    "users": "ユーザー一覧",
+    "create": "作成"
+  },
+  "dashboard": {
+    "title": "ダッシュボード"
+  },
+  "user": {
+    "form": {
+      "addSetting": "設定を追加",
+      "firstName": "氏名",
+      "lastName": "氏名",
+      "email": "メールアドレス",
+      "phone": "電話番号",
+      "role": "役割",
+      "password": "パスワード",
+      "isActive": "アクティブ状態",
+      "lastLogin": "最終ログイン",
+      "permissions": "権限"
+    },
+    "table": {
+      "fullName": "氏名",
+      "email": "メールアドレス",
+      "phone": "電話番号",
+      "role": "役割",
+      "isActive": "アクティブ状態",
+      "lastLogin": "最終ログイン",
+      "permissions": "権限"
+    }
+  }
+}

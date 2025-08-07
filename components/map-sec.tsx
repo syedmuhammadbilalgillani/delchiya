@@ -6,6 +6,7 @@ import "leaflet/dist/leaflet.css";
 import type { LatLngExpression } from "leaflet";
 import Image from "next/image";
 import Link from "next/link";
+import Text from "./Language/TranslatedText";
 
 const customIcon = L.icon({
   iconUrl: "/map-pin.png", // Place your custom marker image in public/map-pin.png
@@ -19,14 +20,22 @@ const LocationCard = () => {
 
   return (
     <>
-      <div className="bg-black text-white p-8  space-y-4 mt-10">
-        <p className="text-green text-sm font-medium text-center ">
-          EN OPLEVELSE, DER VIL FÅ DIG TIL AT KOMME TILBAGE IGEN OG IGEN.​
-        </p>
-        <h2 className="text-center md:text-5xl text-4xl mb-10">Lokation</h2>
-        <div className="grid md:grid-cols-2 grid-cols-1 gap-10 place-content-center max-w-7xl mx-auto px-10 ">
+      <div className="bg-black text-white p-8 space-y-4 mt-10">
+        <Text
+          as="p"
+          className="text-green text-sm font-medium text-center"
+          textKey="experienceMessage"
+        />
+
+        <Text
+          className="text-center md:text-5xl text-4xl mb-10"
+          as="h2"
+          textKey="locationTitle"
+        />
+
+        <div className="grid md:grid-cols-2 grid-cols-1 gap-10 place-content-center max-w-7xl mx-auto px-10">
           {/* Map Section */}
-          <div className=" flex justify-center items-center">
+          <div className="flex justify-center items-center">
             <MapContainer
               center={center}
               zoom={6}
@@ -34,20 +43,32 @@ const LocationCard = () => {
             >
               <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
               <Marker position={[54.7055817, -42.8593153]} icon={customIcon}>
-                <Popup>Blommestien 3, 4872 Idestrup, Denmark </Popup>
+                <Popup>
+                  <Text textKey="mapLocation" />
+                </Popup>
               </Marker>
             </MapContainer>
           </div>
 
           {/* Info Section */}
-          <div className=" border-2 border-yellow p-10">
+          <div className="border-2 border-yellow p-10">
             <div className="text-center">
-              <p className="text-yellow uppercase">Lokation</p>
-              <h3 className="text-3xl font-bold">Blommehuset</h3>
+              <Text
+                as="p"
+                className="text-yellow uppercase"
+                textKey="location"
+              />
+
+              <Text
+                className="text-3xl font-bold"
+                as="h3"
+                textKey="blommehuset"
+              />
+
               <p className="text-lg text-white">
-                Blommestien 3,
-                <br /> 4872 Idestrup,
-                <br /> Denmark
+                <Text textKey="addressLine1" />
+                <br />
+                <Text textKey="addressLine2" />
               </p>
             </div>
 
@@ -56,10 +77,11 @@ const LocationCard = () => {
               <div className="flex items-center gap-4">
                 <ShoppingCart size={35} className="text-yellow" />
                 <div className="text-lg">
-                  <div>Supermarket</div>
-                  <div>500m til indkøb</div>
+                  <Text textKey="supermarket" />{" "}
+                  <Text textKey="supermarketDistance" />
                 </div>
               </div>
+              {/* Restaurant */}
               <div className="flex items-center gap-4">
                 <Image
                   src={"/room-service.png"}
@@ -68,10 +90,11 @@ const LocationCard = () => {
                   height={40}
                 />
                 <div className="text-lg">
-                  <div>Restaurent</div>
-                  <div>1500m til nærmeste restaurant</div>
+                  <Text textKey="restaurant" />{" "}
+                  <Text textKey="restaurantDistance" />
                 </div>
               </div>
+              {/* Beach */}
               <div className="flex items-center gap-4">
                 <Image
                   src={"/water-waves.png"}
@@ -80,10 +103,10 @@ const LocationCard = () => {
                   height={30}
                 />
                 <div className="text-lg">
-                  <div>Stranden</div>
-                  <div>700m til stranden</div>
+                  <Text textKey="beach" /> <Text textKey="beachDistance" />
                 </div>
               </div>
+              {/* Golf */}
               <div className="flex items-center gap-4">
                 <Image
                   src={"/golf.png"}
@@ -92,14 +115,14 @@ const LocationCard = () => {
                   height={40}
                 />
                 <div className="text-lg">
-                  <div>Golf</div>
-                  <div>2800m til en golfbane</div>
+                  <Text textKey="golf" /> <Text textKey="golfDistance" />
                 </div>
               </div>
             </div>
 
             {/* Location details */}
             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 text-sm">
+              {/* København */}
               <div className="flex items-center gap-4">
                 <Image
                   src={"/car.png"}
@@ -108,10 +131,11 @@ const LocationCard = () => {
                   height={40}
                 />
                 <div className="text-lg">
-                  <div>København</div>
-                  <div>1.5 Timer / 141 KM</div>
+                  <Text textKey="copenhagen" />{" "}
+                  <Text textKey="copenhagenDistance" />
                 </div>
               </div>
+              {/* Odense */}
               <div className="flex items-center gap-4 mt-2">
                 <Image
                   src={"/car.png"}
@@ -120,10 +144,10 @@ const LocationCard = () => {
                   height={40}
                 />
                 <div className="text-lg">
-                  <div>Odense</div>
-                  <div>2 Timer / 182 KM</div>
+                  <Text textKey="odense" /> <Text textKey="odenseDistance" />
                 </div>
               </div>
+              {/* Berlin */}
               <div className="flex items-center gap-4 mt-2">
                 <Image
                   src={"/car.png"}
@@ -132,10 +156,10 @@ const LocationCard = () => {
                   height={40}
                 />
                 <div className="text-lg">
-                  <div>Berlin</div>
-                  <div>4,5 Time / 303 KM</div>
+                  <Text textKey="berlin" /> <Text textKey="berlinDistance" />
                 </div>
               </div>
+              {/* Hamburg */}
               <div className="flex items-center gap-4 mt-2">
                 <Image
                   src={"/car.png"}
@@ -144,21 +168,21 @@ const LocationCard = () => {
                   height={40}
                 />
                 <div className="text-lg">
-                  <div>Hamborg</div>
-                  <div>3.5 Time / 227 KM</div>
+                  <Text textKey="hamburg" /> <Text textKey="hamburgDistance" />
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
       <div className="relative bg-gray-200 min-h-dvh pt-10">
         <div className="absolute z-10 top-0 left-0 w-full h-[80dvh] bg-black/50"></div>
         <div
           className="absolute top-0 left-0 w-full h-[80dvh] bg-cover bg-center"
           style={{ backgroundImage: `url("/sea_bg.jpg")` }}
         ></div>
-        <div className=" relative z-30  flex flex-col gap-4 text-center justify-center items-center">
+        <div className="relative z-30 flex flex-col gap-4 text-center justify-center items-center">
           <Image
             src={"/sunrise.png"}
             alt="sunrise"
@@ -166,14 +190,20 @@ const LocationCard = () => {
             height={100}
             className="object-contain"
           />
-          <p className="text-white text-lg ">BYEN DER GIVER MINDER </p>
-          <h2 className=" md:text-5xl text-4xl text-white ">
-            Danmarks Bedste Badestrand
-          </h2>
-          <p className="text-white text-lg">
-            Området omkring Marielyst byder på en væld af oplevelser og
-            aktiviteter
-          </p>
+
+          <Text
+            as="p"
+            className="text-white text-lg"
+            textKey="cityThatGivesMemories"
+          />
+
+          <Text
+            className="md:text-5xl text-4xl text-white"
+            textKey="bestBeach"
+            as="h2"
+          />
+
+          <Text as="p" className="text-white text-lg" textKey="marielystArea" />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 main z-30 relative">
           <div>
@@ -188,20 +218,21 @@ const LocationCard = () => {
               <div className="border-2 border-yellow h-[80vh] group-hover:h-[77vh] absolute group-hover:w-[calc(100%-5%)] w-full -top-3 -left-3 group-hover:top-2 group-hover:left-2 transition-all duration-400"></div>
             </div>
             <div className="text-center flex flex-col items-center gap-2 my-2">
-              <h3 className="font-medium">Surfcenter Falster </h3>
-              <p>
-                Surfcenter Falster tilbyder en bred vifte af aktiviteter,
-                herunder windsurfing, kitesurfing, SUP (stand-up paddle), og
-                kajakroning. Uanset om du er nybegynder eller erfaren, har vi
-                udstyr og undervisning tilpasset dit niveau.
-              </p>
-              <Link className="group " href={"/room/blommehuset"}>
-                <div className="flex items-center">
-                  Dicover More
-                  {/* <span className="group-hover:pl-2  mt-0.5 transition-all">
-                    <ChevronRight size={17} />
-                  </span> */}
-                </div>
+              <Text
+                className="font-medium"
+                as="h3"
+                textKey="surfCenterFalster"
+              />
+
+              <Text as="p" textKey="surfCenterDescription" />
+
+              <Link className="group" href={"/room/blommehuset"}>
+                <Text
+                  className="flex items-center"
+                  as="div"
+                  textKey="discoverMore"
+                />
+
                 <div className="h-0.5 bg-yellow w-24 group-hover:w-0 transition-all"></div>
               </Link>
             </div>
@@ -218,21 +249,21 @@ const LocationCard = () => {
               <div className="border-2 border-yellow h-[80vh] group-hover:h-[77vh] absolute group-hover:w-[calc(100%-5%)] w-full -top-3 -left-3 group-hover:top-2 group-hover:left-2 transition-all duration-400"></div>
             </div>
             <div className="text-center flex flex-col items-center gap-2 my-2">
-              <h3 className="font-medium">Marielyst - Den gamle badeby</h3>
-              <p>
-                Marielyst – Den gamle badeby er en charmerende destination med
-                mere end 100 års historie. Beliggende på Falster, byder byen på
-                en vidunderlig sandstrand, hyggelige caféer, og spændende
-                aktiviteter for hele familien. Perfekt til en afslappende ferie
-                ved havet!
-              </p>
-              <Link className="group " href={"/room/blommehuset"}>
-                <div className="flex items-center">
-                  Dicover More
-                  {/* <span className="group-hover:pl-2  mt-0.5 transition-all">
-                    <ChevronRight size={17} />
-                  </span> */}
-                </div>
+              <Text
+                as="h3"
+                className="font-medium"
+                textKey="marielystOldBathingTown"
+              />
+
+              <Text as="p" textKey="marielystDescription" />
+
+              <Link className="group" href={"/room/blommehuset"}>
+                <Text
+                  as="div"
+                  className="flex items-center"
+                  textKey="discoverMore"
+                />
+
                 <div className="h-0.5 bg-yellow w-24 group-hover:w-0 transition-all"></div>
               </Link>
             </div>
@@ -249,18 +280,17 @@ const LocationCard = () => {
               <div className="border-2 border-yellow h-[80vh] group-hover:h-[77vh] absolute group-hover:w-[calc(100%-5%)] w-full -top-3 -left-3 group-hover:top-2 group-hover:left-2 transition-all duration-400"></div>
             </div>
             <div className="text-center flex flex-col items-center gap-2 my-2">
-              <h3 className="font-medium">Cykel- og Vandreture</h3>
-              <p>
-                Udforsk den smukke natur omkring Marielyst med velanlagte cykel-
-                og vandreruter gennem skov, marker og langs kysten.
-              </p>
-              <Link className="group " href={"/room/blommehuset"}>
-                <div className="flex items-center">
-                  Dicover More
-                  {/* <span className="group-hover:pl-2  mt-0.5 transition-all">
-                    <ChevronRight size={17} />
-                  </span> */}
-                </div>
+              <Text as="h3" className="font-medium" textKey="bikeHikingTours" />
+
+              <Text as="p" textKey="bikeHikingDescription" />
+
+              <Link className="group" href={"/room/blommehuset"}>
+                <Text
+                  as="div"
+                  className="flex items-center"
+                  textKey="discoverMore"
+                />
+
                 <div className="h-0.5 bg-yellow w-24 group-hover:w-0 transition-all"></div>
               </Link>
             </div>
