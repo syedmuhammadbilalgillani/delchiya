@@ -47,5 +47,17 @@ model Booking {
   cleaning_included        Boolean
   comment                  String
   active_status            Boolean
+  is_discounted            Boolean
+  discount_code            String
   created_at               DateTime @default(now())
+}
+
+model Coupon {
+  id          Int      @id @default(autoincrement())
+  code        String   @unique
+  discount    Float
+  isActive    Boolean  @default(true)
+  expiration  DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

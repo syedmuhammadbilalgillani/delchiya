@@ -4,6 +4,8 @@
 import { useState } from "react";
 import Logout from "@/components/logout";
 import { Button } from "./ui/button";
+import CreateCouponForm from "./create-coupons-form";
+import CouponDataTable from "./coupons-table";
 
 interface Booking {
   id: number;
@@ -100,18 +102,9 @@ const BookingModal = ({
               label="Bedlinen Amount"
               value={booking.bedlinen_amount}
             />
-            <DetailItem
-              label="Adult"
-              value={booking.adult}
-            />
-            <DetailItem
-              label="Children"
-              value={booking.children}
-            />
-            <DetailItem
-              label="Lined Count"
-              value={booking.lindCount}
-            />
+            <DetailItem label="Adult" value={booking.adult} />
+            <DetailItem label="Children" value={booking.children} />
+            <DetailItem label="Lined Count" value={booking.lindCount} />
             <DetailItem
               label="Cleaning Included"
               value={booking.cleaning_included ? "Yes" : "No"}
@@ -210,7 +203,8 @@ export function BookingsTable({
         <h1 className="text-2xl font-bold mb-6">Bookings</h1>
         <Logout />
       </div>
-
+      <CreateCouponForm />
+      <CouponDataTable />
       <div className="bg-white p-6 rounded-lg shadow">
         {initialBookings.length > 0 ? (
           <DataTable

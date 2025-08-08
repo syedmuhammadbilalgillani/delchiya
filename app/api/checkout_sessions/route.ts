@@ -17,7 +17,8 @@ function toISODate(input: string): Date {
 
 export async function POST(req: NextRequest) {
   try {
-    const { amount, bookingData } = await req.json();
+    const { isDiscounted, discountCode, amount, bookingData } =
+      await req.json();
     console.log("[Stripe Checkout] Request body:", { amount, bookingData });
 
     const booking = await prisma.booking.create({
@@ -46,6 +47,8 @@ export async function POST(req: NextRequest) {
         children: bookingData.children,
         lindCount: bookingData.lindCount,
         active_status: false,
+        discount_code: discountCode,
+        is_discounted: isDiscounted,
       },
     });
 

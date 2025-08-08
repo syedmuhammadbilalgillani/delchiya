@@ -7,6 +7,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useRoomStore } from "@/store/useRoom";
 import { notFound } from "next/navigation";
+import axios from "axios";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ""
@@ -23,6 +26,7 @@ const CheckoutForm = () => {
     checkin: storeCheckin,
     checkout: storeCheckout,
     totalPrice,
+    setTotalPrice,
   } = useRoomStore();
 
   const [formData, setFormData] = useState({
@@ -51,7 +55,11 @@ const CheckoutForm = () => {
     children: String(children),
     lindCount: String(135 * linnedCount),
   });
-
+  const [coupon, setcoupon] = useState("");
+  const [discount, setdiscount] = useState(0);
+  const [oldPrice, setoldPrice] = useState(0);
+  const [discounted, setdiscounted] = useState(false);
+  const [isLoading, setisLoading] = useState(false);
   const handleChange = (e: any) => {
     const { name, value, type, checked } = e.target;
     setFormData((prevData) => ({
@@ -71,7 +79,7 @@ const CheckoutForm = () => {
       "postal_code",
       "country",
       "currency_code",
-      "bedlinen_amount",
+      // "bedlinen_amount",
     ];
 
     for (let field of requiredFields) {
@@ -91,7 +99,7 @@ const CheckoutForm = () => {
   };
 
   const handleSubmit = async (e: any) => {
-    debugger;
+    // debugger;
     e.preventDefault();
     if (!validateForm()) return;
     console.log("CheckoutForm - Room Store Values:", {
@@ -102,16 +110,51 @@ const CheckoutForm = () => {
     const res = await fetch("/api/checkout_sessions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: totalPrice * 100, bookingData: formData }),
+      body: JSON.stringify({
+        isDiscounted: discounted,
+        discount_code: coupon,
+        amount: totalPrice * 100,
+        bookingData: formData,
+      }),
     });
-
+    setcoupon("");
+    setdiscounted(false);
+    setdiscount(0);
     const { id } = await res.json();
     const stripe = await stripePromise;
     if (stripe && id) {
       await stripe.redirectToCheckout({ sessionId: id });
     }
   };
-
+  const applyCoupon = async (couponCode: string) => {
+    if (!couponCode) return;
+    try {
+      setisLoading(true);
+      const res = await axios.get(`/api/coupons/${couponCode}`);
+      const data = res?.data;
+      console.log(data?.coupons, "data for coupon");
+      if (data.coupons && data.coupons.discount) {
+        setdiscount(data.coupons.discount);
+        // debugger;
+        setoldPrice(totalPrice);
+        const newPrice = Math.max(
+          Math.round(totalPrice * (1 - data?.coupons?.discount / 100)),
+          0
+        );
+        setdiscounted(true);
+        setTotalPrice(newPrice);
+        console.log(totalPrice, "total prices");
+      } else {
+        toast.error(data.data.message);
+      }
+      setisLoading(false);
+    } catch (error: any) {
+      setisLoading(false);
+      // console.error("Error applying coupon:", error);
+      toast.error(error?.response?.data?.message);
+    }
+  };
+  console.log(totalPrice, "totalPricetotalPrice");
   if (!totalPrice) return notFound();
 
   return (
@@ -145,7 +188,46 @@ const CheckoutForm = () => {
           </div>
           <div className="flex justify-between border-y border-dashed py-3">
             <label>Total Price</label>
-            <div>{totalPrice} kr.</div>
+
+            <div>
+              {discount > 0 ? (
+                <>
+                  <span
+                    style={{ textDecoration: "line-through", color: "gray" }}
+                  >
+                    {oldPrice} kr.
+                  </span>{" "}
+                  <span style={{ color: "green", fontWeight: "bold" }}>
+                    {totalPrice} kr.
+                  </span>
+                </>
+              ) : (
+                <span>{totalPrice} kr.</span>
+              )}
+            </div>
+          </div>
+          <div className="">
+            <label
+              className="text-sm font-medium text-gray-700"
+              htmlFor="coupon"
+            >
+              Coupon Code (optional)
+            </label>
+            <Input
+              id="coupon"
+              name="coupon"
+              value={coupon}
+              onChange={(e) => setcoupon(e.target.value)}
+              placeholder="Enter coupon code"
+            />
+            <Button
+              disabled={isLoading}
+              className="flex-1 w-full bg-green rounded-none hover:bg-yellow "
+              type="button"
+              onClick={() => applyCoupon(coupon)}
+            >
+              {isLoading && <Loader2 className="animate-spin" />}Apply Coupon
+            </Button>
           </div>
         </div>
       </div>
@@ -256,9 +338,48 @@ const CheckoutForm = () => {
               <label>Rengøring</label>
               <div>{rengoring || "0"}</div>
             </div>
+
             <div className="flex justify-between border-y border-dashed py-3">
               <label>Total Price</label>
-              <div>{totalPrice} kr.</div>
+              <div>
+                {discount > 0 ? (
+                  <>
+                    <span
+                      style={{ textDecoration: "line-through", color: "gray" }}
+                    >
+                      {oldPrice} kr.
+                    </span>{" "}
+                    <span style={{ color: "green", fontWeight: "bold" }}>
+                      {totalPrice} kr.
+                    </span>
+                  </>
+                ) : (
+                  <span>{totalPrice} kr.</span>
+                )}
+              </div>
+            </div>
+
+            <div className="space-y-2 mt-3">
+              <label
+                className="text-sm font-medium text-gray-700"
+                htmlFor="coupon"
+              >
+                Coupon Code (optional)
+              </label>
+              <Input
+                id="coupon"
+                name="coupon"
+                value={coupon}
+                onChange={(e) => setcoupon(e.target.value)}
+                placeholder="Enter coupon code"
+              />
+              <Button
+                className="flex-1 w-full bg-green rounded-none hover:bg-yellow "
+                type="button"
+                onClick={() => applyCoupon(coupon)}
+              >
+                {isLoading && <Loader2 className="animate-spin" />}Apply Coupon
+              </Button>
             </div>
           </div>
         </div>
