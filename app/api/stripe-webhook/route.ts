@@ -51,7 +51,12 @@ export async function POST(req: NextRequest) {
         where: { id: parseInt(bookingData) },
         data: { active_status: true },
       });
-
+      if (booking.is_discounted) {
+        await prisma.coupon.update({
+          where: { code: booking.discount_code },
+          data: { expiration: new Date() },
+        });
+      }
       // Prepare email HTML (simple version, customize as needed)
       const userHtml = `<!DOCTYPE html>
 <html lang="en">

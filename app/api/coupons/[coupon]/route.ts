@@ -31,7 +31,14 @@ export async function GET(
         { status: 404 }
       );
     }
-
+    // Check if the coupon is expired
+    const now = new Date();
+    if (now > coupons.expiration) {
+      return NextResponse.json(
+        { message: "Coupon is expired" },
+        { status: 400 }
+      );
+    }
     // Return the coupon details
     return NextResponse.json({ coupons });
   } catch (error) {
