@@ -112,7 +112,7 @@ const CheckoutForm = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         isDiscounted: discounted,
-        discount_code: coupon,
+        discountCode: coupon,
         amount: totalPrice * 100,
         bookingData: formData,
       }),
