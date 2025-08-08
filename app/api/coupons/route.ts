@@ -39,20 +39,20 @@ export async function POST(request: NextRequest) {
   }
 }
 export async function GET() {
-    try {
-      // Prisma query to fetch coupons
-      const coupons = await prisma.coupon.findMany({
-        where: {
-          isActive: true, // Only fetch active coupons
-        },
-        orderBy: {
-          createdAt: 'desc', // Order by creation date
-        },
-      });
-  
-      return NextResponse.json({ coupons });
-    } catch (error) {
-      console.error(error);
-      return NextResponse.json({ message: 'Error fetching coupons' }, { status: 500 });
-    }
+  try {
+    // Prisma query to fetch coupons
+    const coupons = await prisma.coupon.findMany({
+      orderBy: {
+        createdAt: "desc", // Order by creation date
+      },
+    });
+
+    return NextResponse.json({ coupons });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { message: "Error fetching coupons" },
+      { status: 500 }
+    );
   }
+}

@@ -215,6 +215,7 @@ const CheckoutForm = () => {
             </label>
             <Input
               id="coupon"
+              readOnly={discounted}
               name="coupon"
               value={coupon}
               onChange={(e) => setcoupon(e.target.value)}
@@ -368,6 +369,7 @@ const CheckoutForm = () => {
               </label>
               <Input
                 id="coupon"
+                readOnly={discounted}
                 name="coupon"
                 value={coupon}
                 onChange={(e) => setcoupon(e.target.value)}

@@ -32,7 +32,9 @@ interface Booking {
   bedlinen_amount: number;
   cleaning_included: boolean;
   comment: string;
+  discount_code: string;
   active_status: boolean;
+  is_discounted: boolean;
   created_at: Date;
 }
 
@@ -166,6 +168,8 @@ const DataTable = ({
             <th className="py-2 px-4 border-b">Name</th>
             <th className="py-2 px-4 border-b">Email</th>
             <th className="py-2 px-4 border-b">Phone</th>
+            <th className="py-2 px-4 border-b">code</th>
+            <th className="py-2 px-4 border-b">coupon</th>
             <th className="py-2 px-4 border-b">Actions</th>
           </tr>
         </thead>
@@ -177,6 +181,12 @@ const DataTable = ({
               </td>
               <td className="py-2 px-4 border-b">{booking.email}</td>
               <td className="py-2 px-4 border-b">{booking.phone || "-"}</td>
+              <td className="py-2 px-4 border-b">
+                {booking.discount_code || "-"}
+              </td>
+              <td className="py-2 px-4 border-b">
+                {booking.is_discounted ? "true" : "false"}
+              </td>
               <td className="py-2 px-4 border-b">
                 <Button onClick={() => onRowClick(booking)}>
                   View Details
