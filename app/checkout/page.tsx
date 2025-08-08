@@ -221,7 +221,7 @@ const CheckoutForm = () => {
               placeholder="Enter coupon code"
             />
             <Button
-              disabled={isLoading}
+              disabled={isLoading || discounted}
               className="flex-1 w-full bg-green rounded-none hover:bg-yellow "
               type="button"
               onClick={() => applyCoupon(coupon)}
