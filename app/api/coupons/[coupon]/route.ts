@@ -33,7 +33,7 @@ export async function GET(
     }
     // Check if the coupon is expired
     const now = new Date();
-    if (now > coupons.expiration) {
+    if (now >= coupons.expiration) {
       return NextResponse.json(
         { message: "Coupon is expired" },
         { status: 400 }
