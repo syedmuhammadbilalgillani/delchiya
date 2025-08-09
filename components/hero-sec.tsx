@@ -11,11 +11,11 @@ const HeroSection = () => {
     >
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/50" />
-      <div className="z-20 absolute  md:top-[20%] bg-black/25 top-[18%] right-10   p-2 ">
+      <div className="z-20 absolute  md:top-[20%] bg-black/25 top-[18%] md:right-10 right-3   md:p-2 p-1 ">
         <Text
           as="p"
           textKey="availableVia"
-          className="text-white uppercase text-center text-sm mb-3 "
+          className="text-white uppercase text-center text-sm md:mb-3 mb-1 "
         />
 
         <div className="flex  gap-2 ">
@@ -26,7 +26,7 @@ const HeroSection = () => {
             <Image
               src={"/villavilla-logo.png"}
               alt="villavilla"
-              className=" p-3"
+              className=" md:p-3"
               height={100}
               width={100}
             />
