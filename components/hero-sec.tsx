@@ -6,7 +6,7 @@ import Text from "./Language/TranslatedText";
 const HeroSection = () => {
   return (
     <div
-      className="relative  h-[80dvh] max-sm:h-[80dvh] w-full bg-cover bg-center"
+      className="relative  h-[80dvh] max-sm:h-[100dvh] w-full bg-cover bg-center"
       style={{ backgroundImage: "url('/hero.jpg')" }}
     >
       {/* Overlay */}
