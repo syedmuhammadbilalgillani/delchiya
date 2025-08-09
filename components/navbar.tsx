@@ -192,6 +192,8 @@ const Navbar = () => {
             />
           </div>
         </Link>
+        <LanguageSwitcher />
+
       </nav>
 
       {/* Mobile Sheet (ShadCN) */}
