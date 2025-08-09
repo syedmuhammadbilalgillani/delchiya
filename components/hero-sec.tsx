@@ -6,7 +6,7 @@ import Text from "./Language/TranslatedText";
 const HeroSection = () => {
   return (
     <div
-      className="relative  h-[80dvh] max-sm:h-[90dvh] w-full bg-cover bg-center"
+      className="relative  h-[80dvh] max-sm:h-[70dvh] w-full bg-cover bg-center"
       style={{ backgroundImage: "url('/hero.jpg')" }}
     >
       {/* Overlay */}
@@ -46,7 +46,7 @@ const HeroSection = () => {
         </div>
       </div>
       {/* Content */}
-      <div className="relative z-10 mt-5 md:mt-0 flex flex-col gap-6 items-center justify-center text-center h-full px-5">
+      <div className="relative z-10 pt-20 md:pt-0 flex flex-col gap-6 items-center justify-center text-center h-full px-5">
         <Text
           as="h1"
           className="text-white text-5xl md:text-8xl max-w-[10ch] font-marcellus font-normal"
