@@ -10,8 +10,8 @@ const HeroSection = () => {
       style={{ backgroundImage: "url('/hero.jpg')" }}
     >
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/75" />
-      <div className="z-20 absolute  md:top-[20%] bg-black/70 top-[18%] right-10   p-2 ">
+      <div className="absolute inset-0 bg-black/50" />
+      <div className="z-20 absolute  md:top-[20%] bg-black/25 top-[18%] right-10   p-2 ">
         <Text
           as="p"
           textKey="availableVia"
