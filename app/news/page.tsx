@@ -5,11 +5,13 @@ import { useLanguageStore } from "@/store/langStore"; // Zustand store for langu
 import axios from "axios"; // Axios for API requests
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const BlogPage = () => {
   const [blogData, setBlogData] = useState<any[]>([]); // State to store fetched blogs
   const [loading, setLoading] = useState<boolean>(true); // Loading state
   const { language, setLanguage } = useLanguageStore(); // Use Zustand store for language
+  const { t } = useTranslation();
 
   // Fetch preferred language from localStorage when the component mounts
   useEffect(() => {
@@ -45,9 +47,11 @@ const BlogPage = () => {
       >
         <div className="absolute z-[1] top-0 left-0 w-full h-full bg-black/50" />
         <div className="relative z-[2] text-center space-y-6 p-6">
-          <p className="text-white uppercase font-medium">Latest News & Blog</p>
-          <h1 className="text-white md:text-7xl  font-marcellus font-normal">
-            Our News
+          <p className="text-white uppercase font-medium">
+            {t("blog_latest_news")}
+          </p>
+          <h1 className="text-white md:text-7xl font-marcellus font-normal">
+            {t("blog_our_news")}
           </h1>
         </div>
       </div>

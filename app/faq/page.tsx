@@ -8,8 +8,11 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@/components/ui/accordion";
+import { useTranslation } from "react-i18next";
 
 const FAQ = () => {
+  const { t } = useTranslation();
+
   const accordionData = [
     {
       title: "Open Cable Cars Information",
@@ -66,38 +69,25 @@ const FAQ = () => {
       >
         <div className="absolute z-[1] top-0 left-0 w-full h-full bg-black/50" />
         <div className="relative z-[2] text-center space-y-6 p-6">
-          <p className="text-white uppercase font-medium">PERFECT HIKING</p>
-          <h1 className="text-white md:text-7xl  font-marcellus font-normal">
-            FAQ
+          <p className="text-white uppercase font-medium">
+            {t("faq_perfect_hiking")}
+          </p>
+          <h1 className="text-white md:text-7xl font-marcellus font-normal">
+            {t("faq_title")}
           </h1>
-          <p className="text-white  text-lg font-medium">
-            The Andermatt region offers excellent hiking opportunities.
+          <p className="text-white text-lg font-medium">
+            {t("faq_hiking_region_description")}
           </p>
         </div>
       </div>
       <div className="main text-center space-y-6 p-6">
-        <p>The Amazing Experience</p>
+        <p>{t("faq_amazing_experience")}</p>
         <h2 className="md:text-5xl text-4xl font-marcellus">
-          Diving & Snorkelling
+          {t("faq_diving_snorkelling")}
         </h2>
-        <p>
-          Just a short boat ride from Nanuku’s beach is Beqa Lagoon, home to one
-          of the world’s largest barrier reefs. Explore the clear, calm waters,
-          where you’ll be able see as far ahead as 100 feet. A spectacular
-          underwater world awaits, with beautiful reef formations covered with
-          soft corals in nearly every color imaginable, from bright purple and
-          vivid orange to mellow olive green. Keep your eyes peeled for abundant
-          marine life, including manta rays, hawksbill turtles and schools of
-          tropical fish swimming by.
-        </p>
-        <p>
-          Nulla consequat massa quis enim. Donec pede justo, fringilla vel,
-          aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
-          imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede
-          mollis pretium. Integer tinci dunt. Cras dapibus. Vivamus elementum
-          semper nisi.
-        </p>
-        <p>Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue.</p>
+        <p>{t("faq_diving_description_1")}</p>
+        <p>{t("faq_diving_description_2")}</p>
+        <p>{t("faq_diving_description_3")}</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 my-20">
           {[{ image: "/faq1.jpg" }, { image: "/faq2.jpg" }].map(
             (imageObj, index) => (
@@ -120,14 +110,13 @@ const FAQ = () => {
         <div className="absolute z-[1] top-0 left-0 w-full h-full bg-black/50" />
         <div className="relative z-[2] text-center space-y-6 p-6">
           <p className="text-white uppercase font-medium">
-            FREQUENTLY ASKED QUESTIONS
+            {t("faq_frequently_asked_questions")}
           </p>
           <h2 className="text-white md:text-5xl text-4xl font-marcellus">
-            HIKING TIPS & FAQ
+            {t("faq_hiking_tips")}
           </h2>
-          <p className="text-white  text-lg font-medium">
-            Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper
-            libero, sit amet adipiscing sem neque sed ipsum.
+          <p className="text-white text-lg font-medium">
+            {t("faq_hiking_description")}
           </p>
         </div>
       </div>

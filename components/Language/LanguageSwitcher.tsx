@@ -9,6 +9,7 @@ import {
 import { useLanguageStore } from "@/store/langStore";
 import { motion } from "framer-motion";
 import React, { useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 // Define supported languages with their display names
 const supportedLanguages = [
@@ -26,8 +27,12 @@ const normalizeLanguageCode = (code: string) => {
 
 const LanguageSwitcher: React.FC = () => {
   const { language, setLanguage } = useLanguageStore(); // Use Zustand store for language
+  const { i18n } = useTranslation();
+
   const changeLanguage = (lng: string) => {
     const normalizedLanguage = normalizeLanguageCode(lng);
+    i18n.changeLanguage(normalizedLanguage);
+
     setLanguage(normalizedLanguage); // Update language in Zustand store and persist it in localStorage
   };
 
@@ -41,6 +46,25 @@ const LanguageSwitcher: React.FC = () => {
     const normalizedLanguage = normalizeLanguageCode(storedLanguage);
     setLanguage(normalizedLanguage); // Set the language in Zustand store when component mounts
   }, [setLanguage]);
+
+  useEffect(() => {
+    const preferredLanguage = localStorage.getItem("preferredLanguage") || "en";
+    const normalizedLanguage = normalizeLanguageCode(preferredLanguage);
+    i18n.changeLanguage(normalizedLanguage);
+    setLanguage(normalizedLanguage);
+  }, [i18n]);
+
+  // const changeLanguage = (lng: string) => {
+  //   const normalizedLanguage = normalizeLanguageCode(lng);
+  //   i18n.changeLanguage(normalizedLanguage);
+  //   localStorage.setItem("preferredLanguage", normalizedLanguage);
+  //   setSelectedLanguage(normalizedLanguage);
+  // };
+
+  // const currentLanguage = useMemo(
+  //   () => supportedLanguages.find((lang) => lang.code === selectedLanguage),
+  //   [O]
+  // );
 
   return (
     <DropdownMenu>
