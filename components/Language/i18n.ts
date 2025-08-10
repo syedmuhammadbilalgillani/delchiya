@@ -6,7 +6,8 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 
 // Import all locale files
 import commonEN from './locales/en/common.json';
-import commonDE from './locales/de/common.json';
+// import commonDE from './locales/de/common.json';
+import commonDA from './locales/da/common.json';
 // import commonAR from './locales/ar/common.json';
 // import commonFR from './locales/fr/common.json';
 // import commonES from './locales/es/common.json';
@@ -33,8 +34,8 @@ i18n
       en: {
         common: commonEN,
       },
-      de: {
-        common: commonDE,
+      da: {
+        common: commonDA,
       },
       // ar: {
       //   common: commonAR,

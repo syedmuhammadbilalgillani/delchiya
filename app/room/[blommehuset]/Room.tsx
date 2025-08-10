@@ -15,6 +15,7 @@ import {
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
+export const dynamic = "force-dynamic";
 
 const RoomPage = () => {
   const searchParams = useSearchParams();

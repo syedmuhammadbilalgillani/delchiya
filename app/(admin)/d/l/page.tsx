@@ -26,7 +26,7 @@ export default function LoginPage() {
       setError("Invalid email or password");
       setLoading(false);
     } else {
-      router.push("/d/a");
+      router.push("/d/a/blog");
       setLoading(false);
     }
   };

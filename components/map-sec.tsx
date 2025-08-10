@@ -1,11 +1,11 @@
 "use client";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import L from "leaflet";
-import { Car, ShoppingCart, Sun, MapPin, LandPlot } from "lucide-react";
-import "leaflet/dist/leaflet.css";
 import type { LatLngExpression } from "leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import Text from "./Language/TranslatedText";
 
 const customIcon = L.icon({

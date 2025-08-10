@@ -1,21 +1,18 @@
-"use client";
 
 import EmblaCarousel from "@/components/embela-slider/embela-slider";
-import FilterSection from "@/components/filter-section";
 import HeroSection from "@/components/hero-sec";
 import RoomCard from "@/components/room-card";
 import Structure from "@/components/structure";
 import VideoDialog from "@/components/video-dialogue";
-import dynamic from "next/dynamic";
 
-const LocationCard = dynamic(() => import("@/components/map-sec"), {
-  ssr: false,
-});
 
+import FilterHome from "@/components/filter-home";
 import GUEST_EXPERIENCES from "@/components/guest-experience";
-import Image from "next/image";
 import HomeLastSection from "@/components/home_last_sec";
 import Text from "@/components/Language/TranslatedText";
+import Location from "@/components/location";
+import Image from "next/image";
+export const dynamic = "force-dynamic";
 
 const page = () => {
   const productSlides = [
@@ -29,7 +26,7 @@ const page = () => {
   return (
     <>
       <HeroSection />
-      <FilterSection />
+      <FilterHome />
       <div className="flex flex-col justify-center items-center main max-w-3xl text-center gap-6">
         <Image
           src={"/stay-house.svg"}
@@ -58,7 +55,7 @@ const page = () => {
       <VideoDialog />
       <Structure />
       <RoomCard />
-      <LocationCard />
+      <Location />
       <GUEST_EXPERIENCES />
       <HomeLastSection />
     </>

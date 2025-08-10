@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Button } from './ui/button';
 
 const CreateCouponForm: React.FC = () => {
   // Form state
@@ -46,7 +47,7 @@ const CreateCouponForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 bg-white rounded-lg shadow-lg">
+    <div className="max-w-md mx-auto p-4 bg-white rounded-lg min-h-dvh">
       <h2 className="text-2xl font-semibold text-center mb-4">Create Coupon</h2>
 
       {error && <div className="text-red-500 mb-4">{error}</div>}
@@ -60,7 +61,7 @@ const CreateCouponForm: React.FC = () => {
             id="code"
             value={code}
             onChange={(e) => setCode(e.target.value)}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green"
             required
           />
         </div>
@@ -72,7 +73,7 @@ const CreateCouponForm: React.FC = () => {
             id="discount"
             value={discount}
             onChange={(e) => setDiscount(e.target.value)}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green"
             required
           />
         </div>
@@ -84,17 +85,17 @@ const CreateCouponForm: React.FC = () => {
             id="expiration"
             value={expiration}
             onChange={(e) => setExpiration(e.target.value)}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green"
             required
           />
         </div>
 
-        <button
+        <Button
           type="submit"
-          className="w-full p-2 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="w-full "
         >
           Create Coupon
-        </button>
+        </Button>
       </form>
     </div>
   );

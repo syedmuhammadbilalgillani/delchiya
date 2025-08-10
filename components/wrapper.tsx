@@ -16,7 +16,7 @@ export default function RootLayout({
 
     if (status === "authenticated" && pathname === "/d/l") {
       // If logged in and on login page, redirect to dashboard
-      router.replace("/d/a");
+      router.replace("/d/a/blog");
     }
 
     if (status === "unauthenticated" && pathname !== "/d/l") {

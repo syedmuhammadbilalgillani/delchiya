@@ -6,6 +6,7 @@ import { Menu, ChevronDown } from "lucide-react"; // ChevronDown arrow for dropd
 import Image from "next/image";
 import { Sheet, SheetContent, SheetTitle } from "./ui/sheet"; // Assuming you've imported the Sheet component from ShadCN
 import LanguageSwitcher from "./Language/LanguageSwitcher";
+import { usePathname } from "next/navigation";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -18,45 +19,46 @@ const navLinks = [
       { href: "/gallery-page", label: "Billeder" },
     ],
   },
-  {
-    href: "https://www.delchiya.de/about-the-hotel/",
-    label: "Aktiviteter",
-    dropdownLinks: [
-      {
-        href: "https://www.delchiya.de/pool/",
-        label: "Pool & Spa",
-      },
-      {
-        href: "https://www.delchiya.de/xbox-ultimate/",
-        label: "Xbox Ultimate",
-      },
-      {
-        href: "https://www.delchiya.de/tv-film/",
-        label: "XL TV & Film",
-      },
-      {
-        href: "https://www.delchiya.de/billiard-airhockey/",
-        label: "Billiard & Bordtennis",
-      },
-      {
-        href: "https://www.delchiya.de/bordfodbold/",
-        label: "BordFodbold & Airhockey",
-      },
-      {
-        href: "https://www.delchiya.de/poker-blackjack/",
-        label: "Poker & Blackjack",
-      },
-      {
-        href: "https://www.delchiya.de/activity-detail-2/",
-        label: "Lejeplads",
-      },
-      {
-        href: "https://www.delchiya.de/local-activities/",
-        label: "Lokale Aktiviteter",
-      },
-    ],
-  },
+  // {
+  //   href: "https://www.delchiya.de/about-the-hotel/",
+  //   label: "Aktiviteter",
+  //   dropdownLinks: [
+  //     {
+  //       href: "https://www.delchiya.de/pool/",
+  //       label: "Pool & Spa",
+  //     },
+  //     {
+  //       href: "https://www.delchiya.de/xbox-ultimate/",
+  //       label: "Xbox Ultimate",
+  //     },
+  //     {
+  //       href: "https://www.delchiya.de/tv-film/",
+  //       label: "XL TV & Film",
+  //     },
+  //     {
+  //       href: "https://www.delchiya.de/billiard-airhockey/",
+  //       label: "Billiard & Bordtennis",
+  //     },
+  //     {
+  //       href: "https://www.delchiya.de/bordfodbold/",
+  //       label: "BordFodbold & Airhockey",
+  //     },
+  //     {
+  //       href: "https://www.delchiya.de/poker-blackjack/",
+  //       label: "Poker & Blackjack",
+  //     },
+  //     {
+  //       href: "https://www.delchiya.de/activity-detail-2/",
+  //       label: "Lejeplads",
+  //     },
+  //     {
+  //       href: "https://www.delchiya.de/local-activities/",
+  //       label: "Lokale Aktiviteter",
+  //     },
+  //   ],
+  // },
   { href: "/faq", label: "FAQ" },
+  { href: "/news", label: "Nyheder" },
 ];
 
 const Navbar = () => {
@@ -65,6 +67,7 @@ const Navbar = () => {
   const [activeMobileDropdown, setActiveMobileDropdown] = useState<
     number | null
   >(null); // Track active dropdown in mobile view
+  const pathname = usePathname();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null); // Ref to store timeout ID for mouse leave
 
   // Handle mouse enter for dropdown (desktop)
@@ -97,7 +100,11 @@ const Navbar = () => {
   };
 
   return (
-    <header className="absolute top-0 w-full z-40 border-b border-b-white/40 bg-gradient-to-b from-black/40 to-transparent  px-[5%] transition-all">
+    <header
+      className={`${
+        pathname.startsWith("/d/a") ? "hidden" : ""
+      } absolute top-0 w-full z-40 border-b border-b-white/40 bg-gradient-to-b from-black/40 to-transparent  px-[5%] transition-all`}
+    >
       {/* Desktop Navbar */}
       <nav className="hidden md:flex items-center justify-between px-4 py-7">
         <div className="flex space-x-6">
@@ -193,7 +200,6 @@ const Navbar = () => {
           </div>
         </Link>
         <LanguageSwitcher />
-
       </nav>
 
       {/* Mobile Sheet (ShadCN) */}

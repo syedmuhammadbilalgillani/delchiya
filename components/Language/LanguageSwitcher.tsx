@@ -1,24 +1,20 @@
-"use client";
+"use client"; // Mark this component to be client-side
 
-import { useTranslation } from "react-i18next";
-import React, { useEffect, useMemo, useState } from "react";
-import { motion } from "framer-motion";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useLanguageStore } from "@/store/langStore";
+import { motion } from "framer-motion";
+import React, { useEffect, useMemo } from "react";
 
 // Define supported languages with their display names
 const supportedLanguages = [
   { code: "en", name: "English" },
-  { code: "de", name: "Deutsch" },
-  // { code: "ar", name: "العربية" },
-  // { code: "fr", name: "Français" },
-  // { code: "es", name: "Español" },
-  // { code: "zh", name: "中文" },
-  // { code: "ja", name: "日本語" },
+  { code: "da", name: "Danish" },
+  // Additional languages can be added here
 ];
 
 const normalizeLanguageCode = (code: string) => {
@@ -29,27 +25,22 @@ const normalizeLanguageCode = (code: string) => {
 };
 
 const LanguageSwitcher: React.FC = () => {
-  const { i18n } = useTranslation();
-  const [selectedLanguage, setSelectedLanguage] = useState("en");
-
-  useEffect(() => {
-    const preferredLanguage = localStorage.getItem("preferredLanguage") || "en";
-    const normalizedLanguage = normalizeLanguageCode(preferredLanguage);
-    i18n.changeLanguage(normalizedLanguage);
-    setSelectedLanguage(normalizedLanguage);
-  }, [i18n]);
-
+  const { language, setLanguage } = useLanguageStore(); // Use Zustand store for language
   const changeLanguage = (lng: string) => {
     const normalizedLanguage = normalizeLanguageCode(lng);
-    i18n.changeLanguage(normalizedLanguage);
-    localStorage.setItem("preferredLanguage", normalizedLanguage);
-    setSelectedLanguage(normalizedLanguage);
+    setLanguage(normalizedLanguage); // Update language in Zustand store and persist it in localStorage
   };
 
   const currentLanguage = useMemo(
-    () => supportedLanguages.find((lang) => lang.code === selectedLanguage),
-    [selectedLanguage]
+    () => supportedLanguages.find((lang) => lang.code === language),
+    [language]
   );
+
+  useEffect(() => {
+    const storedLanguage = localStorage.getItem("preferredLanguage") || "en";
+    const normalizedLanguage = normalizeLanguageCode(storedLanguage);
+    setLanguage(normalizedLanguage); // Set the language in Zustand store when component mounts
+  }, [setLanguage]);
 
   return (
     <DropdownMenu>
@@ -59,7 +50,7 @@ const LanguageSwitcher: React.FC = () => {
           aria-label="Toggle Language Menu"
         >
           <motion.span
-            key={selectedLanguage}
+            key={language}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             className="text-sm font-semibold"
@@ -75,7 +66,7 @@ const LanguageSwitcher: React.FC = () => {
             key={lang.code}
             onClick={() => changeLanguage(lang.code)}
             className={`cursor-pointer ${
-              selectedLanguage === lang.code
+              language === lang.code
                 ? "text-blue-500 font-semibold"
                 : "text-gray-700 dark:text-gray-200"
             }`}

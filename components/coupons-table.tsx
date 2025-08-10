@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Button } from "./ui/button";
+import Link from "next/link";
 
 const CouponDataTable: React.FC = () => {
   const [coupons, setCoupons] = useState<any[]>([]);
@@ -19,7 +21,13 @@ const CouponDataTable: React.FC = () => {
   }, []);
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto p-5 min-h-dvh">
+       <div className="flex justify-between mb-4">
+        <h1 className="text-2xl font-bold mb-6">Coupon</h1>
+        <Button asChild>
+          <Link href={"/d/a/coupon/c"}>Create</Link>
+        </Button>
+      </div>
       <table className="min-w-full table-auto border-collapse border border-gray-200">
         <thead>
           <tr className="bg-gray-100">

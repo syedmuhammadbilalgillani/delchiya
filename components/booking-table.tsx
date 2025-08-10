@@ -208,13 +208,11 @@ export function BookingsTable({
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
 
   return (
-    <div className=" w-full p-8 mt-20">
+    <div className=" w-full p-5 min-h-dvh">
       <div className="flex justify-between mb-4">
         <h1 className="text-2xl font-bold mb-6">Bookings</h1>
-        <Logout />
       </div>
-      <CreateCouponForm />
-      <CouponDataTable />
+
       <div className="bg-white p-6 rounded-lg shadow">
         {initialBookings.length > 0 ? (
           <DataTable

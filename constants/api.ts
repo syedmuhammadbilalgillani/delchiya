@@ -18,3 +18,18 @@ export const fetchHouseData = async () => {
     throw error;
   }
 };
+export const fetchAvailbleDates = async () => {
+  try {
+    const response = await axios.get<any[]>(
+      "https://api.villavilla.com/partner-api/v1/houses/122/availability?currency_code=208",
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching booking data:", error);
+  }
+};

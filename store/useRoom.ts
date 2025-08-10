@@ -29,7 +29,7 @@ export const useRoomStore = create<RoomStore>((set) => ({
   linnedCount: 0,
   linnedChecked: false,
   basePrice: 0,
-  rengoring: 1800,
+  rengoring: 0,
   checkin: null,
   checkout: null,
   totalPrice: 0,

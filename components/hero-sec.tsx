@@ -23,7 +23,7 @@ const HeroSection = () => {
             href="https://villavilla.dk/sommerhusudlejning/lolland-falster-moen/marielyst/222/"
             target="_blank"
           >
-            <Image
+            <img
               src={"/villavilla-logo.png"}
               alt="villavilla"
               className=" md:p-3"

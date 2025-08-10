@@ -1,6 +1,4 @@
 "use client";
-import { token } from "@/constants/urls";
-import axios from "axios";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -57,7 +55,7 @@ interface AvailablePeriod {
   originalData: BookingData;
 }
 
-const FilterSection = () => {
+const FilterSection = ({ res }: { res: any }) => {
   const [selectedRange, setSelectedRange] = useState<DateRange | undefined>();
   const [availablePeriods, setAvailablePeriods] = useState<AvailablePeriod[]>(
     []
@@ -78,30 +76,20 @@ const FilterSection = () => {
     return normalized;
   };
 
-  // Fetch availability data
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       setError(null);
       try {
-        const response = await axios.get<BookingData[]>(
-          "https://api.villavilla.com/partner-api/v1/houses/122/availability?currency_code=208",
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
-        const apiData = response.data;
-        const periods = apiData.map((item) => ({
+        const periods = res.map((item: any) => ({
           from: normalizeDate(new Date(item.period.from)),
           to: normalizeDate(new Date(item.period.to)),
           originalData: item,
         }));
 
         setAvailablePeriods(periods);
-        setFromDates(periods.map((period) => period.from));
-        setToDates(periods.map((period) => period.to));
+        setFromDates(periods.map((period: any) => period.from));
+        setToDates(periods.map((period: any) => period.to));
       } catch (error) {
         setError("Failed to load availability data. Please try again.");
         console.error("Error fetching booking data:", error);
