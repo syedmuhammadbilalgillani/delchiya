@@ -1,8 +1,11 @@
 "use client";
+import { token } from "@/constants/urls";
+import axios from "axios";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { DateRange, DayPicker } from "react-day-picker";
+import { useTranslation } from "react-i18next";
 
 interface Country {
   name: string;
@@ -55,12 +58,13 @@ interface AvailablePeriod {
   originalData: BookingData;
 }
 
-const FilterSection = ({ res }: { res: any }) => {
+const FilterSection = () => {
   const [selectedRange, setSelectedRange] = useState<DateRange | undefined>();
   const [availablePeriods, setAvailablePeriods] = useState<AvailablePeriod[]>(
     []
   );
   const [fromDates, setFromDates] = useState<Date[]>([]);
+  const { t } = useTranslation();
   const [toDates, setToDates] = useState<Date[]>([]);
   const [price, setPrice] = useState<Pricing | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -81,15 +85,24 @@ const FilterSection = ({ res }: { res: any }) => {
       setIsLoading(true);
       setError(null);
       try {
-        const periods = res.map((item: any) => ({
+        const response = await axios.get<BookingData[]>(
+          "https://api.villavilla.com/partner-api/v1/houses/122/availability?currency_code=208",
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
+        const apiData = response.data;
+        const periods = apiData.map((item) => ({
           from: normalizeDate(new Date(item.period.from)),
           to: normalizeDate(new Date(item.period.to)),
           originalData: item,
         }));
 
         setAvailablePeriods(periods);
-        setFromDates(periods.map((period: any) => period.from));
-        setToDates(periods.map((period: any) => period.to));
+        setFromDates(periods.map((period) => period.from));
+        setToDates(periods.map((period) => period.to));
       } catch (error) {
         setError("Failed to load availability data. Please try again.");
         console.error("Error fetching booking data:", error);
@@ -258,23 +271,25 @@ const FilterSection = ({ res }: { res: any }) => {
 
   // Get button text based on selection step
   const getButtonText = () => {
+    const fromDate = selectedRange?.from;
+
     // If both dates are selected, show the range
-    if (selectedRange?.from && selectedRange?.to) {
-      return formatDateRange(selectedRange.from, selectedRange.to);
+    if (fromDate && selectedRange?.to) {
+      return formatDateRange(fromDate, selectedRange.to);
     }
 
-    // If only from date is selected (in 'to' step)
-    if (selectionStep === "to" && selectedRange?.from) {
-      return `${formatDate(selectedRange.from)} - Select Check-out`;
+    // If only 'from' date is selected and we are in 'to' step, prompt for check-out date
+    if (selectionStep === "to" && fromDate) {
+      return `${formatDate(fromDate)} - ${t("select_check_out")}`;
     }
 
-    // If from date is selected but we're still in 'from' step
-    if (selectionStep === "from" && selectedRange?.from) {
-      return formatDate(selectedRange.from);
+    // If 'from' date is selected but still in 'from' step, show just the 'from' date
+    if (selectionStep === "from" && fromDate) {
+      return formatDate(fromDate);
     }
 
-    // Default state
-    return `${isLoading ? "Please wait..." : "Select Check-in Date"}`;
+    // Default state - show a loading message or prompt for check-in date
+    return `${isLoading ? t("please_wait") : t("select_check_in_date")}`;
   };
   // Close mobile menu when clicking outside
   React.useEffect(() => {
@@ -390,8 +405,8 @@ const FilterSection = ({ res }: { res: any }) => {
           )}
         </div>
 
-        <div className="flex p-3   col-span-1 items-center text-white gap-2 border border-yellow transition-colors min-w-56  w-full justify-between">
-          <label>Price</label>
+        <div className="flex p-3 col-span-1 items-center text-white gap-2 border border-yellow transition-colors min-w-56 w-full justify-between">
+          <label>{t("room_price")}</label>
           <div>{price?.rent || "-"}</div>
         </div>
         <Link
@@ -401,8 +416,8 @@ const FilterSection = ({ res }: { res: any }) => {
               : `/room/blommehuset?checkin=${checkin}&checkout=${checkout}`
           }
         >
-          <div className="text-center col-span-1   py-3  text-white gap-2  bg-yellow border-yellow hover:bg-yellow/80 transition-colors cursor-pointer w-full ">
-            Check Availibilty
+          <div className="text-center col-span-1 py-3 text-white gap-2 bg-yellow border-yellow hover:bg-yellow/80 transition-colors cursor-pointer w-full">
+            {t("check_availability")}
           </div>
         </Link>
       </div>

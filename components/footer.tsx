@@ -4,12 +4,12 @@ import React from "react";
 const Footer = () => {
   return (
     <div className="bg-black">
-      <div className="main  flex justify-between max-sm:flex-wrap gap-10 items-center">
+      <div className="main  flex justify-center max-sm:flex-wrap gap-10 items-center">
         <p className=" text-white">
-          © Copyright CozyStay WordPress Theme for Hotel Booking.
+          © Copyright Blommehuset.
         </p>
         <div>
-          <ul className="flex gap-5 items-center uppercase text-white list-none">
+          {/* <ul className="flex gap-5 items-center uppercase text-white list-none">
             <li>
               <Link className="hover:text-yellow text-sm" href={"/"}>privacy</Link>
             </li>
@@ -19,7 +19,7 @@ const Footer = () => {
             <li>
               <Link className="hover:text-yellow text-sm" href={"/"}>policy</Link>
             </li>
-          </ul>
+          </ul> */}
         </div>
       </div>
     </div>

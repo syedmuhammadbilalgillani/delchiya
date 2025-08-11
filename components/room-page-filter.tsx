@@ -13,6 +13,7 @@ import { ChevronDown } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useRoomStore } from "@/store/useRoom";
 import CalenderDialog from "./calender-dialog";
+import { useTranslation } from "react-i18next";
 interface Pricing {
   rent: number;
   cleaning: number;
@@ -31,6 +32,7 @@ interface RoomPageFilterProps {
 const MAX_OCCUPANTS = 18;
 
 const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
+  const { t } = useTranslation();
   const rengoringFees = true;
   const searchParams = useSearchParams();
   const checkin = searchParams.get("checkin");
@@ -57,6 +59,7 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
     setCheckin,
     setCheckout,
     setTotalPrice,
+    setDiscount,
   } = useRoomStore();
 
   const totalOccupants = adults + children;
@@ -70,16 +73,18 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
   // Calculate total price whenever relevant state changes
   useEffect(() => {
     const base = price?.rent ?? 0;
-    console.log("Prices:", price);
     const rengoringVal = rengoringFees ? price?.cleaning : 0;
+    const discountAmount = Math.abs(price?.discount ?? 0);
     const linnedVal = linnedChecked ? linnedCount * 135 : 0;
+
     setBasePrice(base);
+    setDiscount(discountAmount);
     setRengoring(rengoringVal);
-    setTotalPrice(base + rengoringVal + linnedVal);
-    console.log("Total Price Updated:", base + rengoringVal + linnedVal);
-    console.log("Total Price :", totalPrice);
+    setTotalPrice(base + rengoringVal + linnedVal - discountAmount);
   }, [
     price?.rent,
+    price?.cleaning,
+    price?.discount,
     rengoringFees,
     linnedChecked,
     linnedCount,
@@ -87,13 +92,13 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
     setRengoring,
     setTotalPrice,
   ]);
-
   // Pure function for displaying the total price
   const calculateTotalPrice = () => {
     const base = price?.rent ?? 0;
     const rengoringVal = rengoringFees ? price?.cleaning : 0;
     const linnedVal = linnedChecked ? linnedCount * 135 : 0;
-    const total = base + rengoringVal + linnedVal;
+    const discountAmount = Math.abs(price?.discount ?? 0);
+    const total = base + rengoringVal + linnedVal - discountAmount;
     const safeTotal = isNaN(total) ? 0 : total;
 
     return safeTotal;
@@ -101,13 +106,13 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
 
   return (
     <div className="shadow-[0px_0px_4px_1px_rgba(0,_0,_0,_0.1)] p-5 rounded-lg sticky top-10">
-      <h2>Reserve:</h2>
+      <h2>{t("reserve")}:</h2>
       <div className=" mt-5">
         <CalenderDialog />
       </div>
       <div className="flex gap-2 w-full my-5">
         <CounterSelect
-          label="Adults"
+          label={t('adults')}
           value={adults}
           setValue={setAdults}
           min={1}
@@ -120,7 +125,7 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
           className="w-full"
         />
         <CounterSelect
-          label="Children"
+          label={t('children')}
           value={children}
           setValue={setChildren}
           dropdownKey="children"
@@ -132,11 +137,8 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
           className="w-full"
         />
       </div>
-      {/* <div>
-        {totalOccupants} of {MAX_OCCUPANTS} occupants selected
-        {totalOccupants >= MAX_OCCUPANTS && <span>(Maximum reached)</span>}
-      </div> */}
-      <h3>Extra Services</h3>
+
+      <h3>{t("extra_services")}</h3>
       <div className="space-y-2 mt-5">
         <div className="flex justify-between">
           <div className="flex gap-3">
@@ -150,7 +152,7 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
               />
               <span className="checkmark"></span>
             </label>
-            <label>Rengøring fees</label>
+            <label>{t("cleaning_fees")}</label>
           </div>
 
           <span>{rengoringFees ? price?.cleaning : "0"} kr.</span>
@@ -168,13 +170,13 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
               <span className="checkmark"></span>
             </label>
             <div className="flex gap-1 items-center text-nowrap ">
-              <label>Linned (per sæt)</label>
+              <label>{t("linned_per_set")}</label>
               <span className="text-sm">135 kr. / Person </span>
             </div>
           </div>
           <div>
             <CounterSelect
-              label="Linned Sets"
+              label={t("linned_sets")}
               value={linnedCount}
               setValue={setLinnedCount}
               min={0}
@@ -183,33 +185,38 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
               setOpenDropdown={setOpenDropdown}
               className="w-36"
             />
-            {/* Checkbox to enable Linned Sets */}
           </div>
         </div>
         <hr className="my-5" />
         <Collapsible>
           <div className="flex justify-between">
             <CollapsibleTrigger className="flex items-center gap-2">
-              <span className="text-2xl font-marcellus">Total Cost </span>
+              <span className="text-2xl font-marcellus">{t("total_cost")}</span>
               <ChevronDown size={18} />
             </CollapsibleTrigger>
             <div>{calculateTotalPrice()} kr.</div>
           </div>
           <CollapsibleContent>
             <div className="flex justify-between border-t border-dashed py-3 mt-3">
-              <label>Total Base Price</label>
+              <label>{t("total_base_price")}</label>
               <div>{price?.rent ?? 0} kr.</div>
             </div>
+            {price?.discount && (
+              <div className="flex justify-between border-t border-dashed py-3 mt-3">
+                <label>{t("discount")}</label>
+                <div>{Math.abs(price?.discount ?? 0)} kr.</div>
+              </div>
+            )}
             <div className="flex justify-between border-t border-dashed py-3">
-              <label>Extra Services Price</label>
+              <label>{t("extra_services_price")}</label>
               <div>{`${linnedChecked ? linnedCount * 135 : "0"} kr.`}</div>
             </div>
             <div className="flex justify-between border-t border-dashed py-3">
-              <label>Rengøring</label>
+              <label>{t("cleaning")}</label>
               <div>{rengoringFees ? price?.cleaning : "0"}</div>
             </div>
             <div className="flex justify-between border-y border-dashed py-3">
-              <label>Total Price</label>
+              <label>{t("total_price")}</label>
               <div>{calculateTotalPrice()} kr.</div>
             </div>
           </CollapsibleContent>
@@ -226,7 +233,7 @@ const RoomPageFilter = ({ price }: RoomPageFilterProps) => {
             setTotalPrice(calculateTotalPrice());
           }}
         >
-          Book Your Stay Now
+          {t("book_your_stay_now")}
         </Button>
       </Link>
     </div>

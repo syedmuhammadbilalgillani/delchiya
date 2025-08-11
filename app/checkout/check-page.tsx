@@ -9,6 +9,7 @@ import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 const stripePromise = loadStripe(
@@ -17,6 +18,8 @@ const stripePromise = loadStripe(
 
 const CheckoutForm = () => {
   const router = useRouter();
+  const { t } = useTranslation();
+
   const {
     adults,
     children,
@@ -27,6 +30,7 @@ const CheckoutForm = () => {
     checkin: storeCheckin,
     checkout: storeCheckout,
     totalPrice,
+    discount: disc,
     setTotalPrice,
   } = useRoomStore();
 
@@ -162,13 +166,14 @@ const CheckoutForm = () => {
       <div className="main h-dvh flex justify-center items-center">
         <div className="text-center py-8">
           <h2 className="text-xl font-semibold mb-4">
-            Missing Booking Information
+            {t("missing_booking_title")}
           </h2>
           <p className="text-gray-600 mb-4">
-            Please complete your booking selection before proceeding to
-            checkout.
+            {t("missing_booking_description")}
           </p>
-          <Button onClick={() => router.back()}>Go Back to Booking</Button>
+          <Button onClick={() => router.back()}>
+            {t("go_back_to_booking")}
+          </Button>
         </div>
       </div>
     );
@@ -177,7 +182,7 @@ const CheckoutForm = () => {
     <div className="mt-24 main">
       <div className="col-span-4 md:hidden block px-5 py-3">
         <div className="border border-gray-300 rounded px-5 py-3">
-          <div>Order summary</div>
+          <div>{t("order_summary")}</div>
           <div className="flex justify-start items-center mt-2">
             <div className="flex items-center space-x-2">
               <img
@@ -191,20 +196,25 @@ const CheckoutForm = () => {
             </div>
           </div>
           <div className="flex justify-between border-t border-dashed py-3 mt-3">
-            <label>Total Base Price</label>
+            <label>{t("total_base_price")}</label>
             <div>{basePrice ?? 0} kr.</div>
           </div>
+          {(disc || discount) && (
+            <div className="flex justify-between border-t border-dashed py-3 mt-3">
+              <label>{t("discount")}</label>
+              <div>{disc + discount || 0} kr.</div>
+            </div>
+          )}
           <div className="flex justify-between border-t border-dashed py-3">
-            <label>Extra Services Price</label>
+            <label>{t("extra_services_price")}</label>
             <div>{`${linnedChecked ? linnedCount * 135 : "0"} kr.`}</div>
           </div>
           <div className="flex justify-between border-t border-dashed py-3">
-            <label>Rengøring</label>
+            <label>{t("cleaning")}</label>
             <div>{rengoring || "0"}</div>
           </div>
           <div className="flex justify-between border-y border-dashed py-3">
-            <label>Total Price</label>
-
+            <label>{t("total_price")}</label>
             <div>
               {discount > 0 ? (
                 <>
@@ -227,7 +237,7 @@ const CheckoutForm = () => {
               className="text-sm font-medium text-gray-700"
               htmlFor="coupon"
             >
-              Coupon Code (optional)
+              {t("coupon_code")}
             </label>
             <Input
               id="coupon"
@@ -235,24 +245,23 @@ const CheckoutForm = () => {
               name="coupon"
               value={coupon}
               onChange={(e) => setcoupon(e.target.value)}
-              placeholder="Enter coupon code"
+              placeholder={t("enter_coupon_code")}
             />
             <Button
               disabled={isLoading || discounted}
-              className="flex-1 w-full bg-green rounded-none hover:bg-yellow "
+              className="flex-1 w-full bg-green rounded-none hover:bg-yellow mt-2"
               type="button"
               onClick={() => applyCoupon(coupon)}
             >
-              {isLoading && <Loader2 className="animate-spin" />}Apply Coupon
+              {isLoading && <Loader2 className="animate-spin" />}{" "}
+              {t("apply_coupon")}
             </Button>
           </div>
         </div>
       </div>
 
-      <h1 className="text-xl font-semibold mb-4">Contact information</h1>
-      <p>
-        We'll use this email to send you details and updates about your order.
-      </p>
+      <h1 className="text-xl font-semibold mb-4">{t("contact_information")}</h1>
+      <p>{t("contact_info_description")}</p>
 
       <div className="grid md:grid-cols-12 grid-cols-1">
         <form
@@ -260,33 +269,25 @@ const CheckoutForm = () => {
           className="space-y-4 col-span-8 grid grid-cols-2 pt-3 gap-5"
         >
           {[
-            { label: "First Name", name: "first_name" },
-            { label: "Last Name", name: "last_name" },
-            { label: "Email", name: "email", type: "email" },
-            { label: "Phone", name: "phone" },
-            { label: "Mobile (optional)", name: "mobile" },
-            { label: "City", name: "city" },
-            { label: "Address", name: "address" },
-            { label: "Postal Code", name: "postal_code" },
-            { label: "Country", name: "country" },
-            { label: "Company Name (optional)", name: "company_name" },
-            {
-              label: "VAT Number (optional)",
-              name: "vat_identification_number",
-            },
-            { label: "Currency Code", name: "currency_code", type: "number" },
-            // {
-            //   label: "Bed Linen Amount",
-            //   name: "bedlinen_amount",
-            //   type: "number",
-            // },
+            { label: "first_name", name: "first_name" },
+            { label: "last_name", name: "last_name" },
+            { label: "email", name: "email", type: "email" },
+            { label: "phone", name: "phone" },
+            { label: "mobile_optional", name: "mobile" },
+            { label: "city", name: "city" },
+            { label: "address", name: "address" },
+            { label: "postal_code", name: "postal_code" },
+            { label: "country", name: "country" },
+            { label: "company_name_optional", name: "company_name" },
+            { label: "vat_number_optional", name: "vat_identification_number" },
+            { label: "currency_code", name: "currency_code", type: "number" },
           ].map(({ label, name, type }) => (
             <div key={name}>
               <label
                 className="text-sm font-medium text-gray-700"
                 htmlFor={name}
               >
-                {label}
+                {t(label)}
               </label>
               <Input
                 id={name}
@@ -299,8 +300,7 @@ const CheckoutForm = () => {
                         | string
                         | number
                         | undefined) ?? ""
-                }
-                readOnly={name === "currency_code"}
+                }                readOnly={name === "currency_code"}
                 disabled={name === "currency_code"}
                 onChange={handleChange}
                 required={!label.toLowerCase().includes("optional")}
@@ -313,23 +313,23 @@ const CheckoutForm = () => {
               className="text-sm font-medium text-gray-700"
               htmlFor="comment"
             >
-              Comment (optional)
+              {t("comment_optional")}
             </label>
             <Textarea
               id="comment"
               name="comment"
               value={formData.comment}
               onChange={handleChange}
-              placeholder="Comment (optional)"
+              placeholder={t("comment_placeholder")}
             />
           </div>
 
-          <Button type="submit">Checkout</Button>
+          <Button type="submit">{t("checkout")}</Button>
         </form>
 
         <div className="col-span-4 hidden md:block px-5 py-3">
           <div className="border border-gray-300 rounded px-5 py-3">
-            <div>Order summary</div>
+            <div>{t("order_summary")}</div>
             <div className="flex justify-start items-center mt-2">
               <div className="flex items-center space-x-2">
                 <img
@@ -342,22 +342,26 @@ const CheckoutForm = () => {
                 </div>
               </div>
             </div>
-
             <div className="flex justify-between border-t border-dashed py-3 mt-3">
-              <label>Total Base Price</label>
+              <label>{t("total_base_price")}</label>
               <div>{basePrice ?? 0} kr.</div>
             </div>
+            {(disc || discount) && (
+              <div className="flex justify-between border-t border-dashed py-3 mt-3">
+                <label>{t("discount")}</label>
+                <div>{disc + discount || 0} kr.</div>
+              </div>
+            )}
             <div className="flex justify-between border-t border-dashed py-3">
-              <label>Extra Services Price</label>
+              <label>{t("extra_services_price")}</label>
               <div>{`${linnedChecked ? linnedCount * 135 : "0"} kr.`}</div>
             </div>
             <div className="flex justify-between border-t border-dashed py-3">
-              <label>Rengøring</label>
+              <label>{t("cleaning")}</label>
               <div>{rengoring || "0"}</div>
             </div>
-
             <div className="flex justify-between border-y border-dashed py-3">
-              <label>Total Price</label>
+              <label>{t("total_price")}</label>
               <div>
                 {discount > 0 ? (
                   <>
@@ -375,13 +379,12 @@ const CheckoutForm = () => {
                 )}
               </div>
             </div>
-
-            <div className="space-y-2 mt-3">
+            <div className="">
               <label
                 className="text-sm font-medium text-gray-700"
                 htmlFor="coupon"
               >
-                Coupon Code (optional)
+                {t("coupon_code")}
               </label>
               <Input
                 id="coupon"
@@ -389,15 +392,16 @@ const CheckoutForm = () => {
                 name="coupon"
                 value={coupon}
                 onChange={(e) => setcoupon(e.target.value)}
-                placeholder="Enter coupon code"
+                placeholder={t("enter_coupon_code")}
               />
               <Button
                 disabled={isLoading || discounted}
-                className="flex-1 w-full bg-green rounded-none hover:bg-yellow "
+                className="flex-1 w-full bg-green rounded-none hover:bg-yellow mt-2"
                 type="button"
                 onClick={() => applyCoupon(coupon)}
               >
-                {isLoading && <Loader2 className="animate-spin" />}Apply Coupon
+                {isLoading && <Loader2 className="animate-spin" />}{" "}
+                {t("apply_coupon")}
               </Button>
             </div>
           </div>

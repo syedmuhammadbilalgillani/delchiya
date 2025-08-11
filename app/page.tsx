@@ -1,12 +1,10 @@
-
 import EmblaCarousel from "@/components/embela-slider/embela-slider";
 import HeroSection from "@/components/hero-sec";
 import RoomCard from "@/components/room-card";
 import Structure from "@/components/structure";
 import VideoDialog from "@/components/video-dialogue";
 
-
-import FilterHome from "@/components/filter-home";
+import FilterSection from "@/components/filter-section";
 import GUEST_EXPERIENCES from "@/components/guest-experience";
 import HomeLastSection from "@/components/home_last_sec";
 import Text from "@/components/Language/TranslatedText";
@@ -26,7 +24,7 @@ const page = () => {
   return (
     <>
       <HeroSection />
-      <FilterHome />
+      <FilterSection />{" "}
       <div className="flex flex-col justify-center items-center main max-w-3xl text-center gap-6">
         <Image
           src={"/stay-house.svg"}

@@ -15,6 +15,7 @@ import {
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 export const dynamic = "force-dynamic";
 
 const RoomPage = () => {
@@ -26,6 +27,8 @@ const RoomPage = () => {
   const [error, setError] = useState("");
   const [slides, setSlides] = useState<any[]>([]); // Separate state for slides
   const [isMounted, setisMounted] = useState(false);
+  const { t } = useTranslation();
+
   useEffect(() => {
     setisMounted(true);
   }, []);
@@ -117,7 +120,25 @@ const RoomPage = () => {
     direction: "ltr",
   };
 
-  console.log(houseData, "houseData");
+  const activities = [
+    { icon: "/swimming-pool.svg", label: "activity_spa" },
+    { icon: "/swimming-pool-2.svg", label: "activity_indoor_pool" },
+    { icon: "/air-conditioner.svg", label: "activity_sauna" },
+    { icon: "/base-ball.svg", label: "activity_billiard" },
+    { icon: "/compress.svg", label: "activity_dart" },
+    { icon: "/table-tennis.svg", label: "activity_table_tennis" },
+  ];
+
+  const included = [
+    { icon: "/air-conditioner.svg", label: "included_floor_heating" },
+    { icon: "/smart-tv.svg", label: "included_streaming_tv" },
+    { icon: "/wi-fi-icon.svg", label: "included_wifi_internet" },
+    { icon: "/hair-drayer.svg", label: "included_hair_dryer" },
+    { icon: "/coffee-machine.svg", label: "included_coffee_machine" },
+    { icon: "/washing-machine.svg", label: "included_washing_dryer_machine" },
+    { icon: "/washing-machine.svg", label: "included_dishwasher" },
+    { icon: "/stove.svg", label: "included_fireplace" },
+  ];
   return (
     <div>
       <Suspense>
@@ -129,149 +150,99 @@ const RoomPage = () => {
           <RoomPageFilter price={availabilityData?.pricing} />
         </div>
         <div className="md:col-span-5 col-span-full space-y-3 ">
-          <h1>Blommehuset</h1>
+          <h1>{t("house_name")}</h1>
           <p className="text-gray-500">
-            Indendørs Pool / Inde og ude spa / Sauna / Aktivitetsrum
+            {t("indoor_pool")} / {t("spa")} / {t("sauna")} /{" "}
+            {t("activity_room")}
           </p>
 
           <div className="flex gap-x-10 gap-y-2 flex-wrap ">
             <div className="flex items-center gap-1">
               <Maximize2 />
-              {houseData[0]?.info?.land_area?.value || ""}
+              {houseData[0]?.info?.land_area?.value || ""}{" "}
               {houseData[0]?.info?.land_area?.units || ""}
             </div>
             <div className="flex items-center gap-1">
               <Users />
-              {houseData[0]?.info?.persons || ""} Gæster
+              {houseData[0]?.info?.persons || ""} {t("guests")}
             </div>
             <div className="flex items-center gap-1">
-              <PawPrint /> {houseData[0]?.info?.bathrooms || ""} Husdyr tilladt
+              <PawPrint /> {houseData[0]?.info?.bathrooms || ""}{" "}
+              {t("pets_allowed")}
             </div>
             <div className="flex items-center gap-1">
-              <Bath /> Badeværelser
+              <Bath /> {t("bathrooms")}
             </div>
             <div className="flex items-center gap-1">
-              <BedDouble /> {houseData[0]?.info?.bedrooms || ""} Værelser
+              <BedDouble /> {houseData[0]?.info?.bedrooms || ""} {t("bedrooms")}
             </div>
             <div className="flex items-center gap-1">
-              <img src="/pillows.png" alt="pillow" className="size-8" /> 2 Hems
+              <img src="/pillows.png" alt="pillow" className="size-8" /> 2{" "}
+              {t("lofts")}
             </div>
             <div className="flex items-center gap-1">
               <Zap />
-              Energi Venlig
+              {t("energy_friendly")}
             </div>
           </div>
 
-          <p>
-            Blommehuset i Marielyst er et ideelt sted for en fantastisk
-            ferieoplevelse, hvor faciliteterne og beliggenheden kombineres til
-            at skabe den perfekte ramme. Placeret i det populære ferieområde
-            Marielyst, er dette sommerhus nær restauranter, indkøbsmuligheder og
-            stranden, hvilket giver jer alle de nødvendige bekvemmeligheder
-            inden for rækkevidde.
-          </p>
-          <p>
-            Dette rummelige sommerhus tilbyder en bred vifte af faciliteter, der
-            passer til enhver smag og aldersgruppe. Indendørs kan I nyde en
-            privat poolafdeling med en 22 m² stor pool, komplet med
-            vandrutsjebane til børnene, et rummeligt 6-personers spabad og en
-            stor sauna til ultimativ afslapning. Der er også to separate
-            aktivitetsrum, hvor I kan udfordre hinanden i forskellige spil som
-            bordtennis, billard og dart. Det åbne og velindrettede køkken-alrum
-            giver plads til fælles madlavning og hyggelige måltider rundt om det
-            lange spisebord.
-          </p>
-          <p>
-            Udendørs er der en stor terrasse med havemøbler og grill, hvor I kan
-            nyde de danske sommerdage og lave mad under åben himmel. Den
-            omkringliggende grund på 2100 m² er perfekt til børnene, stor
-            græsplæne til leg og boldspil.
-          </p>
-          <p>
-            Sommerhuset rummer i alt 6 dobbeltværelser og 2 hemse, hvilket giver
-            plads til op til 18 personer. Der er også faciliteter til de
-            mindste, herunder en barneseng og en høj stol.
-          </p>
-          <p>
-            Dette sommerhus er velegnet til forskellige lejligheder, herunder
-            familiefødselsdage, konfirmationer, bryllupper og
-            firmaarrangementer.
-          </p>
-          <h2>Aktiviteter</h2>
-          <div className="grid md:grid-cols-3 grid-cols-1  gap-5 mb-10">
-            {[
-              { icon: "/swimming-pool.svg", label: "Ude og indendørs SPA" },
-              {
-                icon: "/swimming-pool-2.svg",
-                label: "Indendørs Svømming pool",
-              },
-              { icon: "/air-conditioner.svg", label: "Sauna" },
-              { icon: "/base-ball.svg", label: "Billiard" },
-              { icon: "/compress.svg", label: "Dart" },
-              { icon: "/table-tennis.svg", label: "Bord Tennis" },
-            ].map((item: any, index: number) => (
+          <p>{t("house_description_1")}</p>
+          <p>{t("house_description_2")}</p>
+          <p>{t("house_description_3")}</p>
+          <p>{t("house_description_4")}</p>
+          <p>{t("house_description_5")}</p>
+          <h2>{t("activitiess")}</h2>
+          <div className="grid md:grid-cols-3 grid-cols-1 gap-5 mb-10">
+            {activities.map((item, index) => (
               <div
                 key={index}
-                className="bg-[#FAF7F4] p-5 rounded-lg  gap-2 flex items-center"
+                className="bg-[#FAF7F4] p-5 rounded-lg gap-2 flex items-center"
               >
                 <Image
                   src={item?.icon}
-                  alt={item?.label}
-                  height={30}
-                  width={30}
-                  className="text-yellow-400 fill-current"
-                />
-                <h3 className="text-base font-normal  font-marcellus">
-                  {item?.label}
-                </h3>
-              </div>
-            ))}
-          </div>
-          <h2>Inkluderet</h2>
-          <div className="grid grid-cols-2  gap-5 mb-10">
-            {[
-              { icon: "/air-conditioner.svg", label: "Gulv Varme" },
-              {
-                icon: "/smart-tv.svg",
-                label: "Streaming TV",
-              },
-              { icon: "/wi-fi-icon.svg", label: "Wifi & Internet" },
-              { icon: "/hair-drayer.svg", label: "Hår Tørre" },
-              {
-                icon: "/coffee-machine.svg",
-                label: "Espresso / Kaffe Maskine",
-              },
-              { icon: "/washing-machine.svg", label: "Vaske og Tørre Maskine" },
-              { icon: "/washing-machine.svg", label: "Opvaskemaskine" },
-              { icon: "/stove.svg", label: "Brændeovn" },
-            ].map((item: any, index: number) => (
-              <div key={index} className="  gap-2 flex items-center">
-                <Image
-                  src={item?.icon}
-                  alt={item?.label}
+                  alt={t(item?.label)}
                   height={30}
                   width={30}
                   className="text-yellow-400 fill-current"
                 />
                 <h3 className="text-base font-normal font-marcellus">
-                  {item?.label}
+                  {t(item?.label)}
                 </h3>
               </div>
             ))}
           </div>
-          <h2>Afstand til diverse steder</h2>
-          <ul className="">
-            <li>1.5 km to restaurant</li>
-            <li>700 m til stranden</li>
-            <li>500 m til indkøbsmuligheder</li>
-            <li>2800 m til en golfbane</li>
-          </ul>
-          <h2>Priser</h2>
+
+          <h2>{t("included")}</h2>
+          <div className="grid grid-cols-2 gap-5 mb-10">
+            {included.map((item, index) => (
+              <div key={index} className="gap-2 flex items-center">
+                <Image
+                  src={item?.icon}
+                  alt={t(item?.label)}
+                  height={30}
+                  width={30}
+                  className="text-yellow-400 fill-current"
+                />
+                <h3 className="text-base font-normal font-marcellus">
+                  {t(item?.label)}
+                </h3>
+              </div>
+            ))}
+          </div>
+          <h2>{t("distance_to_places")}</h2>
           <ul>
-            <li>Strøm: 3,40 DKK/kWh</li>
-            <li>Vand: 85,00 DKK/m³</li>
-            <li>Varme: 2,60 DKK/kWh</li>
-            <li>Depositum: 6.000 DKK</li>
+            <li>{t("distance_to_restaurant")}</li>
+            <li>{t("distance_to_beach")}</li>
+            <li>{t("distance_to_shopping")}</li>
+            <li>{t("distance_to_golf")}</li>
+          </ul>
+
+          <h2>{t("prices")}</h2>
+          <ul>
+            <li>{t("electricity_price")}</li>
+            <li>{t("water_price")}</li>
+            <li>{t("heating_price")}</li>
+            <li>{t("deposit_price")}</li>
           </ul>
         </div>
         <div className="col-span-3 md:block hidden">

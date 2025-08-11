@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Menu, ChevronDown } from "lucide-react"; // ChevronDown arrow for dropdown
@@ -7,61 +7,25 @@ import Image from "next/image";
 import { Sheet, SheetContent, SheetTitle } from "./ui/sheet"; // Assuming you've imported the Sheet component from ShadCN
 import LanguageSwitcher from "./Language/LanguageSwitcher";
 import { usePathname } from "next/navigation";
-
-const navLinks = [
-  { href: "/", label: "Home" },
-  // { href: "/about", label: "About" },
-  {
-    href: "#",
-    label: "Ophold",
-    dropdownLinks: [
-      { href: "/about-the-hotel", label: "Om Sommerhuset" },
-      { href: "/gallery-page", label: "Billeder" },
-    ],
-  },
-  // {
-  //   href: "https://www.delchiya.de/about-the-hotel/",
-  //   label: "Aktiviteter",
-  //   dropdownLinks: [
-  //     {
-  //       href: "https://www.delchiya.de/pool/",
-  //       label: "Pool & Spa",
-  //     },
-  //     {
-  //       href: "https://www.delchiya.de/xbox-ultimate/",
-  //       label: "Xbox Ultimate",
-  //     },
-  //     {
-  //       href: "https://www.delchiya.de/tv-film/",
-  //       label: "XL TV & Film",
-  //     },
-  //     {
-  //       href: "https://www.delchiya.de/billiard-airhockey/",
-  //       label: "Billiard & Bordtennis",
-  //     },
-  //     {
-  //       href: "https://www.delchiya.de/bordfodbold/",
-  //       label: "BordFodbold & Airhockey",
-  //     },
-  //     {
-  //       href: "https://www.delchiya.de/poker-blackjack/",
-  //       label: "Poker & Blackjack",
-  //     },
-  //     {
-  //       href: "https://www.delchiya.de/activity-detail-2/",
-  //       label: "Lejeplads",
-  //     },
-  //     {
-  //       href: "https://www.delchiya.de/local-activities/",
-  //       label: "Lokale Aktiviteter",
-  //     },
-  //   ],
-  // },
-  { href: "/faq", label: "FAQ" },
-  { href: "/news", label: "Nyheder" },
-];
+import { useTranslation } from "react-i18next";
 
 const Navbar = () => {
+  const { t } = useTranslation();
+  const [mounted, setmounted] = useState(false);
+  const navLinks = [
+    { href: "/", label: t("nav_home") },
+    // { href: "/about", label: t('nav_about') },
+    {
+      href: "#",
+      label: t("nav_ophold"),
+      dropdownLinks: [
+        { href: "/about-the-hotel", label: t("nav_about_hotel") },
+        { href: "/gallery-page", label: t("nav_gallery") },
+      ],
+    },
+    { href: "/faq", label: t("nav_faq") },
+    { href: "/news", label: t("nav_news") },
+  ];
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null); // Track which dropdown is open on desktop
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [activeMobileDropdown, setActiveMobileDropdown] = useState<
@@ -98,7 +62,11 @@ const Navbar = () => {
     event.preventDefault(); // Prevent navigation on click to toggle dropdown
     setActiveMobileDropdown((prev) => (prev === index ? null : index)); // Close if it's already open, open it if not
   };
+  useEffect(() => {
+    setmounted(true);
+  }, []);
 
+  if (!mounted) return null;
   return (
     <header
       className={`${
