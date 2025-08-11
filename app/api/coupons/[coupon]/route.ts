@@ -49,3 +49,22 @@ export async function GET(
     );
   }
 }
+export async function DELETE(
+  req: Request,
+
+  { params }: { params: Promise<{ coupon: string }> }
+) {
+  const { coupon } = await params; // Get the query param
+
+  try {
+    await prisma.coupon.delete({
+      where: { id: Number(coupon) },
+    });
+    return NextResponse.json({ message: "Coupon deleted successfully" });
+  } catch (error) {
+    return NextResponse.json(
+      { error: `Failed to delete the Coupon,${error}` },
+      { status: 500 }
+    );
+  }
+}

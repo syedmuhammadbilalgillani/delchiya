@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import { Button } from './ui/button';
+import React, { useState } from "react";
+import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
 
 const CreateCouponForm: React.FC = () => {
   // Form state
-  const [code, setCode] = useState('');
-  const [discount, setDiscount] = useState<number | string>('');
-  const [expiration, setExpiration] = useState('');
+  const [code, setCode] = useState("");
+  const [discount, setDiscount] = useState<number | string>("");
+  const [expiration, setExpiration] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-
+  const router = useRouter();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -17,15 +18,15 @@ const CreateCouponForm: React.FC = () => {
     setSuccessMessage(null);
 
     if (!code || !discount || !expiration) {
-      setError('All fields are required.');
+      setError("All fields are required.");
       return;
     }
 
     try {
-      const response = await fetch('/api/coupons', {
-        method: 'POST',
+      const response = await fetch("/api/coupons", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           code,
@@ -37,12 +38,13 @@ const CreateCouponForm: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setSuccessMessage('Coupon created successfully!');
+        setSuccessMessage("Coupon created successfully!");
+        router.push('/d/a/coupon')
       } else {
-        setError(data.message || 'Something went wrong');
+        setError(data.message || "Something went wrong");
       }
     } catch (err) {
-      setError('Failed to create coupon.');
+      setError("Failed to create coupon.");
     }
   };
 
@@ -51,11 +53,18 @@ const CreateCouponForm: React.FC = () => {
       <h2 className="text-2xl font-semibold text-center mb-4">Create Coupon</h2>
 
       {error && <div className="text-red-500 mb-4">{error}</div>}
-      {successMessage && <div className="text-green-500 mb-4">{successMessage}</div>}
+      {successMessage && (
+        <div className="text-green-500 mb-4">{successMessage}</div>
+      )}
 
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label htmlFor="code" className="block text-sm font-medium text-gray-700">Coupon Code</label>
+          <label
+            htmlFor="code"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Coupon Code
+          </label>
           <input
             type="text"
             id="code"
@@ -67,7 +76,12 @@ const CreateCouponForm: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="discount" className="block text-sm font-medium text-gray-700">Discount (%)</label>
+          <label
+            htmlFor="discount"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Discount (%)
+          </label>
           <input
             type="number"
             id="discount"
@@ -79,7 +93,12 @@ const CreateCouponForm: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="expiration" className="block text-sm font-medium text-gray-700">Expiration Date</label>
+          <label
+            htmlFor="expiration"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Expiration Date
+          </label>
           <input
             type="datetime-local"
             id="expiration"
@@ -90,10 +109,7 @@ const CreateCouponForm: React.FC = () => {
           />
         </div>
 
-        <Button
-          type="submit"
-          className="w-full "
-        >
+        <Button type="submit" className="w-full ">
           Create Coupon
         </Button>
       </form>

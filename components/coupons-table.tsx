@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import axios from "axios";
+import { toast } from "sonner";
 
 const CouponDataTable: React.FC = () => {
   const [coupons, setCoupons] = useState<any[]>([]);
-
+  const [Loading, setLoading] = useState(false);
   // Fetching coupons data from the API
   useEffect(() => {
     const fetchCoupons = async () => {
@@ -19,10 +21,24 @@ const CouponDataTable: React.FC = () => {
 
     fetchCoupons();
   }, []);
+  const handleDelete = async (id: number) => {
+    if (window.confirm("Are you sure you want to delete this blog?")) {
+      try {
+        setLoading(true);
+        await axios.delete(`/api/coupons/${id}`);
+        setCoupons(coupons.filter((blog) => blog.id !== id));
+        toast.success("Coupon deleted successfully");
+      } catch (error) {
+        toast.error("Failed to delete Coupon");
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
 
   return (
     <div className="overflow-x-auto p-5 min-h-dvh">
-       <div className="flex justify-between mb-4">
+      <div className="flex justify-between mb-4">
         <h1 className="text-2xl font-bold mb-6">Coupon</h1>
         <Button asChild>
           <Link href={"/d/a/coupon/c"}>Create</Link>
@@ -46,6 +62,9 @@ const CouponDataTable: React.FC = () => {
             <th className="px-6 py-3 text-sm font-medium text-gray-500 border-b">
               Created At
             </th>
+            <th className="px-6 py-3 text-sm font-medium text-gray-500 border-b">
+              Action{" "}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -65,6 +84,15 @@ const CouponDataTable: React.FC = () => {
               </td>
               <td className="px-6 py-4 text-sm text-gray-900 border-b">
                 {new Date(coupon.createdAt).toLocaleString()}
+              </td>
+              <td className="px-6 py-4 text-sm text-gray-900 border-b">
+                <Button
+                  disabled={Loading}
+                  onClick={() => handleDelete(coupon.id)}
+                  variant="destructive"
+                >
+                  Delete
+                </Button>{" "}
               </td>
             </tr>
           ))}
