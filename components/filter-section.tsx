@@ -317,111 +317,119 @@ const FilterSection = () => {
   const checkin = formatDateT(selectedRange?.from);
   const checkout = formatDateT(selectedRange?.to);
   return (
-    <div className="bg-transparent -mt-12 px-[10%] relative z-10 ">
-      <div className="bg-green grid grid-cols-1 md:grid-cols-3 gap-5 p-5 w-full">
-        <div className="relative w-full col-span-1 mobile-menu-container">
-          <button
-            onClick={() => setDropdownOpen(!dropdownOpen)}
-            disabled={isLoading}
-            className="flex p-3 truncate items-center text-white gap-1 border border-yellow transition-colors  max-w-full w-full justify-between disabled:cursor-progress"
-          >
-            <span>{getButtonText()}</span>
-            <ChevronDown size={16} />
-          </button>
+    <>
+      <style jsx>{`
+        .calender td:not(:has(button)) {
+          background-color: transparent !important;
+        }
+      `}</style>
+      <div className="bg-transparent -mt-12 px-[10%] relative z-10 calender">
+        <div className="bg-green grid grid-cols-1 md:grid-cols-3 gap-5 p-5 w-full">
+          <div className="relative w-full col-span-1 mobile-menu-container">
+            <button
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              disabled={isLoading}
+              className="flex p-3 truncate items-center text-white gap-1 border border-yellow transition-colors  max-w-full w-full justify-between disabled:cursor-progress"
+            >
+              <span>{getButtonText()}</span>
+              <ChevronDown size={16} />
+            </button>
 
-          {dropdownOpen && (
-            <div className="absolute mt-2 w-full sm:w-fit p-6 sm:p-4 bg-gray-50 border border-gray-200 shadow-lg z-10 left-0 sm:left-auto">
-              <div className="mb-3 flex justify-between gap-2 items-center max-sm:flex-wrap">
-                <span className="text-sm font-medium">
-                  {selectionStep === "from"
-                    ? "Select Check-in Date"
-                    : "Select Check-out Date"}
-                </span>
-                {selectionStep === "to" && (
-                  <button
-                    onClick={resetSelection}
-                    className="text-xs text-yellow capitalize hover:underline"
-                  >
-                    reset dates
-                  </button>
-                )}
+            {dropdownOpen && (
+              <div className="absolute mt-2 w-full sm:w-fit p-6 sm:p-4 bg-gray-50 border border-gray-200 shadow-lg z-10 left-0 sm:left-auto">
+                <div className="mb-3 flex justify-between gap-2 items-center max-sm:flex-wrap">
+                  <span className="text-sm font-medium">
+                    {selectionStep === "from"
+                      ? "Select Check-in Date"
+                      : "Select Check-out Date"}
+                  </span>
+                  {selectionStep === "to" && (
+                    <button
+                      onClick={resetSelection}
+                      className="text-xs text-yellow capitalize hover:underline"
+                    >
+                      reset dates
+                    </button>
+                  )}
+                </div>
+
+                <div className="overflow-x-auto">
+                  <DayPicker
+                    mode="single"
+                    selected={getCurrentSelectedDate()}
+                    onSelect={handleDateSelect}
+                    numberOfMonths={window.innerWidth < 640 ? 1 : 2}
+                    disabled={getDisabledDates()}
+                    onDayMouseEnter={handleMouseEnter}
+                    onDayMouseLeave={handleMouseLeave}
+                    modifiers={{
+                      selected_range:
+                        selectedRange?.from && selectedRange?.to
+                          ? getRangeDays(selectedRange.from, selectedRange.to)
+                          : [],
+                      hover_range:
+                        selectionStep === "to" &&
+                        selectedRange?.from &&
+                        hoveredDate
+                          ? getHoverRangeDays(selectedRange.from, hoveredDate)
+                          : [],
+                      range_start: selectedRange?.from
+                        ? [selectedRange.from]
+                        : [],
+                      range_end: selectedRange?.to ? [selectedRange.to] : [],
+                      hover_end:
+                        selectionStep === "to" && hoveredDate
+                          ? [hoveredDate]
+                          : [],
+                    }}
+                    modifiersClassNames={{
+                      selected: "bg-green/60!",
+                      selected_range: "bg-green/20! text-white!",
+                      hover_range: "bg-green/60! text-white!",
+                      range_start: "bg-green/60! text-white!",
+                      range_end: "bg-green/60! text-white!",
+                      hover_end: "",
+                    }}
+                    classNames={{
+                      disabled: "text-green/50! bg-green/5!",
+                      table: "w-full text-center",
+                      today: "",
+                      day: "border-5 border-white md:px-2.5 bg-green/50 text-white px-0.5 md:py-1 text-center ",
+                      day_selected: "",
+                      day_button: "cursor-pointer p-1 sm:p-2 transition-colors ",
+                      nav: "absolute top-0 flex justify-between w-full",
+                      month_caption: "mb-2 text-center",
+                      button_next: "cursor-pointer",
+                      button_previous: "cursor-pointer",
+                      months:
+                        "flex gap-2 sm:gap-6 relative custom-months-class",
+                      caption: "text-sm sm:text-base",
+                      caption_label: "text-sm sm:text-base",
+                    }}
+                  />
+                </div>
               </div>
-
-              <div className="overflow-x-auto">
-                <DayPicker
-                  mode="single"
-                  selected={getCurrentSelectedDate()}
-                  onSelect={handleDateSelect}
-                  numberOfMonths={window.innerWidth < 640 ? 1 : 2}
-                  disabled={getDisabledDates()}
-                  onDayMouseEnter={handleMouseEnter}
-                  onDayMouseLeave={handleMouseLeave}
-                  modifiers={{
-                    selected_range:
-                      selectedRange?.from && selectedRange?.to
-                        ? getRangeDays(selectedRange.from, selectedRange.to)
-                        : [],
-                    hover_range:
-                      selectionStep === "to" &&
-                      selectedRange?.from &&
-                      hoveredDate
-                        ? getHoverRangeDays(selectedRange.from, hoveredDate)
-                        : [],
-                    range_start: selectedRange?.from
-                      ? [selectedRange.from]
-                      : [],
-                    range_end: selectedRange?.to ? [selectedRange.to] : [],
-                    hover_end:
-                      selectionStep === "to" && hoveredDate
-                        ? [hoveredDate]
-                        : [],
-                  }}
-                  modifiersClassNames={{
-                    selected: "bg-[#7bdcb5] text-white! cursor-pointer",
-                    selected_range:
-                      "bg-[#7bdcb5] border-2 border-white text-white!",
-                    hover_range: "bg-[#7bdcb5] text-white! border-2 border-white",
-                    range_start: "bg-[#7bdcb5] text-white! font-semibold",
-                    range_end: "bg-[#7bdcb5] text-white! font-semibold",
-                    hover_end: "bg-[#7bdcb5] text-white font-semibold",
-                  }}
-                  classNames={{
-                    disabled: "line-through text-gray-300! cursor-not-allowed",
-                    table: "w-full text-center",
-                    day: "text-center text-green disabled:cursor-not-allowed  border-5 border-white w-8 h-8 sm:w-10 sm:h-10 text-sm sm:text-base",
-                    day_selected: "bg-red-300 text-white hover:bg-teal-700",
-                    day_button: "cursor-pointer p-1 sm:p-2 transition-colors",
-                    nav: "absolute top-0 flex justify-between w-full",
-                    month_caption: "mb-2 text-center",
-                    button_next: "cursor-pointer",
-                    button_previous: "cursor-pointer",
-                    months: "flex gap-2 sm:gap-6 relative",
-                    caption: "text-sm sm:text-base",
-                    caption_label: "text-sm sm:text-base",
-                  }}
-                />
-              </div>
-            </div>
-          )}
-        </div>
-
-        <div className="flex p-3 col-span-1 items-center text-white gap-2 border border-yellow transition-colors min-w-56 w-full justify-between">
-          <label>{t("room_price")}</label>
-          <div>{price?.rent || "-"}</div>
-        </div>
-        <Link
-          href={
-            !checkin && !checkout
-              ? `/room/blommehuset`
-              : `/room/blommehuset?checkin=${checkin}&checkout=${checkout}`
-          }
-        >
-          <div className="text-center col-span-1 py-3 text-white gap-2 bg-yellow border-yellow hover:bg-yellow/80 transition-colors cursor-pointer w-full">
-            {t("check_availability")}
+            )}
           </div>
-        </Link>
-      </div>
-    </div>
+
+          <div className="flex p-3 col-span-1 items-center text-white gap-2 border border-yellow transition-colors min-w-56 w-full justify-between">
+            <label>{t("room_price")}</label>
+            <div>{price?.rent || "-"}</div>
+          </div>
+          <Link
+            href={
+              !checkin && !checkout
+                ? `/room/blommehuset`
+                : `/room/blommehuset?checkin=${checkin}&checkout=${checkout}`
+            }
+          >
+            <div className="text-center col-span-1 py-3 text-white gap-2 bg-yellow border-yellow hover:bg-yellow/80 transition-colors cursor-pointer w-full">
+              {t("check_availability")}
+            </div>
+          </Link>
+        </div>
+      </div>{" "}
+    </>
   );
 };
 

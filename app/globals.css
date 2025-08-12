@@ -197,7 +197,9 @@
     @apply bg-background text-foreground;
   }
 }
-
+td:not(:has(button)) {
+  background-color: transparent !important;
+}
 .custom-checkbox-wrapper {
   display: inline-block;
   position: relative;
