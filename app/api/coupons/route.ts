@@ -6,10 +6,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   // Parse request body
-  const { code, discount, expiration } = await request.json();
+  const { code, discount, from, to } = await request.json();
 
   // Validate input
-  if (!code || !discount || !expiration) {
+  if (!code || !discount || !from || !to) {
     return NextResponse.json(
       { message: "Missing required fields" },
       { status: 400 }
@@ -22,7 +22,8 @@ export async function POST(request: NextRequest) {
       data: {
         code,
         discount: parseFloat(discount),
-        expiration: new Date(expiration),
+        from: new Date(from), // Start date
+        to: new Date(to),     // End date
       },
     });
 
@@ -38,6 +39,7 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
 export async function GET() {
   try {
     // Prisma query to fetch coupons

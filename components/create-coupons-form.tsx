@@ -6,10 +6,12 @@ const CreateCouponForm: React.FC = () => {
   // Form state
   const [code, setCode] = useState("");
   const [discount, setDiscount] = useState<number | string>("");
-  const [expiration, setExpiration] = useState("");
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const router = useRouter();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -17,7 +19,8 @@ const CreateCouponForm: React.FC = () => {
     setError(null);
     setSuccessMessage(null);
 
-    if (!code || !discount || !expiration) {
+    // Validate form data
+    if (!code || !discount || !from || !to) {
       setError("All fields are required.");
       return;
     }
@@ -31,7 +34,8 @@ const CreateCouponForm: React.FC = () => {
         body: JSON.stringify({
           code,
           discount,
-          expiration,
+          from,
+          to,
         }),
       });
 
@@ -39,7 +43,7 @@ const CreateCouponForm: React.FC = () => {
 
       if (response.ok) {
         setSuccessMessage("Coupon created successfully!");
-        router.push('/d/a/coupon')
+        router.push('/d/a/coupon'); // Redirect to the coupon list or another page
       } else {
         setError(data.message || "Something went wrong");
       }
@@ -92,24 +96,43 @@ const CreateCouponForm: React.FC = () => {
           />
         </div>
 
+        {/* From Date */}
         <div className="mb-4">
           <label
-            htmlFor="expiration"
+            htmlFor="from"
             className="block text-sm font-medium text-gray-700"
           >
-            Expiration Date
+            From Date
           </label>
           <input
             type="datetime-local"
-            id="expiration"
-            value={expiration}
-            onChange={(e) => setExpiration(e.target.value)}
+            id="from"
+            value={from}
+            onChange={(e) => setFrom(e.target.value)}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green"
             required
           />
         </div>
 
-        <Button type="submit" className="w-full ">
+        {/* To Date */}
+        <div className="mb-4">
+          <label
+            htmlFor="to"
+            className="block text-sm font-medium text-gray-700"
+          >
+            To Date
+          </label>
+          <input
+            type="datetime-local"
+            id="to"
+            value={to}
+            onChange={(e) => setTo(e.target.value)}
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green"
+            required
+          />
+        </div>
+
+        <Button type="submit" className="w-full">
           Create Coupon
         </Button>
       </form>

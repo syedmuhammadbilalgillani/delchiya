@@ -67,8 +67,9 @@ interface AvailablePeriod {
 const CalenderDialog = () => {
   const searchParams = useSearchParams();
 
-
-  const [selectedRange, setSelectedRange] = useState<DateRange | undefined>(undefined);
+  const [selectedRange, setSelectedRange] = useState<DateRange | undefined>(
+    undefined
+  );
   function parseDDMMYYYY(dateStr: string | null): Date | undefined {
     if (!dateStr) return undefined;
     const [day, month, year] = dateStr.split("-").map(Number);
@@ -372,9 +373,9 @@ const CalenderDialog = () => {
               {selectionStep === "to" && (
                 <button
                   onClick={resetSelection}
-                  className="text-xs text-blue-600 hover:text-blue-800 underline"
+                  className="text-xs text-yellow capitalize hover:underline"
                 >
-                  Change Check-in
+                  reset dates
                 </button>
               )}
             </div>
@@ -401,19 +402,23 @@ const CalenderDialog = () => {
                   selectionStep === "to" && hoveredDate ? [hoveredDate] : [],
               }}
               modifiersClassNames={{
-                selected: "bg-green text-white cursor-pointer",
-                selected_range: "bg-green/80 border-2 border-white text-white",
-                hover_range: "bg-green text-white border-2 border-white",
-                range_start: "bg-green text-white font-semibold",
-                range_end: "bg-green text-white font-semibold",
-                hover_end: "bg-green text-white font-semibold",
+                selected: "bg-green/90!",
+                selected_range: "bg-green/60! text-white!",
+                hover_range: "bg-green/60! text-white!",
+                range_start: "bg-green/90! text-white!",
+                range_end: "bg-green/90! text-white!",
+                hover_end: "",
               }}
               classNames={{
-                disabled: "line-through text-gray-400 cursor-not-allowed",
+                disabled: "text-green/50! bg-green/5! cursor-not-allowed  ",
                 table: "w-full text-center",
-                day: "text-center  border-2 border-gray-300 w-8 h-8 sm:w-10 sm:h-10 text-sm sm:text-base",
-                day_selected: "bg-yellow text-white hover:bg-teal-700",
-                day_button: "cursor-pointer p-1 sm:p-2 transition-colors",
+                today: "",
+                day: "border-5 border-white md:px-2.5 bg-green/50 cursor-not-allowed text-white px-0.5 md:py-1 text-center ",
+                day_selected: "",
+                day_button:
+                  " cursor-pointer  p-1 sm:p-2 transition-colors ",
+                day_disabled: "",
+                // cell:"",
                 nav: "absolute top-0 flex justify-between w-full",
                 month_caption: "mb-2 text-center",
                 button_next: "cursor-pointer",

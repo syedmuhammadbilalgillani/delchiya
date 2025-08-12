@@ -57,7 +57,8 @@ model Coupon {
   code        String   @unique
   discount    Float
   isActive    Boolean  @default(true)
-  expiration  DateTime
+  from        DateTime
+  to          DateTime
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

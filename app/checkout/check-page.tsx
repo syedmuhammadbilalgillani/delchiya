@@ -138,12 +138,12 @@ const CheckoutForm = () => {
       const res = await axios.get(`/api/coupons/${couponCode}`);
       const data = res?.data;
       console.log(data?.coupons, "data for coupon");
-      if (data.coupons && data.coupons.discount) {
-        setdiscount(data.coupons.discount);
+      if (data.coupon && data.coupon.discount) {
+        setdiscount(data.coupon.discount);
         // debugger;
         setoldPrice(totalPrice);
         const newPrice = Math.max(
-          Math.round(totalPrice * (1 - data?.coupons?.discount / 100)),
+          Math.round(totalPrice * (1 - data?.coupon?.discount / 100)),
           0
         );
         setdiscounted(true);

@@ -18,29 +18,41 @@ export async function GET(
 
   try {
     // Find the coupon by code
-    const coupons = await prisma.coupon.findUnique({
+    const couponData = await prisma.coupon.findUnique({
       where: {
         code: coupon, // Search coupon by code
       },
     });
 
     // If no coupon found, return 404
-    if (!coupons) {
+    if (!couponData) {
       return NextResponse.json(
         { message: "Coupon not found" },
         { status: 404 }
       );
     }
-    // Check if the coupon is expired
+
+    // Get current date
     const now = new Date();
-    if (now >= coupons.expiration || !coupons.isActive) {
+
+    // Check if the coupon is active
+    if (!couponData.isActive) {
+      return NextResponse.json(
+        { message: "Coupon is inactive" },
+        { status: 400 }
+      );
+    }
+
+    // Check if the coupon is expired
+    if (now < new Date(couponData.from) || now > new Date(couponData.to)) {
       return NextResponse.json(
         { message: "Coupon is expired" },
         { status: 400 }
       );
     }
-    // Return the coupon details
-    return NextResponse.json({ coupons });
+
+    // Return the coupon details if both checks pass
+    return NextResponse.json({ coupon: couponData });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
@@ -49,6 +61,8 @@ export async function GET(
     );
   }
 }
+
+
 export async function DELETE(
   req: Request,
 

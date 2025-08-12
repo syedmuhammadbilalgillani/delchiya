@@ -55,15 +55,22 @@ export async function POST(req: NextRequest) {
       console.log(booking?.is_discounted, "booking discount  ");
       if (booking.is_discounted && booking.discount_code) {
         try {
+          // Get the current date
+          const now = new Date();
+      
           const updateCoupon = await prisma.coupon.update({
             where: { code: booking.discount_code },
-            data: { isActive: false, expiration: new Date() },
+            data: {
+              isActive: false,
+              to: now,  // Set the "to" date to the current date (deactivating the coupon)
+            },
           });
-          console.log(updateCoupon, "ipda");
+          console.log(updateCoupon, "Coupon deactivated successfully");
         } catch (error) {
           console.error("Failed to update coupon:", error);
         }
       }
+      
 
       // Prepare email HTML (simple version, customize as needed)
       const userHtml = `<!DOCTYPE html>

@@ -7,6 +7,7 @@ import { toast } from "sonner";
 const CouponDataTable: React.FC = () => {
   const [coupons, setCoupons] = useState<any[]>([]);
   const [Loading, setLoading] = useState(false);
+
   // Fetching coupons data from the API
   useEffect(() => {
     const fetchCoupons = async () => {
@@ -21,12 +22,13 @@ const CouponDataTable: React.FC = () => {
 
     fetchCoupons();
   }, []);
+
   const handleDelete = async (id: number) => {
-    if (window.confirm("Are you sure you want to delete this blog?")) {
+    if (window.confirm("Are you sure you want to delete this coupon?")) {
       try {
         setLoading(true);
         await axios.delete(`/api/coupons/${id}`);
-        setCoupons(coupons.filter((blog) => blog.id !== id));
+        setCoupons(coupons.filter((coupon) => coupon.id !== id));
         toast.success("Coupon deleted successfully");
       } catch (error) {
         toast.error("Failed to delete Coupon");
@@ -57,13 +59,16 @@ const CouponDataTable: React.FC = () => {
               Discount (%)
             </th>
             <th className="px-6 py-3 text-sm font-medium text-gray-500 border-b">
-              Expiration Date
+              Valid From
+            </th>
+            <th className="px-6 py-3 text-sm font-medium text-gray-500 border-b">
+              Valid To
             </th>
             <th className="px-6 py-3 text-sm font-medium text-gray-500 border-b">
               Created At
             </th>
             <th className="px-6 py-3 text-sm font-medium text-gray-500 border-b">
-              Action{" "}
+              Action
             </th>
           </tr>
         </thead>
@@ -71,16 +76,19 @@ const CouponDataTable: React.FC = () => {
           {coupons.map((coupon) => (
             <tr key={coupon.id} className="hover:bg-gray-50">
               <td className="px-6 py-4 text-sm text-gray-900 border-b">
-                {coupon.isActive ? "True" : "False"}
+                {coupon.isActive ? "Active" : "Inactive"}
               </td>
               <td className="px-6 py-4 text-sm text-gray-900 border-b">
                 {coupon.code}
               </td>
               <td className="px-6 py-4 text-sm text-gray-900 border-b">
-                {coupon.discount}
+                {coupon.discount}%
               </td>
               <td className="px-6 py-4 text-sm text-gray-900 border-b">
-                {new Date(coupon.expiration).toLocaleString()}
+                {new Date(coupon.from).toLocaleString()}
+              </td>
+              <td className="px-6 py-4 text-sm text-gray-900 border-b">
+                {new Date(coupon.to).toLocaleString()}
               </td>
               <td className="px-6 py-4 text-sm text-gray-900 border-b">
                 {new Date(coupon.createdAt).toLocaleString()}
@@ -92,7 +100,7 @@ const CouponDataTable: React.FC = () => {
                   variant="destructive"
                 >
                   Delete
-                </Button>{" "}
+                </Button>
               </td>
             </tr>
           ))}
