@@ -5,20 +5,31 @@ import Text from "./Language/TranslatedText";
 
 const HeroSection = () => {
   return (
-    <div
-      className="relative  h-[80dvh] max-sm:h-[75dvh] w-full bg-cover bg-center"
-      style={{ backgroundImage: "url('/hero.jpg')" }}
-    >
+    <div className="relative h-[80dvh] max-sm:h-[75dvh] w-full">
+      {/* Background Video */}
+      <video
+        className="absolute inset-0 w-full h-full object-cover"
+        autoPlay
+        loop
+        muted
+        playsInline
+      >
+        <source src="/home_hero.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/50" />
-      <div className="z-20 absolute  md:top-[20%] bg-black/25 top-[18%] md:right-10 right-3   md:p-2 p-1 ">
+
+      {/* Content */}
+      <div className="z-20 absolute md:top-[20%] bg-black/25 top-[18%] md:right-10 right-3 md:p-2 p-1">
         <Text
           as="p"
           textKey="availableVia"
-          className="text-white uppercase text-center text-sm md:mb-3 mb-1 "
+          className="text-white uppercase text-center text-sm md:mb-3 mb-1"
         />
 
-        <div className="flex  gap-2 ">
+        <div className="flex gap-2">
           <a
             href="https://villavilla.dk/sommerhusudlejning/lolland-falster-moen/marielyst/222/"
             target="_blank"
@@ -26,7 +37,7 @@ const HeroSection = () => {
             <img
               src={"/villavilla-logo.png"}
               alt="villavilla"
-              className=" md:p-3"
+              className="md:p-3"
               height={100}
               width={100}
             />
@@ -45,6 +56,7 @@ const HeroSection = () => {
           </a>
         </div>
       </div>
+
       {/* Content */}
       <div className="relative z-10 pt-24 md:pt-0 flex flex-col gap-6 items-center justify-center text-center h-full px-5">
         <Text

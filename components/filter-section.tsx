@@ -386,7 +386,7 @@ const FilterSection = () => {
                     hover_end: "bg-[#7bdcb5] text-white font-semibold",
                   }}
                   classNames={{
-                    disabled: "line-through text-gray-400! cursor-not-allowed",
+                    disabled: "line-through text-gray-300! cursor-not-allowed",
                     table: "w-full text-center",
                     day: "text-center text-green disabled:cursor-not-allowed  border-5 border-white w-8 h-8 sm:w-10 sm:h-10 text-sm sm:text-base",
                     day_selected: "bg-red-300 text-white hover:bg-teal-700",
