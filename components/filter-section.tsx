@@ -340,9 +340,9 @@ const FilterSection = () => {
                 {selectionStep === "to" && (
                   <button
                     onClick={resetSelection}
-                    className="text-xs text-blue-600 hover:text-blue-800 underline"
+                    className="text-xs text-yellow capitalize hover:underline"
                   >
-                    Change Check-in
+                    reset dates
                   </button>
                 )}
               </div>
@@ -377,19 +377,19 @@ const FilterSection = () => {
                         : [],
                   }}
                   modifiersClassNames={{
-                    selected: "bg-green text-white cursor-pointer",
+                    selected: "bg-[#7bdcb5] text-white! cursor-pointer",
                     selected_range:
-                      "bg-green/80 border-2 border-white text-white",
-                    hover_range: "bg-green text-white border-2 border-white",
-                    range_start: "bg-green text-white font-semibold",
-                    range_end: "bg-green text-white font-semibold",
-                    hover_end: "bg-green text-white font-semibold",
+                      "bg-[#7bdcb5] border-2 border-white text-white!",
+                    hover_range: "bg-[#7bdcb5] text-white! border-2 border-white",
+                    range_start: "bg-[#7bdcb5] text-white! font-semibold",
+                    range_end: "bg-[#7bdcb5] text-white! font-semibold",
+                    hover_end: "bg-[#7bdcb5] text-white font-semibold",
                   }}
                   classNames={{
-                    disabled: "line-through text-gray-400 cursor-not-allowed",
+                    disabled: "line-through text-gray-400! cursor-not-allowed",
                     table: "w-full text-center",
-                    day: "text-center  border-2 border-gray-300 w-8 h-8 sm:w-10 sm:h-10 text-sm sm:text-base",
-                    day_selected: "bg-yellow text-white hover:bg-teal-700",
+                    day: "text-center text-green disabled:cursor-not-allowed  border-5 border-white w-8 h-8 sm:w-10 sm:h-10 text-sm sm:text-base",
+                    day_selected: "bg-red-300 text-white hover:bg-teal-700",
                     day_button: "cursor-pointer p-1 sm:p-2 transition-colors",
                     nav: "absolute top-0 flex justify-between w-full",
                     month_caption: "mb-2 text-center",
