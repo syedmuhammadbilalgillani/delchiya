@@ -383,11 +383,11 @@ const FilterSection = () => {
                           : [],
                     }}
                     modifiersClassNames={{
-                      selected: "bg-green/60!",
+                      selected: "bg-green/90!",
                       selected_range: "bg-green/20! text-white!",
                       hover_range: "bg-green/60! text-white!",
-                      range_start: "bg-green/60! text-white!",
-                      range_end: "bg-green/60! text-white!",
+                      range_start: "bg-green/90! text-white!",
+                      range_end: "bg-green/90! text-white!",
                       hover_end: "",
                     }}
                     classNames={{
