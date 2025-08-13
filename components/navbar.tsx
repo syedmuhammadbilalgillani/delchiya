@@ -21,6 +21,7 @@ const Navbar = () => {
       dropdownLinks: [
         { href: "/about-the-hotel", label: t("nav_about_hotel") },
         { href: "/gallery-page", label: t("nav_gallery") },
+        { href: "/lejeplads", label: t("Lejeplads") },
       ],
     },
     { href: "/faq", label: t("nav_faq") },
