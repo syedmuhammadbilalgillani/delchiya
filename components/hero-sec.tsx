@@ -14,7 +14,10 @@ const HeroSection = () => {
         muted
         playsInline
       >
-        <source src="/home_hero.mp4" type="video/mp4" />
+        <source
+          src="https://res.cloudinary.com/djtsygofv/video/upload/v1755123261/delchiya.mp4_i2mqaz.mov"
+          type="video/mp4"
+        />
         Your browser does not support the video tag.
       </video>
 
@@ -22,7 +25,7 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-black/50" />
 
       {/* Content */}
-      <div className="z-20 absolute md:top-[20%] bg-black/25 top-[18%] md:right-10 right-3 md:p-2 p-1">
+      <div className="z-20 absolute md:top-[18%] bg-black/25 top-[12%] md:right-3 right-2 md:p-2 p-1">
         <Text
           as="p"
           textKey="availableVia"

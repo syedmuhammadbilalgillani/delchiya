@@ -43,10 +43,18 @@ export async function GET(
       );
     }
 
-    // Check if the coupon is expired
-    if (now < new Date(couponData.from) || now > new Date(couponData.to)) {
+    // Check if the coupon is from a future date
+    if (now < new Date(couponData.from)) {
       return NextResponse.json(
-        { message: "Coupon is expired" },
+        { message: `Coupon cannot be used on this date. It becomes active on ${couponData.from.toLocaleDateString()}` },
+        { status: 400 }
+      );
+    }
+
+    // Check if the coupon is expired
+    if (now > new Date(couponData.to)) {
+      return NextResponse.json(
+        { message: `Coupon expired on ${couponData.to.toLocaleDateString()}` },
         { status: 400 }
       );
     }
