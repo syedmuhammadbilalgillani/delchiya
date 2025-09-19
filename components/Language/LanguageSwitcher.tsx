@@ -8,8 +8,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useLanguageStore } from "@/store/langStore";
 import { motion } from "framer-motion";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { loadTranslations } from "./i18n";
+import { Loader2 } from "lucide-react";
+import { useLoading } from "@/context/loading-context";
 
 // Define supported languages with their display names
 const supportedLanguages = [
@@ -29,13 +32,16 @@ const LanguageSwitcher: React.FC = () => {
   const { language, setLanguage } = useLanguageStore(); // Use Zustand store for language
   const { i18n } = useTranslation();
 
-  const changeLanguage = (lng: string) => {
+  const { setLoading, loading } = useLoading();
+
+  const changeLanguage = async (lng: string) => {
     const normalizedLanguage = normalizeLanguageCode(lng);
+    setLoading(true);
+    await loadTranslations(normalizedLanguage);
     i18n.changeLanguage(normalizedLanguage);
-
-    setLanguage(normalizedLanguage); // Update language in Zustand store and persist it in localStorage
+    setLanguage(normalizedLanguage);
+    setLoading(false);
   };
-
   const currentLanguage = useMemo(
     () => supportedLanguages.find((lang) => lang.code === language),
     [language]

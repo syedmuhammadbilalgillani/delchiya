@@ -9,13 +9,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body suppressHydrationWarning>
-        <SessionProvider>
-          <NavbarForAdmin />
-          <Wrapper>{children}</Wrapper>
-        </SessionProvider>
-      </body>
-    </html>
+    <div suppressHydrationWarning>
+      <SessionProvider>
+        <NavbarForAdmin />
+        <Wrapper>{children}</Wrapper>
+      </SessionProvider>
+    </div>
   );
 }

@@ -16,7 +16,7 @@ const BlogList = () => {
       try {
         const response = await axios.get("/api/blogs");
         setBlogs(response.data);
-        toast.success("Blogs loaded successfully");
+        // toast.success("Blogs loaded successfully");
       } catch (error) {
         toast.error("Failed to fetch blogs");
       } finally {

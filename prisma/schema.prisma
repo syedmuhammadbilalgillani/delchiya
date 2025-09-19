@@ -89,3 +89,17 @@ model BlogTranslation {
   @@unique([lang_code, blog_id])  // Ensure only one translation per language
   @@map("blog_translation") // Explicitly specify the table name if it differs
 }
+
+
+model Translation {
+  id        Int      @id @default(autoincrement())
+  key       String
+  language  String
+  value     String?   // For text content
+  mediaUrl  String?   // For image/video URLs or Base64 strings
+  type      String    // "text" | "image" | "video"
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@unique([key, language])
+}

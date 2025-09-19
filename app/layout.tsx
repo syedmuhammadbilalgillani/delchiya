@@ -5,6 +5,7 @@ import { Jost, La_Belle_Aurore, Marcellus } from "next/font/google";
 import "./globals.css";
 import I18nClientProvider from "@/components/Language/I18nClientProvider";
 import { Toaster } from "@/components/ui/sonner";
+import { LoadingProvider } from "@/context/loading-context";
 
 const jost = Jost({
   variable: "--font-jost",
@@ -38,11 +39,13 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <Toaster />
-        <I18nClientProvider>
-          <Navbar />
-          {children}
-          <Footer />
-        </I18nClientProvider>
+        <LoadingProvider>
+          <I18nClientProvider>
+            <Navbar />
+            {children}
+            <Footer />
+          </I18nClientProvider>
+        </LoadingProvider>
       </body>
     </html>
   );
